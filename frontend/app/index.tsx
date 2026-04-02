@@ -1,16 +1,83 @@
-import { Text, View, StyleSheet, Image } from "react-native";
+import React, { useEffect, useState } from 'react';
+import { View, Text, StyleSheet, Animated } from 'react-native';
+import { useRouter } from 'expo-router';
+import { Ionicons } from '@expo/vector-icons';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useTheme } from '../src/components/ThemeContext';
+import { Typography, Spacing } from '../src/constants/theme';
 
-const EXPO_PUBLIC_BACKEND_URL = process.env.EXPO_PUBLIC_BACKEND_URL;
+const ONBOARDING_KEY = '@plant_doctor_onboarding';
 
-export default function Index() {
-  console.log(EXPO_PUBLIC_BACKEND_URL, "EXPO_PUBLIC_BACKEND_URL");
+export default function SplashScreen() {
+  const router = useRouter();
+  const { colors } = useTheme();
+  const [fadeAnim] = useState(new Animated.Value(0));
+  const [scaleAnim] = useState(new Animated.Value(0.8));
+
+  useEffect(() => {
+    // Animate splash
+    Animated.parallel([
+      Animated.timing(fadeAnim, {
+        toValue: 1,
+        duration: 800,
+        useNativeDriver: true,
+      }),
+      Animated.spring(scaleAnim, {
+        toValue: 1,
+        friction: 4,
+        useNativeDriver: true,
+      }),
+    ]).start();
+
+    // Check onboarding and navigate
+    checkOnboarding();
+  }, []);
+
+  const checkOnboarding = async () => {
+    try {
+      const hasOnboarded = await AsyncStorage.getItem(ONBOARDING_KEY);
+      
+      // Wait for animation
+      setTimeout(() => {
+        if (hasOnboarded) {
+          router.replace('/(tabs)');
+        } else {
+          router.replace('/onboarding');
+        }
+      }, 2000);
+    } catch (error) {
+      console.error('Error checking onboarding:', error);
+      setTimeout(() => router.replace('/(tabs)'), 2000);
+    }
+  };
 
   return (
-    <View style={styles.container}>
-      <Image
-        source={require("../assets/images/app-image.png")}
-        style={styles.image}
-      />
+    <View style={[styles.container, { backgroundColor: colors.primary }]}>
+      <Animated.View
+        style={[
+          styles.content,
+          {
+            opacity: fadeAnim,
+            transform: [{ scale: scaleAnim }],
+          },
+        ]}
+      >
+        <View style={styles.iconContainer}>
+          <Ionicons name="leaf" size={80} color={colors.white} />
+        </View>
+        <Text style={[styles.title, { color: colors.white }]}>
+          Plant Doctor
+        </Text>
+        <Text style={[styles.subtitle, { color: colors.white + 'CC' }]}>
+          Umuganga w'Ibihingwa
+        </Text>
+        <Text style={[styles.tagline, { color: colors.white + '99' }]}>
+          Helping farmers grow healthier crops
+        </Text>
+        <Text style={[styles.taglineKin, { color: colors.white + '99' }]}>
+          Dufasha abahinzi gukura ibihingwa bizima
+        </Text>
+      </Animated.View>
     </View>
   );
 }
@@ -18,13 +85,39 @@ export default function Index() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#0c0c0c",
-    alignItems: "center",
-    justifyContent: "center",
+    justifyContent: 'center',
+    alignItems: 'center',
   },
-  image: {
-    width: "100%",
-    height: "100%",
-    resizeMode: "contain",
+  content: {
+    alignItems: 'center',
+  },
+  iconContainer: {
+    width: 140,
+    height: 140,
+    borderRadius: 70,
+    backgroundColor: 'rgba(255, 255, 255, 0.15)',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: Spacing.xxl,
+  },
+  title: {
+    fontSize: Typography.sizes.display,
+    fontWeight: Typography.weights.bold,
+    marginBottom: Spacing.xs,
+  },
+  subtitle: {
+    fontSize: Typography.sizes.xl,
+    fontStyle: 'italic',
+    marginBottom: Spacing.xl,
+  },
+  tagline: {
+    fontSize: Typography.sizes.md,
+    textAlign: 'center',
+  },
+  taglineKin: {
+    fontSize: Typography.sizes.md,
+    fontStyle: 'italic',
+    textAlign: 'center',
+    marginTop: Spacing.xs,
   },
 });
