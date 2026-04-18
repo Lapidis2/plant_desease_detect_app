@@ -3,18 +3,17 @@ import {
   View,
   Text,
   StyleSheet,
-  Dimensions,
   TouchableOpacity,
-  Image,
+  
 } from 'react-native';
 import { useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useTheme } from '../src/components/ThemeContext';
-import { Typography, Spacing, BorderRadius } from '../src/constants/theme';
+import { Typography, Spacing } from '../src/constants/theme';
 import { Button } from '../src/components/Button';
 
-const { width } = Dimensions.get('window');
+
 const ONBOARDING_KEY = '@plant_doctor_onboarding';
 
 interface OnboardingSlide {

@@ -20,6 +20,7 @@ import { translations } from '../../src/constants/translations';
 import { getScanHistory, deleteScan } from '../../src/services/plantService';
 import { ScanHistory, ScanResult } from '../../src/store/appSlice';
 
+
 export default function HistoryScreen() {
   const router = useRouter();
   const { colors } = useTheme();
@@ -32,7 +33,11 @@ export default function HistoryScreen() {
   const loadHistory = useCallback(async () => {
     try {
       const scans = await getScanHistory(50);
-      setHistory(scans);
+      const safeScans = scans.filter(
+  (item: ScanHistory) => item?.scan_result?.id
+);
+
+setHistory(safeScans);
     } catch (error) {
       console.error('Error loading history:', error);
     } finally {
@@ -73,12 +78,14 @@ export default function HistoryScreen() {
     );
   };
 
-  const navigateToResult = (scanResult: ScanResult) => {
-    router.push({
-      pathname: '/result',
-      params: { scanData: JSON.stringify(scanResult) },
-    });
-  };
+ const navigateToResult = (scanResult?: ScanResult) => {
+  if (!scanResult?.id) {
+    console.log('Invalid scanResult:', scanResult);
+    return;
+  }
+  console.log("CLICKED SCAN:", scanResult);
+  router.push(`/scanned/${scanResult.id}`);
+};
 
   return (
     <View style={[styles.container, { backgroundColor: colors.background }]}>
@@ -119,11 +126,14 @@ export default function HistoryScreen() {
         ) : history.length > 0 ? (
           history.map((scan) => (
             <View key={scan.id} style={styles.scanItem}>
-              <ScanCard
-                scan={scan.scan_result}
-                onPress={() => navigateToResult(scan.scan_result)}
-                colors={colors}
-              />
+            <ScanCard
+  scan={{
+    ...scan.scan_result,
+    image_base64: scan.image_base64   
+  }}
+  onPress={() => navigateToResult(scan.scan_result)}
+  colors={colors}
+/>
               <TouchableOpacity
                 style={[styles.deleteButton, { backgroundColor: colors.error + '15' }]}
                 onPress={() => handleDeleteScan(scan)}
@@ -159,7 +169,6 @@ export default function HistoryScreen() {
     </View>
   );
 }
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,

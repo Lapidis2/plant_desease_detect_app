@@ -1,7 +1,7 @@
-import apiClient from '../api/client';
+import {apiClient} from '../api/client';
 import { ScanResult, ScanHistory, GardenPlant, Plant, WeatherData } from '../store/appSlice';
 
-// Analyze plant image
+
 export const analyzePlant = async (
   imageBase64: string,
   latitude?: number,
@@ -42,6 +42,7 @@ export const getScanById = async (scanId: string): Promise<ScanHistory> => {
 
 // Delete scan from history
 export const deleteScan = async (scanId: string): Promise<void> => {
+ 
   await apiClient.delete(`/history/${scanId}`);
 };
 
@@ -49,11 +50,16 @@ export const deleteScan = async (scanId: string): Promise<void> => {
 export const addPlantToGarden = async (
   plant: Plant,
   notes: string = '',
-  notesKinyarwanda: string = ''
+  notesKinyarwanda: string = '',
+  
 ): Promise<GardenPlant> => {
-  const response = await apiClient.post('/garden', plant, {
-    params: { notes, notes_kinyarwanda: notesKinyarwanda },
+  const response = await apiClient.post('/garden', {
+    plant,
+    notes,
+    notes_kinyarwanda: notesKinyarwanda,
+   
   });
+
   return response.data;
 };
 

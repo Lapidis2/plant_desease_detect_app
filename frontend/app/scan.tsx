@@ -7,7 +7,6 @@ import {
   Image,
   Alert,
   ActivityIndicator,
-  Platform,
 } from 'react-native';
 import { useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
@@ -37,6 +36,7 @@ export default function ScanScreen() {
     if (!permission?.granted) {
       requestPermission();
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [permission]);
 
   const takePicture = async () => {

@@ -72,6 +72,7 @@ export interface ScanResult {
 }
 
 export interface ScanHistory {
+  image_base64: string | undefined;
   id: string;
   user_id: string;
   scan_result: ScanResult;

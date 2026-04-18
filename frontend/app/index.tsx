@@ -69,7 +69,7 @@ export default function SplashScreen() {
           Plant Doctor
         </Text>
         <Text style={[styles.subtitle, { color: colors.white + 'CC' }]}>
-          Umuganga w'Ibihingwa
+          Umuganga wibihingwa
         </Text>
         <Text style={[styles.tagline, { color: colors.white + '99' }]}>
           Helping farmers grow healthier crops

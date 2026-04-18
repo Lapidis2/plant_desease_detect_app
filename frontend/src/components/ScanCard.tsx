@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { Colors, Typography, Spacing, BorderRadius, ThemeColors } from '../constants/theme';
+import {  Typography, Spacing, BorderRadius, ThemeColors } from '../constants/theme';
 import { BilingualText } from './BilingualText';
 import { ScanResult } from '../store/appSlice';
 import { getHealthColor, formatRelativeDate } from '../utils/helpers';
@@ -19,9 +19,9 @@ export const ScanCard: React.FC<ScanCardProps> = ({
   colors,
   compact = false,
 }) => {
-  const healthColor = getHealthColor(scan.health_score, colors);
-  const hasDisease = scan.diseases && scan.diseases.length > 0;
-
+  const healthColor = getHealthColor(scan?.health_score ?? 0, colors);
+  const hasDisease = scan?.diseases && (scan.diseases.length || 0) > 0;
+const cleanImage = scan?.image_base64?.replace(/\s/g, "");
   return (
     <TouchableOpacity
       style={[
@@ -36,12 +36,15 @@ export const ScanCard: React.FC<ScanCardProps> = ({
       activeOpacity={0.7}
     >
       <View style={styles.imageContainer}>
-        {scan.image_base64 ? (
-          <Image
-            source={{ uri: `data:image/jpeg;base64,${scan.image_base64.substring(0, 100000)}` }}
-            style={styles.image}
-            resizeMode="cover"
-          />
+        {scan?.image_base64 ? (
+          
+        <Image
+  source={{
+    uri: `data:image/jpeg;base64,${cleanImage}`,
+  }}
+  style={styles.image}
+  resizeMode="cover"
+/>
         ) : (
           <View style={[styles.imagePlaceholder, { backgroundColor: colors.surfaceSecondary }]}>
             <Ionicons name="leaf" size={32} color={colors.primary} />
@@ -53,24 +56,24 @@ export const ScanCard: React.FC<ScanCardProps> = ({
             { backgroundColor: healthColor },
           ]}
         >
-          <Text style={styles.healthText}>{scan.health_score}%</Text>
+          <Text style={styles.healthText}>{scan?.health_score}%</Text>
         </View>
       </View>
 
       <View style={styles.content}>
-        {scan.plant && (
+        {scan?.plant && (
           <BilingualText
-            english={scan.plant.common_name}
-            kinyarwanda={scan.plant.common_name_kinyarwanda}
+            english={scan?.plant.common_name}
+            kinyarwanda={scan?.plant.common_name_kinyarwanda}
             primaryColor={colors.text}
             secondaryColor={colors.textSecondary}
             style={styles.plantName}
           />
         )}
 
-        {scan.plant && (
+        {scan?.plant && (
           <Text style={[styles.scientificName, { color: colors.textTertiary }]}>
-            {scan.plant.scientific_name}
+            {scan?.plant.scientific_name}
           </Text>
         )}
 
@@ -79,7 +82,7 @@ export const ScanCard: React.FC<ScanCardProps> = ({
             <View style={[styles.statusBadge, { backgroundColor: colors.error + '20' }]}>
               <Ionicons name="alert-circle" size={14} color={colors.error} />
               <Text style={[styles.statusText, { color: colors.error }]}>
-                {scan.diseases.length} issue{scan.diseases.length > 1 ? 's' : ''}
+                {scan?.diseases.length} issue{scan?.diseases.length > 1 ? 's' : ''}
               </Text>
             </View>
           ) : (
@@ -91,7 +94,7 @@ export const ScanCard: React.FC<ScanCardProps> = ({
         </View>
 
         <Text style={[styles.date, { color: colors.textTertiary }]}>
-          {formatRelativeDate(scan.scan_date)}
+          {formatRelativeDate(scan?.scan_date)}
         </Text>
       </View>
 

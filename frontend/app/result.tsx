@@ -80,8 +80,13 @@ export default function ResultScreen() {
   }
 
   const healthColor = getHealthColor(scanResult.health_score, colors);
-  const hasDisease = scanResult.diseases && scanResult.diseases.length > 0;
-
+  const hasDisease = scanResult.diseases &&(scanResult.diseases?.length || 0) > 0;
+const imageUri: string | undefined =
+  scanResult.image_base64?.startsWith('data:')
+    ? scanResult.image_base64
+    : scanResult.image_base64
+    ? `data:image/jpeg;base64,${scanResult.image_base64}`
+    : undefined;
   return (
     <View style={[styles.container, { backgroundColor: colors.background }]}>
       {/* Header */}
@@ -108,7 +113,7 @@ export default function ResultScreen() {
         <View style={[styles.imageCard, { backgroundColor: colors.card, borderColor: colors.border }]}>
           {scanResult.image_base64 ? (
             <Image
-              source={{ uri: `data:image/jpeg;base64,${scanResult.image_base64.substring(0, 100000)}` }}
+              source={{ uri:imageUri }}
               style={styles.plantImage}
               resizeMode="cover"
             />
@@ -166,7 +171,7 @@ export default function ResultScreen() {
             />
 
             {/* Care Tips */}
-            {scanResult.plant.care_tips.length > 0 && (
+            {scanResult.plant.care_tips?.length > 0 && (
               <View style={styles.careTips}>
                 <Text style={[styles.careTipsTitle, { color: colors.text }]}>
                   Care Tips / Inama zo Kwita
@@ -206,7 +211,7 @@ export default function ResultScreen() {
             />
             {hasDisease && (
               <Text style={[styles.statusSubtitle, { color: colors.textSecondary }]}>
-                {scanResult.diseases.length} issue{scanResult.diseases.length > 1 ? 's' : ''} found
+                {scanResult.diseases?.length} issue{scanResult.diseases?.length > 1 ? 's' : ''} found
               </Text>
             )}
           </View>
@@ -225,7 +230,7 @@ export default function ResultScreen() {
             />
             {scanResult.diseases.map((disease, index) => (
               <TouchableOpacity
-                key={disease.id}
+                key={disease.id ?? index}
                 onPress={() => navigateToDiseaseDetail(index)}
                 activeOpacity={0.8}
               >
@@ -236,7 +241,7 @@ export default function ResultScreen() {
         )}
 
         {/* Recommendations */}
-        {scanResult.recommendations && scanResult.recommendations.length > 0 && (
+        {scanResult.recommendations && scanResult.recommendations?.length > 0 && (
           <View style={styles.recommendationsSection}>
             <BilingualText
               english={translations.recommendations.en}
@@ -246,51 +251,81 @@ export default function ResultScreen() {
               englishStyle={styles.sectionTitle}
               style={styles.sectionLabel}
             />
-            {scanResult.recommendations.map((rec, index) => (
-              <View
-                key={rec.id}
-                style={[styles.recommendationCard, { backgroundColor: colors.card, borderColor: colors.border }]}
-              >
-                <View style={[styles.priorityBadge, { backgroundColor: rec.priority === 'high' ? colors.error + '20' : rec.priority === 'medium' ? colors.warning + '20' : colors.info + '20' }]}>
-                  <Text style={[styles.priorityText, { color: rec.priority === 'high' ? colors.error : rec.priority === 'medium' ? colors.warning : colors.info }]}>
-                    {rec.priority.toUpperCase()}
-                  </Text>
-                </View>
-                <BilingualText
-                  english={rec.title}
-                  kinyarwanda={rec.title_kinyarwanda}
-                  primaryColor={colors.text}
-                  secondaryColor={colors.textSecondary}
-                  inline={false}
-                  englishStyle={styles.recTitle}
-                />
-                <BilingualText
-                  english={rec.description}
-                  kinyarwanda={rec.description_kinyarwanda}
-                  primaryColor={colors.text}
-                  secondaryColor={colors.textSecondary}
-                  inline={false}
-                  style={styles.recDescription}
-                />
-                {rec.actions.length > 0 && (
-                  <View style={styles.actionsList}>
-                    {rec.actions.map((action, i) => (
-                      <View key={i} style={styles.actionItem}>
-                        <Ionicons name="arrow-forward" size={14} color={colors.primary} />
-                        <BilingualText
-                          english={action}
-                          kinyarwanda={rec.actions_kinyarwanda[i] || action}
-                          primaryColor={colors.text}
-                          secondaryColor={colors.textSecondary}
-                          inline={false}
-                          style={styles.actionText}
-                        />
-                      </View>
-                    ))}
-                  </View>
-                )}
-              </View>
-            ))}
+           {(scanResult.recommendations ?? []).map((rec, index) => (
+  <View
+    key={rec.id ?? index}
+    style={[
+      styles.recommendationCard,
+      { backgroundColor: colors.card, borderColor: colors.border }
+    ]}
+  >
+    <View
+      style={[
+        styles.priorityBadge,
+        {
+          backgroundColor:
+            rec.priority === 'high'
+              ? colors.error + '20'
+              : rec.priority === 'medium'
+              ? colors.warning + '20'
+              : colors.info + '20'
+        }
+      ]}
+    >
+      <Text
+        style={[
+          styles.priorityText,
+          {
+            color:
+              rec.priority === 'high'
+                ? colors.error
+                : rec.priority === 'medium'
+                ? colors.warning
+                : colors.info
+          }
+        ]}
+      >
+        {(rec.priority ?? 'low').toUpperCase()}
+      </Text>
+    </View>
+
+    <BilingualText
+      english={rec.title ?? ''}
+      kinyarwanda={rec.title_kinyarwanda ?? ''}
+      primaryColor={colors.text}
+      secondaryColor={colors.textSecondary}
+      inline={false}
+      englishStyle={styles.recTitle}
+    />
+
+    <BilingualText
+      english={rec.description ?? ''}
+      kinyarwanda={rec.description_kinyarwanda ?? ''}
+      primaryColor={colors.text}
+      secondaryColor={colors.textSecondary}
+      inline={false}
+      style={styles.recDescription}
+    />
+
+    {(rec.actions ?? []).length > 0 && (
+      <View style={styles.actionsList}>
+        {(rec.actions ?? []).map((action, i) => (
+          <View key={i} style={styles.actionItem}>
+            <Ionicons name="arrow-forward" size={14} color={colors.primary} />
+            <BilingualText
+              english={action}
+              kinyarwanda={(rec.actions_kinyarwanda ?? [])[i] || action}
+              primaryColor={colors.text}
+              secondaryColor={colors.textSecondary}
+              inline={false}
+              style={styles.actionText}
+            />
+          </View>
+        ))}
+      </View>
+    )}
+  </View>
+))}
           </View>
         )}
 

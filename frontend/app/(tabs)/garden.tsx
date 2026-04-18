@@ -7,7 +7,6 @@ import {
   RefreshControl,
   TouchableOpacity,
   Alert,
-  Image,
 } from 'react-native';
 import { useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
@@ -129,9 +128,11 @@ export default function GardenScreen() {
               style={[styles.plantCard, { backgroundColor: colors.card, borderColor: colors.border }]}
             >
               <View style={styles.cardContent}>
-                <View style={[styles.plantIcon, { backgroundColor: colors.primary + '15' }]}>
-                  <Ionicons name="leaf" size={32} color={colors.primary} />
-                </View>
+              
+  <View style={[styles.plantIcon, { backgroundColor: colors.primary + '15' }]}>
+    <Ionicons name="leaf" size={32} color={colors.primary} />
+  </View>
+
                 <View style={styles.plantInfo}>
                   <BilingualText
                     english={gardenPlant.plant.common_name}
@@ -151,9 +152,9 @@ export default function GardenScreen() {
                         { backgroundColor: getHealthStatusColor(gardenPlant.health_status) },
                       ]}
                     />
-                    <Text style={[styles.statusText, { color: colors.textSecondary }]}>
-                      {gardenPlant.health_status.replace('_', ' ')}
-                    </Text>
+                 <Text style={[styles.statusText, { color: colors.textSecondary }]}>
+  {(gardenPlant.health_status ?? '').replace('_', ' ')}
+</Text>
                   </View>
                 </View>
               </View>
@@ -273,6 +274,12 @@ const styles = StyleSheet.create({
   plantInfo: {
     flex: 1,
   },
+  plantIconImage: {
+  width: 64,
+  height: 64,
+  borderRadius: 12,
+  resizeMode: 'cover',
+},
   plantName: {
     fontSize: Typography.sizes.lg,
     fontWeight: Typography.weights.semibold,

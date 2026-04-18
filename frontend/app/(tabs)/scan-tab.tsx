@@ -51,7 +51,7 @@ export default function ScanTabScreen() {
             Take a photo of a plant leaf to identify diseases
           </Text>
           <Text style={[styles.scanSubtitleKin, { color: colors.white + '80' }]}>
-            Fata ifoto y'ikijambo kugira ngo umenye indwara
+            Fata ifoto y&apos;ikijambo kugira ngo umenye indwara
           </Text>
         </TouchableOpacity>
 

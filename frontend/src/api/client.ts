@@ -1,17 +1,23 @@
 import axios from 'axios';
 import Constants from 'expo-constants';
 
-// Get backend URL from environment
+
 const getBaseUrl = (): string => {
-  const backendUrl = Constants.expoConfig?.extra?.EXPO_PUBLIC_BACKEND_URL 
-    || process.env.EXPO_PUBLIC_BACKEND_URL 
-    || 'https://farm-diagnose-4.preview.emergentagent.com';
+  let backendUrl =
+    Constants.expoConfig?.extra?.EXPO_PUBLIC_BACKEND_URL ||
+    process.env.EXPO_PUBLIC_BACKEND_URL ||
+    'http://10.109.25.135:10000';
+
+  
+  if (!backendUrl.startsWith('http')) {
+    backendUrl = `http://${backendUrl}`;
+  }
+
   return `${backendUrl}/api`;
 };
-
 export const apiClient = axios.create({
   baseURL: getBaseUrl(),
-  timeout: 60000, // 60 seconds for AI analysis
+  timeout: 30000, 
   headers: {
     'Content-Type': 'application/json',
   },
@@ -29,7 +35,7 @@ apiClient.interceptors.request.use(
   }
 );
 
-// Response interceptor
+
 apiClient.interceptors.response.use(
   (response) => {
     console.log(`API Response: ${response.status} ${response.config.url}`);

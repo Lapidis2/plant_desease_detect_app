@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { Colors, Typography, Spacing, BorderRadius, ThemeColors } from '../constants/theme';
+import {Typography, Spacing, BorderRadius, ThemeColors } from '../constants/theme';
 import { BilingualText } from './BilingualText';
 import { WeatherData } from '../store/appSlice';
 
@@ -11,14 +11,21 @@ interface WeatherCardProps {
 }
 
 export const WeatherCard: React.FC<WeatherCardProps> = ({ weather, colors }) => {
-  const getWeatherIcon = (description: string): keyof typeof Ionicons.glyphMap => {
-    const desc = description.toLowerCase();
-    if (desc.includes('clear') || desc.includes('sunny')) return 'sunny';
-    if (desc.includes('cloud')) return 'cloudy';
-    if (desc.includes('rain') || desc.includes('drizzle')) return 'rainy';
-    if (desc.includes('fog')) return 'cloud';
-    return 'partly-sunny';
-  };
+ const getWeatherIcon = (
+  description?: string
+): keyof typeof Ionicons.glyphMap => {
+
+  if (!description) return 'partly-sunny'; // fallback
+
+  const desc = description.toLowerCase();
+
+  if (desc.includes('clear') || desc.includes('sunny')) return 'sunny';
+  if (desc.includes('cloud')) return 'cloudy';
+  if (desc.includes('rain') || desc.includes('drizzle')) return 'rainy';
+  if (desc.includes('fog')) return 'cloud';
+
+  return 'partly-sunny';
+};
 
   return (
     <View style={[styles.container, { backgroundColor: colors.card, borderColor: colors.border }]}>
@@ -46,7 +53,7 @@ export const WeatherCard: React.FC<WeatherCardProps> = ({ weather, colors }) => 
         <Ionicons name="information-circle" size={18} color={colors.primary} />
         <View style={styles.adviceContent}>
           <Text style={[styles.adviceLabel, { color: colors.textSecondary }]}>
-            Farming Advice / Inama z'Ubuhinzi
+            Farming Advice / Inama zUbuhinzi
           </Text>
           <BilingualText
             english={weather.farming_advice}

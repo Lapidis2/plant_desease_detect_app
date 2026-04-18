@@ -20,6 +20,7 @@ export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) =
 
   useEffect(() => {
     loadTheme();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const loadTheme = async () => {

@@ -91,7 +91,7 @@ export const translations = {
   },
   healthy: {
     en: 'Healthy',
-    kin: 'Kuzima',
+    kin: 'Kizima',
   },
   
   // Disease Details

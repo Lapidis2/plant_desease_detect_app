@@ -3,7 +3,7 @@ import { View, StyleSheet, Animated, ViewStyle } from 'react-native';
 import { BorderRadius } from '../constants/theme';
 
 interface LoadingSkeletonProps {
-  width?: number | string;
+  width?:number | `${number}%`;
   height?: number;
   borderRadius?: number;
   style?: ViewStyle;
