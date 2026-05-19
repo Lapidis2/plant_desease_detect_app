@@ -6,9 +6,9 @@ const getBaseUrl = (): string => {
   let backendUrl =
     Constants.expoConfig?.extra?.EXPO_PUBLIC_BACKEND_URL ||
     process.env.EXPO_PUBLIC_BACKEND_URL ||
-    'http://10.109.25.135:10000';
+    'http://10.212.0.135:10000';
 
-  
+
   if (!backendUrl.startsWith('http')) {
     backendUrl = `http://${backendUrl}`;
   }
@@ -17,7 +17,7 @@ const getBaseUrl = (): string => {
 };
 export const apiClient = axios.create({
   baseURL: getBaseUrl(),
-  timeout: 30000, 
+  timeout: 90000,
   headers: {
     'Content-Type': 'application/json',
   },

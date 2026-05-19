@@ -33,7 +33,6 @@ logger = logging.getLogger("agri-ai")
 MONGO_URL = os.getenv("MONGO_URL")
 DB_NAME = os.getenv("DB_NAME", "plant_ai")
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
-
 client = AsyncIOMotorClient(MONGO_URL,tlsCAFile=certifi.where(),serverSelectionTimeoutMS=50000,connectTimeoutMS=50000, socketTimeoutMS=50000)
 db = client[DB_NAME]
 
@@ -64,6 +63,9 @@ class Plant(BaseModel):
     common_name: str
     scientific_name: str
     family: str
+    description: Optional[str] = ""
+    description_kinyarwanda: Optional[str] = ""
+    image_base64: Optional[str] = ""
     
 
 
@@ -90,6 +92,8 @@ class AddGardenRequest(BaseModel):
 
 
 async def call_gemini_with_retry(client_http, url, payload, retries=3):
+    print(GEMINI_API_KEY)
+
     for i in range(retries):
         res = await client_http.post(url, json=payload, timeout=120)
 
@@ -432,6 +436,9 @@ async def analyze_route(req: AnalyzeRequest, background_tasks: BackgroundTasks):
     # 3. enrich result
     result["id"] = str(uuid.uuid4())
     result["created_at"] = datetime.utcnow()
+    result["image_base64"] = req.image_base64
+    if "plant" in result:
+        result["plant"]["image_base64"] = req.image_base64
 
     if req.latitude and req.longitude:
         result["weather_data"] = None
@@ -453,15 +460,20 @@ async def get_weather(latitude: float, longitude: float):
 async def history(limit: int = 20):
     scans = await db.scans.find().sort("created_at", -1).limit(limit).to_list(limit)
 
-    return [
-        {
+    res_list = []
+    for s in scans:
+        res = s.get("scan_result", {})
+        if res:
+            res["image_base64"] = s.get("image_base64")
+            if "plant" in res:
+                res["plant"]["image_base64"] = s.get("image_base64")
+        res_list.append({
             "id": s["id"],
-            "scan_result": s.get("scan_result"),
+            "scan_result": res,
             "image_base64": s.get("image_base64"),
             "created_at": s.get("created_at")
-        }
-        for s in scans
-    ]
+        })
+    return res_list
 
 
 @api.get("/history/{scan_id}")
@@ -471,7 +483,12 @@ async def get_scan(scan_id: str):
     if not scan:
         raise HTTPException(status_code=404, detail="Not found")
 
-    return scan.get("scan_result")
+    res = scan.get("scan_result")
+    if res:
+        res["image_base64"] = scan.get("image_base64")
+        if "plant" in res:
+            res["plant"]["image_base64"] = scan.get("image_base64")
+    return res
 
 @api.delete("/history/{scan_id}")
 async def delete_scan(scan_id: str):

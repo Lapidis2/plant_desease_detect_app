@@ -44,7 +44,7 @@ export default function ScanScreen() {
       try {
         const photo = await cameraRef.current.takePictureAsync({
           base64: true,
-          quality: 0.7,
+          quality: 0.3,
         });
         if (photo?.base64) {
           setCapturedImage(photo.base64);
@@ -61,7 +61,7 @@ export default function ScanScreen() {
       const result = await ImagePicker.launchImageLibraryAsync({
         mediaTypes: ImagePicker.MediaTypeOptions.Images,
         base64: true,
-        quality: 0.7,
+        quality: 0.3,
       });
 
       if (!result.canceled && result.assets[0].base64) {

@@ -5,6 +5,7 @@ import {
   ActivityIndicator,
   ScrollView,
   StyleSheet,
+  Image,
 } from 'react-native';
 import { Stack, useLocalSearchParams,useRouter} from 'expo-router';
 import { getScanById } from '../../src/services/plantService';
@@ -71,6 +72,18 @@ return (
   size={50}
   onPress={() => router.back()}
 />
+      
+      {scan?.image_base64 && (
+        <Image
+          source={{
+            uri: scan.image_base64.startsWith('data:')
+              ? scan.image_base64
+              : `data:image/jpeg;base64,${scan.image_base64.replace(/\s/g, "")}`
+          }}
+          style={{ width: '100%', height: 220, borderRadius: 12, marginBottom: 20 }}
+          resizeMode="cover"
+        />
+      )}
       
       <Text style={{ fontSize: 22, fontWeight: 'bold', marginBottom: 10 }}>
         🌿 Health: {scan?.health_score ?? 0}%

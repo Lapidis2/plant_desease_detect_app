@@ -7,6 +7,7 @@ import {
   RefreshControl,
   TouchableOpacity,
   Alert,
+  Image,
 } from 'react-native';
 import { useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
@@ -128,10 +129,20 @@ export default function GardenScreen() {
               style={[styles.plantCard, { backgroundColor: colors.card, borderColor: colors.border }]}
             >
               <View style={styles.cardContent}>
-              
-  <View style={[styles.plantIcon, { backgroundColor: colors.primary + '15' }]}>
-    <Ionicons name="leaf" size={32} color={colors.primary} />
-  </View>
+                {gardenPlant.plant.image_base64 ? (
+                  <Image
+                    source={{
+                      uri: gardenPlant.plant.image_base64.startsWith('data:')
+                        ? gardenPlant.plant.image_base64
+                        : `data:image/jpeg;base64,${gardenPlant.plant.image_base64}`
+                    }}
+                    style={styles.plantIconImage}
+                  />
+                ) : (
+                  <View style={[styles.plantIcon, { backgroundColor: colors.primary + '15' }]}>
+                    <Ionicons name="leaf" size={32} color={colors.primary} />
+                  </View>
+                )}
 
                 <View style={styles.plantInfo}>
                   <BilingualText
