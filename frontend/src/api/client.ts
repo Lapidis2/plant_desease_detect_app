@@ -1,13 +1,13 @@
 import axios from 'axios';
 import Constants from 'expo-constants';
-import { testMultipleBackends, testBackendConnection, BACKEND_CANDIDATES } from '../utils/networkDiagnostics';
+import {  testBackendConnection, BACKEND_CANDIDATES } from '../utils/networkDiagnostics';
 let backendReady: Promise<void> = Promise.resolve();
 
 const getBaseUrl = (): string => {
   let backendUrl =
     Constants.expoConfig?.extra?.EXPO_PUBLIC_BACKEND_URL ||
     process.env.EXPO_PUBLIC_BACKEND_URL ||
-    'https://agri-ai-backend.onrender.com';  // production fallback (update after your Render deploy)
+    'https://agri-ai-backend-iflu.onrender.com';  
 
   if (!backendUrl.startsWith('http')) {
     backendUrl = `http://${backendUrl}`;
