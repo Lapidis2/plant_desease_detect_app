@@ -38,9 +38,10 @@ export const testBackendConnection = async (url: string, timeoutMs: number = 500
 };
 
 export const BACKEND_CANDIDATES = [
-  'http://10.212.0.135:10000',   // ← your current PC LAN IP (from `ipconfig`)
+  'https://agri-ai-backend.onrender.com',   // ← PRODUCTION (Render)
+  'http://10.212.0.135:10000',              // local dev on same WiFi
   'http://localhost:10000',
-  'http://10.0.2.2:10000',       // Android emulator only
+  'http://10.0.2.2:10000',                  // Android emulator
 ];
 
 export const testMultipleBackends = async (): Promise<NetworkDiagnostics[]> => {

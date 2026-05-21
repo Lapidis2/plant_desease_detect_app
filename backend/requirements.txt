@@ -4,6 +4,5 @@ python-dotenv
 motor
 httpx
 pydantic
-torch
-transformers
+certifi
 Pillow

@@ -7,7 +7,7 @@ const getBaseUrl = (): string => {
   let backendUrl =
     Constants.expoConfig?.extra?.EXPO_PUBLIC_BACKEND_URL ||
     process.env.EXPO_PUBLIC_BACKEND_URL ||
-    'http://10.212.0.135:10000';
+    'https://agri-ai-backend.onrender.com';  // production fallback (update after your Render deploy)
 
   if (!backendUrl.startsWith('http')) {
     backendUrl = `http://${backendUrl}`;
