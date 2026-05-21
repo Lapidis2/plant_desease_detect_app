@@ -10,18 +10,18 @@
         "EXPO_PUBLIC_BACKEND_URL": "http://10.212.0.135:10000"
       }
     },
-    "preview": {
-      "distribution": "internal",
-      "env": {
-        "EXPO_PUBLIC_BACKEND_URL": "https://agri-ai-backend.onrender.com"
-      }
-    },
-    "production": {
-      "distribution": "internal",
-      "env": {
-        "EXPO_PUBLIC_BACKEND_URL": "https://agri-ai-backend.onrender.com"
-      }
-    }
+   "preview": {
+  "distribution": "internal",
+  "env": {
+    "EXPO_PUBLIC_BACKEND_URL": "https://agri-ai-backend-iflu.onrender.com"
+  }
+},
+"production": {
+  "distribution": "internal",
+  "env": {
+    "EXPO_PUBLIC_BACKEND_URL": "https://agri-ai-backend-iflu.onrender.com"
+  }
+}
   },
   "submit": {
     "production": {}
