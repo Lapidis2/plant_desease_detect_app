@@ -31,7 +31,7 @@ export default function HomeScreen() {
   const [refreshing, setRefreshing] = useState(false);
   const [weather, setWeather] = useState<WeatherData | null>(null);
   const [recentScans, setRecentScans] = useState<ScanHistory[]>([]);
-  const [locationError, setLocationError] = useState(false);
+  const [locationError, setLocationError] = useState<string | null>(null);
 
   const loadData = useCallback(async () => {
     try {
@@ -47,13 +47,14 @@ export default function HomeScreen() {
             location.coords.longitude
           );
           setWeather(weatherData);
-          setLocationError(false);
-        } catch (error) {
+          setLocationError(null);
+        } catch (error: any) {
           console.error('Weather error:', error);
-          setLocationError(true);
+          const msg = error?.message || 'Current location unavailable. Tap to enable location services.';
+          setLocationError(msg);
         }
       } else {
-        setLocationError(true);
+        setLocationError('Location permission denied. Tap here to enable.');
       }
 
       // Load recent scans
@@ -63,6 +64,42 @@ export default function HomeScreen() {
       console.error('Error loading data:', error);
     } finally {
       setLoading(false);
+    }
+  }, []);
+
+  // Handle tapping the "Enable location" card - handles both permission and device location services
+  const handleEnableLocation = useCallback(async () => {
+    try {
+      // Step 1: Ensure device location services (GPS) are enabled
+      const servicesEnabled = await Location.hasServicesEnabledAsync();
+      if (!servicesEnabled) {
+        await Location.enableNetworkProviderAsync();
+      }
+
+      // Step 2: Request app permission
+      const { status } = await Location.requestForegroundPermissionsAsync();
+
+      if (status === 'granted') {
+        const location = await Location.getCurrentPositionAsync({
+          accuracy: Location.Accuracy.Balanced,
+        });
+        const weatherData = await getWeather(
+          location.coords.latitude,
+          location.coords.longitude
+        );
+        setWeather(weatherData);
+        setLocationError(null);
+      } else {
+        setLocationError('Location permission denied. Open app settings to allow access.');
+        await Location.openAppSettingsAsync();
+      }
+    } catch (error: any) {
+      console.error('Location error:', error);
+      const msg = error?.message || 'Unable to get location. Please enable location services in device settings.';
+      setLocationError(msg);
+      try {
+        await Location.openAppSettingsAsync();
+      } catch {}
     }
   }, []);
 
@@ -202,12 +239,16 @@ export default function HomeScreen() {
           ) : weather ? (
             <WeatherCard weather={weather} colors={colors} />
           ) : (
-            <View style={[styles.weatherError, { backgroundColor: colors.card, borderColor: colors.border }]}>
+            <TouchableOpacity
+              style={[styles.weatherError, { backgroundColor: colors.card, borderColor: colors.border }]}
+              onPress={handleEnableLocation}
+              activeOpacity={0.7}
+            >
               <Ionicons name="location-outline" size={24} color={colors.textTertiary} />
               <Text style={[styles.weatherErrorText, { color: colors.textSecondary }]}>
-                {locationError ? 'Enable location for weather' : 'Weather unavailable'}
+                {locationError || 'Weather unavailable'}
               </Text>
-            </View>
+            </TouchableOpacity>
           )}
         </View>
 

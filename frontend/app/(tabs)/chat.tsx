@@ -76,8 +76,8 @@ export default function ChatScreen() {
   return (
     <KeyboardAvoidingView 
       style={[styles.container, { backgroundColor: colors.background }]}
-      behavior={Platform.OS === 'ios' ? 'padding' : undefined}
-      keyboardVerticalOffset={Platform.OS === 'ios' ? 90 : 0}
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      keyboardVerticalOffset={Platform.OS === 'ios' ? 90 : 20}
     >
       <View style={[styles.header, { paddingTop: insets.top + Spacing.md }]}>
         <Text style={[styles.headerTitle, { color: colors.text }]}>Agri AI Assistant</Text>
@@ -87,6 +87,7 @@ export default function ChatScreen() {
         ref={scrollViewRef}
         style={styles.messagesContainer}
         contentContainerStyle={styles.messagesContent}
+        keyboardShouldPersistTaps="handled"
         onContentSizeChange={() => scrollViewRef.current?.scrollToEnd({ animated: true })}
       >
         {messages.map((msg) => (
