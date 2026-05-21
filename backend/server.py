@@ -83,6 +83,9 @@ class AddGardenRequest(BaseModel):
     plant: Plant
     notes: Optional[str] = ""
     notes_kinyarwanda: Optional[str] = ""
+
+class ChatRequest(BaseModel):
+    message: str
   
 
 
@@ -260,6 +263,28 @@ IMPORTANT:
         logger.error(f"Gemini error: {e}")
         return None
 
+async def ask_gemini_chat(message: str) -> str:
+    try:
+        url = "https://generativelanguage.googleapis.com/v1/models/gemini-2.5-flash-lite:generateContent?key=" + GEMINI_API_KEY
+        prompt = f"""
+You are an expert agricultural AI assistant. You answer questions about plant health, diseases, farming, and general agriculture.
+Be practical, helpful, and concise. Only answer questions related to agriculture and plants.
+User question: {message}
+"""
+        payload = {
+            "contents": [{"parts": [{"text": prompt}]}]
+        }
+        async with httpx.AsyncClient() as client:
+            res = await client.post(url, json=payload, timeout=60)
+        data = res.json()
+        if "candidates" not in data:
+            logger.error(f"Gemini chat error: {data}")
+            return "I'm sorry, I couldn't process your request right now."
+        return data["candidates"][0]["content"]["parts"][0]["text"]
+    except Exception as e:
+        logger.error(f"Gemini chat exception: {e}")
+        return "I encountered an error connecting to the AI service."
+
 # =========================
 # FALLBACK SAFE RESPONSE
 # =========================
@@ -423,6 +448,11 @@ async def save_scan(data, image_b64=None):
 # =========================
 # ROUTES
 # =========================
+
+@api.post("/chat")
+async def chat_route(req: ChatRequest):
+    response = await ask_gemini_chat(req.message)
+    return {"reply": response}
 
 @api.post("/analyze", response_model=ScanResult)
 async def analyze_route(req: AnalyzeRequest, background_tasks: BackgroundTasks):
