@@ -66,6 +66,8 @@ plant-diagnosis-app/
 npm install
 npx expo start
 `
-`cd backend
+cd backend
 pip install -r requirements.txt
-uvicorn app.main:app --reload`
+uvicorn server:app --host 0.0.0.0 --port 10000 --reload
+
+# IMPORTANT: Use --host 0.0.0.0 so mobile devices on same WiFi can reach it via LAN IP from ipconfig

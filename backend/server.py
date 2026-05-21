@@ -438,12 +438,18 @@ def generate_farming_advice(temp: float, humidity: float, weather_code: int) -> 
 # =========================
 
 async def save_scan(data, image_b64=None):
-    await db.scans.insert_one({
-        "id": data["id"],
-        "scan_result": data,
-        "image_base64": image_b64,
-        "created_at": data["created_at"]
-    })
+    try:
+        logger.info(f"💾 Saving scan {data['id']} to database")
+        result = await db.scans.insert_one({
+            "id": data["id"],
+            "scan_result": data,
+            "image_base64": image_b64,
+            "created_at": data["created_at"]
+        })
+        logger.info(f"✅ Scan {data['id']} saved successfully")
+    except Exception as e:
+        logger.error(f"❌ Error saving scan: {str(e)}")
+        raise
 
 # =========================
 # ROUTES
@@ -487,22 +493,35 @@ async def get_weather(latitude: float, longitude: float):
         return weather
     raise HTTPException(status_code=503, detail="Weather service unavailable")
 @api.get("/history")
-async def history(limit: int = 20):
+async def history(limit: int = 20, include_images: bool = False):
+    logger.info(f"📋 Fetching scan history with limit={limit}, include_images={include_images}")
     scans = await db.scans.find().sort("created_at", -1).limit(limit).to_list(limit)
+    logger.info(f"📊 Found {len(scans)} scans in database")
 
     res_list = []
     for s in scans:
         res = s.get("scan_result", {})
-        if res:
-            res["image_base64"] = s.get("image_base64")
-            if "plant" in res:
-                res["plant"]["image_base64"] = s.get("image_base64")
+        if include_images:
+            if res:
+                res["image_base64"] = s.get("image_base64")
+                if "plant" in res:
+                    res["plant"]["image_base64"] = s.get("image_base64")
+            item_image = s.get("image_base64")
+        else:
+            if res and "image_base64" in res:
+                res["image_base64"] = None
+            if res and "plant" in res and "image_base64" in res["plant"]:
+                res["plant"]["image_base64"] = None
+            item_image = None
+
         res_list.append({
             "id": s["id"],
             "scan_result": res,
-            "image_base64": s.get("image_base64"),
+            "image_base64": item_image,
             "created_at": s.get("created_at")
         })
+    
+    logger.info(f"✅ Returning {len(res_list)} formatted scans")
     return res_list
 
 
@@ -531,7 +550,25 @@ async def delete_scan(scan_id: str):
     return {"message": "Scan deleted successfully"}
 @api.get("/health")
 async def health():
-    return {"status": "ok", "service": "Agri AI Gemini"}
+    try:
+        # Test database connection
+        await db.command("ping")
+        scan_count = await db.scans.count_documents({})
+        logger.info(f"✅ Database connected. Total scans: {scan_count}")
+        return {
+            "status": "ok",
+            "service": "Agri AI Gemini",
+            "database": "connected",
+            "scan_count": scan_count
+        }
+    except Exception as e:
+        logger.error(f"❌ Database connection failed: {str(e)}")
+        return {
+            "status": "error",
+            "service": "Agri AI Gemini",
+            "database": "disconnected",
+            "error": str(e)
+        }
 
 # =========================
 # GARDEN

@@ -31,11 +31,12 @@ export default function HomeScreen() {
   const [refreshing, setRefreshing] = useState(false);
   const [weather, setWeather] = useState<WeatherData | null>(null);
   const [recentScans, setRecentScans] = useState<ScanHistory[]>([]);
+  const [recentLoading, setRecentLoading] = useState(true);
   const [locationError, setLocationError] = useState<string | null>(null);
 
   const loadData = useCallback(async () => {
     try {
-      // Load weather
+      // Load weather (can be slow or fail independently)
       const { status } = await Location.requestForegroundPermissionsAsync();
       if (status === 'granted') {
         try {
@@ -56,14 +57,24 @@ export default function HomeScreen() {
       } else {
         setLocationError('Location permission denied. Tap here to enable.');
       }
-
-      // Load recent scans
-      const history = await getScanHistory(5);
-      setRecentScans(history);
     } catch (error) {
-      console.error('Error loading data:', error);
+      console.error('Error loading weather data:', error);
     } finally {
       setLoading(false);
+    }
+  }, []);
+
+  // Separate loading for recent scans so it doesn't get blocked by weather/location
+  const loadRecentScans = useCallback(async () => {
+    try {
+      setRecentLoading(true);
+      const history = await getScanHistory(5, true);
+      setRecentScans(history || []);
+    } catch (error) {
+      console.error('Error loading recent scans:', error);
+      setRecentScans([]);
+    } finally {
+      setRecentLoading(false);
     }
   }, []);
 
@@ -105,11 +116,12 @@ export default function HomeScreen() {
 
   useEffect(() => {
     loadData();
-  }, [loadData]);
+    loadRecentScans();
+  }, [loadData, loadRecentScans]);
 
   const onRefresh = async () => {
     setRefreshing(true);
-    await loadData();
+    await Promise.all([loadData(), loadRecentScans()]);
     setRefreshing(false);
   };
 
@@ -267,12 +279,12 @@ export default function HomeScreen() {
             </TouchableOpacity>
           </View>
 
-          {loading ? (
-            <>
-              <CardSkeleton baseColor={colors.surfaceSecondary} highlightColor={colors.surface} />
-              <CardSkeleton baseColor={colors.surfaceSecondary} highlightColor={colors.surface} />
-            </>
-          ) : recentScans.length > 0 ? (
+           {recentLoading ? (
+             <>
+               <CardSkeleton baseColor={colors.surfaceSecondary} highlightColor={colors.surface} />
+               <CardSkeleton baseColor={colors.surfaceSecondary} highlightColor={colors.surface} />
+             </>
+           ) : recentScans.length > 0 ? (
             recentScans.map((scan) => (
               <ScanCard
                 key={scan.id}

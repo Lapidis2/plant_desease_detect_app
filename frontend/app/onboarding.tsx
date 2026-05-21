@@ -14,7 +14,7 @@ import { Typography, Spacing } from '../src/constants/theme';
 import { Button } from '../src/components/Button';
 
 
-const ONBOARDING_KEY = '@plant_doctor_onboarding';
+const ONBOARDING_KEY = '@agro_reba_onboarding';
 
 interface OnboardingSlide {
   icon: keyof typeof Ionicons.glyphMap;
@@ -75,10 +75,11 @@ export default function OnboardingScreen() {
   const completeOnboarding = async () => {
     try {
       await AsyncStorage.setItem(ONBOARDING_KEY, 'true');
-      router.replace('/(tabs)');
+      // Go to professional loading screen (0-100%) before main app
+      router.replace('/loading');
     } catch (error) {
       console.error('Error saving onboarding state:', error);
-      router.replace('/(tabs)');
+      router.replace('/loading');
     }
   };
 

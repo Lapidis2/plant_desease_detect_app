@@ -51,7 +51,7 @@ export default function ChatScreen() {
     setLoading(true);
 
     try {
-      const response = await apiClient.post('/chat', { message: userMessage.text });
+      const response = await apiClient.post('/chat', { message: userMessage.text }, { timeout: 120000 });
       
       const aiMessage: Message = {
         id: (Date.now() + 1).toString(),

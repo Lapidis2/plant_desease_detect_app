@@ -2,8 +2,8 @@
 export const translations = {
   // App
   appName: {
-    en: 'Plant Doctor',
-    kin: 'Umuganga w\'Ibihingwa',
+    en: 'AgroReba',
+    kin: 'AgroReba',
   },
   
   // Navigation
@@ -34,8 +34,8 @@ export const translations = {
   
   // Home Screen
   welcome: {
-    en: 'Welcome to Plant Doctor',
-    kin: 'Murakaza neza kuri Umuganga w\'Ibihingwa',
+    en: 'Welcome to AgroReba',
+    kin: 'Murakaza neza kuri AgroReba',
   },
   scanPlant: {
     en: 'Scan Your Plant',

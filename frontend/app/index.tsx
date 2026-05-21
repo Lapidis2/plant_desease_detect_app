@@ -6,7 +6,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useTheme } from '../src/components/ThemeContext';
 import { Typography, Spacing } from '../src/constants/theme';
 
-const ONBOARDING_KEY = '@plant_doctor_onboarding';
+const ONBOARDING_KEY = '@agro_reba_onboarding';
 
 export default function SplashScreen() {
   const router = useRouter();
@@ -40,14 +40,15 @@ export default function SplashScreen() {
       // Wait for animation
       setTimeout(() => {
         if (hasOnboarded) {
-          router.replace('/(tabs)');
+          // Every cold start: show professional loading screen first
+          router.replace('/loading');
         } else {
           router.replace('/onboarding');
         }
       }, 2000);
     } catch (error) {
       console.error('Error checking onboarding:', error);
-      setTimeout(() => router.replace('/(tabs)'), 2000);
+      setTimeout(() => router.replace('/loading'), 2000);
     }
   };
 
@@ -66,10 +67,10 @@ export default function SplashScreen() {
           <Ionicons name="leaf" size={80} color={colors.white} />
         </View>
         <Text style={[styles.title, { color: colors.white }]}>
-          Plant Doctor
+          AgroReba
         </Text>
         <Text style={[styles.subtitle, { color: colors.white + 'CC' }]}>
-          Umuganga wibihingwa
+          AgroReba
         </Text>
         <Text style={[styles.tagline, { color: colors.white + '99' }]}>
           Helping farmers grow healthier crops

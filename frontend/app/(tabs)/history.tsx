@@ -8,7 +8,7 @@ import {
   TouchableOpacity,
   Alert,
 } from 'react-native';
-import { useRouter } from 'expo-router';
+import { useRouter, useFocusEffect } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useTheme } from '../../src/components/ThemeContext';
@@ -19,6 +19,7 @@ import { CardSkeleton } from '../../src/components/LoadingSkeleton';
 import { translations } from '../../src/constants/translations';
 import { getScanHistory, deleteScan } from '../../src/services/plantService';
 import { ScanHistory, ScanResult } from '../../src/store/appSlice';
+import { testBackendConnection, printNetworkDiagnostics, BACKEND_CANDIDATES } from '../../src/utils/networkDiagnostics';
 
 
 export default function HistoryScreen() {
@@ -32,14 +33,39 @@ export default function HistoryScreen() {
 
   const loadHistory = useCallback(async () => {
     try {
-      const scans = await getScanHistory(50);
-      const safeScans = scans.filter(
-  (item: ScanHistory) => item?.scan_result?.id
-);
-
-setHistory(safeScans);
+      console.log('🔍 Fetching scan history...');
+      const scans = await getScanHistory(50, false);
+      console.log('📊 Raw response from API:', scans);
+      // Accept all items that have at least a top-level id (backend always returns this)
+      const safeScans = Array.isArray(scans) 
+        ? scans.filter((item: any) => item && item.id)
+        : [];
+      console.log('✅ Filtered scans:', safeScans);
+      console.log('📈 Total scans found:', safeScans.length);
+      setHistory(safeScans);
     } catch (error) {
-      console.error('Error loading history:', error);
+      console.error('❌ Error loading history:', error);
+      if (error instanceof Error) {
+        console.error('   Error message:', error.message);
+        console.error('   Error details:', error);
+        
+        // If it's a network error, run diagnostics
+        if (error.message.includes('Network') || error.message.includes('ECONNREFUSED')) {
+          console.log('\n🔧 Running network diagnostics...');
+          const diagnostics = await testBackendConnection(BACKEND_CANDIDATES[0]);
+          printNetworkDiagnostics(diagnostics);
+          
+          if (!diagnostics.isReachable) {
+            Alert.alert(
+              'Connection Error',
+              `Cannot reach backend at ${diagnostics.backendUrl}\n\nMake sure:\n1. Backend server is running\n2. Your device is on the same network\n3. Firewall allows port 10000`,
+              [{ text: 'OK' }]
+            );
+          }
+        }
+      }
+      // Set empty array on error so empty state is shown
+      setHistory([]);
     } finally {
       setLoading(false);
     }
@@ -48,6 +74,14 @@ setHistory(safeScans);
   useEffect(() => {
     loadHistory();
   }, [loadHistory]);
+
+  // Refresh history when tab is focused
+  useFocusEffect(
+    useCallback(() => {
+      console.log('📱 History tab focused - refreshing...');
+      loadHistory();
+    }, [loadHistory])
+  );
 
   const onRefresh = async () => {
     setRefreshing(true);
@@ -79,11 +113,7 @@ setHistory(safeScans);
   };
 
  const navigateToResult = (scanResult?: ScanResult) => {
-  if (!scanResult?.id) {
-    console.log('Invalid scanResult:', scanResult);
-    return;
-  }
-  console.log("CLICKED SCAN:", scanResult);
+  if (!scanResult?.id) return;
   router.push(`/scanned/${scanResult.id}`);
 };
 

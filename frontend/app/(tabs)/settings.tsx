@@ -7,7 +7,9 @@ import {
   TouchableOpacity,
   Switch,
   Linking,
+  Alert,
 } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Ionicons } from '@expo/vector-icons';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useTheme } from '../../src/components/ThemeContext';
@@ -19,7 +21,7 @@ export default function SettingsScreen() {
   const { colors, theme, toggleTheme } = useTheme();
   const insets = useSafeAreaInsets();
 
-  const settingsGroups = [
+  let settingsGroups = [
     {
       title: 'Appearance / Isura',
       items: [
@@ -48,7 +50,7 @@ export default function SettingsScreen() {
           icon: 'information-circle',
           title: translations.about.en,
           titleKin: translations.about.kin,
-          subtitle: 'Plant Doctor v1.0.0',
+          subtitle: 'AgroReba v1.0.0',
           type: 'info',
         },
       ],
@@ -70,10 +72,39 @@ export default function SettingsScreen() {
           titleKin: 'Twandikire',
           subtitle: 'Send us feedback',
           type: 'link',
-          onPress: () => Linking.openURL('mailto:support@plantdoctor.app'),
+          onPress: () => Linking.openURL('mailto:support@agro-reba.app'),
         },
       ],
     },
+    // Developer-only testing tools (only visible in Expo dev builds)
+    ...(__DEV__
+      ? [
+          {
+            title: 'Developer / Testing',
+            items: [
+              {
+                icon: 'refresh-circle',
+                title: 'Reset Onboarding',
+                titleKin: 'Subirisha Onboarding',
+                subtitle: 'Clear first-launch flag (for testing)',
+                type: 'link',
+                onPress: async () => {
+                  try {
+                    await AsyncStorage.removeItem('@agro_reba_onboarding');
+                    Alert.alert(
+                      'Onboarding Reset',
+                      'The app will now show the full onboarding + loading flow on next cold start.\n\nPlease fully close and reopen the app (or use "Reload" from dev menu).',
+                      [{ text: 'OK' }]
+                    );
+                  } catch (e) {
+                    Alert.alert('Error', 'Failed to reset onboarding');
+                  }
+                },
+              },
+            ],
+          },
+        ]
+      : []),
   ];
 
   return (
@@ -99,9 +130,9 @@ export default function SettingsScreen() {
           <View style={styles.appIconContainer}>
             <Ionicons name="leaf" size={40} color={colors.white} />
           </View>
-          <Text style={[styles.appName, { color: colors.white }]}>Plant Doctor</Text>
+          <Text style={[styles.appName, { color: colors.white }]}>AgroReba</Text>
           <Text style={[styles.appTagline, { color: colors.white + 'CC' }]}>
-            Umuganga w'Ibihingwa
+            AgroReba
           </Text>
           <Text style={[styles.appDescription, { color: colors.white + '99' }]}>
             Helping farmers grow healthier crops

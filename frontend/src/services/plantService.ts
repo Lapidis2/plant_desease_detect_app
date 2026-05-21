@@ -11,7 +11,7 @@ export const analyzePlant = async (
     image_base64: imageBase64,
     latitude,
     longitude,
-  });
+  }, { timeout: 180000 });
   return response.data;
 };
 
@@ -27,11 +27,18 @@ export const getWeather = async (
 };
 
 // Get scan history
-export const getScanHistory = async (limit: number = 50): Promise<ScanHistory[]> => {
-  const response = await apiClient.get('/history', {
-    params: { limit },
-  });
-  return response.data;
+export const getScanHistory = async (limit: number = 50, includeImages: boolean = false): Promise<ScanHistory[]> => {
+  try {
+    console.log(`🌐 API Call: GET /history?limit=${limit}&include_images=${includeImages}`);
+    const response = await apiClient.get('/history', {
+      params: { limit, include_images: includeImages },
+    });
+    console.log('✅ History API Response:', response.data);
+    return response.data;
+  } catch (error) {
+    console.error('❌ History API Error:', error);
+    throw error;
+  }
 };
 
 // Get scan by ID
