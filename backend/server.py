@@ -14,6 +14,15 @@ import logging
 from dotenv import load_dotenv
 import asyncio
 import random
+from pathlib import Path
+
+# Load static agronomic reference data (bilingual)
+DATA_PATH = Path(__file__).parent / "agronomic_reference_data.json"
+if DATA_PATH.is_file():
+    with DATA_PATH.open(encoding="utf-8") as f:
+        AGRONOMIC_DATA = json.load(f)
+else:
+    AGRONOMIC_DATA = []
 # =========================
 # INIT
 # =========================
@@ -321,14 +330,19 @@ def ensure_kinyarwanda_fallback(plant):
 
 async def analyze(image_b64: str):
 
+    # Identify plant and fetch static agronomic data
     plant = await identify_plant(image_b64)
 
-    ai_result = await ask_gemini(image_b64, plant)
+    # Try to find static entry
+    static_entry = None
+    if AGRONOMIC_DATA:
+        static_entry = next((p for p in AGRONOMIC_DATA if p.get("common_name") == plant.get("common_name")), None)
 
-    if not ai_result:
-        result = fallback_result(plant)
+    if static_entry:
+        result = static_entry
     else:
-        result = ai_result
+        # Fallback when plant not recognized in static data
+        result = fallback_result(plant)
 
     result["plant"] = ensure_kinyarwanda_fallback(result.get("plant", plant))
     result.setdefault("diseases", [])
@@ -457,7 +471,43 @@ async def save_scan(data, image_b64=None):
 
 @api.post("/chat")
 async def chat_route(req: ChatRequest):
-    response = await ask_gemini_chat(req.message)
+    """
+    Respond in the language of the user's query using static agronomic data when possible.
+    Falls back to Gemini if no matching static entry is found.
+    """
+    message = req.message.strip()
+    # Simple language detection: if any Kinyarwanda term from the dataset appears, use Kinyarwanda
+    lang = "en"
+    for plant in AGRONOMIC_DATA:
+        for key, val in plant.items():
+            if isinstance(val, str) and key.endswith("_kinyarwanda"):
+                if val.lower() in message.lower():
+                    lang = "rw"
+                    break
+        if lang == "rw":
+            break
+
+    # Try to find a matching plant entry
+    matched = None
+    for plant in AGRONOMIC_DATA:
+        if plant.get("common_name", "").lower() in message.lower() or plant.get("common_name_kinyarwanda", "").lower() in message.lower():
+            matched = plant
+            break
+
+    if matched:
+        if lang == "rw":
+            reply = {
+                "common_name": matched.get("common_name_kinyarwanda", matched.get("common_name")),
+                "description": f"{matched.get('description_kinyarwanda','')} ({matched.get('description','')})"
+            }
+        else:
+            reply = {
+                "common_name": matched.get("common_name"),
+                "description": matched.get("description", "")
+            }
+        return {"reply": reply}
+    # Fallback to Gemini chat
+    response = await ask_gemini_chat(message)
     return {"reply": response}
 
 @api.post("/analyze", response_model=ScanResult)
