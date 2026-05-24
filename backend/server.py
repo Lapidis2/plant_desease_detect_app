@@ -141,15 +141,18 @@ async def identify_plant(image_b64: str):
         data = response.json()
 
         if not data.get("results"):
+            logger.info("PlantNet returned no results")
             return fallback_plant()
 
         best = data["results"][0]
         score = float(best.get("score", 0.0))
+        species = best.get("species", {})
+        logger.info(f"PlantNet top result → common: {species.get('commonNames', ['?'])[0]}, sci: {species.get('scientificName', '?')}, score: {score}")
         
-        # IMPORTANT: Reject low-confidence or non-plant results (prevents "human -> chili pepper")
-        if score < 0.35:
+        # Stricter threshold: PlantNet often gives false "chili pepper" on non-plants/humans with low-medium scores
+        if score < 0.50:
             return {
-                "common_name": "Not a supported crop",
+                "common_name": "Unknown or not a supported crop",
                 "scientific_name": "N/A",
                 "family": "N/A",
                 "confidence": score
@@ -225,9 +228,9 @@ def find_static_crop(plant_info: dict):
     ]
     for raw in candidates:
         norm = normalize_name(raw)
-        if not norm:
+        if not norm or len(norm) < 4:
             continue
-        # exact or contains on several keys
+        # Much stricter: require good match, not tiny substrings like "hi"
         for p in AGRONOMIC_DATA:
             fields = [
                 p.get("common_name", ""),
@@ -238,7 +241,12 @@ def find_static_crop(plant_info: dict):
             ]
             for f in fields:
                 fn = normalize_name(f)
-                if norm == fn or norm in fn or fn in norm:
+                if not fn or len(fn) < 4:
+                    continue
+                if norm == fn:
+                    return p
+                # Only allow contains if both sides are reasonably long
+                if len(norm) >= 5 and len(fn) >= 5 and (norm in fn or fn in norm):
                     return p
     return None
 
@@ -428,7 +436,8 @@ async def analyze(image_b64: str):
     plant = await identify_plant(image_b64)
 
     # Guard against garbage / non-plant / very low confidence from PlantNet (fixes "human -> chili pepper")
-    if plant.get("common_name") == "Not a supported crop" or plant.get("confidence", 0) < 0.35:
+    if "Unknown" in plant.get("common_name", "") or plant.get("confidence", 0) < 0.50:
+        logger.info(f"Low confidence or unknown from PlantNet: {plant}")
         return fallback_result(plant)   # will show as unknown/low-confidence instead of forcing a crop
 
     # Robust static lookup using the new helper (greatly reduces fallbacks)
@@ -642,17 +651,32 @@ async def chat_route(req: ChatRequest):
                         break
             if lang == "rw":
                 break
-    # Try to find a matching plant entry using the robust normalizer + contains
+
+    msg_l = message.lower().strip()
+
+    # Friendly greeting for short / hello messages (prevents Chili Pepper on "hi")
+    if len(msg_l) < 4 or msg_l in ["hi", "hey", "hello", "test", "yo", "salut", "bonjour"]:
+        greeting = "Muraho! Ndi umwungu w'ubuhinzi. Baza iby'ibihingwa, indwara, cyangwa imiti y'umurima." if lang == "rw" else "Hello! I'm your agricultural assistant. Ask me about crops, diseases, or treatments."
+        return {"reply": greeting}
+
+    # Try to find a matching plant entry — STRICT matching only
     matched = None
-    msg_l = message.lower()
-    for p in AGRONOMIC_DATA:
-        for key in ["common_name", "crop_name_en", "common_name_kinyarwanda", "crop_name_rw", "scientific_name"]:
-            val = normalize_name(p.get(key, ""))
-            if val and (val in msg_l or msg_l in val):
-                matched = p
+    if len(msg_l) >= 4:
+        for p in AGRONOMIC_DATA:
+            for key in ["common_name", "crop_name_en", "common_name_kinyarwanda", "crop_name_rw", "scientific_name"]:
+                val = normalize_name(p.get(key, ""))
+                if not val or len(val) < 4:
+                    continue
+                # Require the crop name to appear substantially (whole word or long substring)
+                if val == msg_l or val in msg_l.split() or msg_l in val.split():
+                    matched = p
+                    break
+                # Allow only if the user typed a reasonably long part of the crop name
+                if len(msg_l) >= 5 and (msg_l in val or val in msg_l):
+                    matched = p
+                    break
+            if matched:
                 break
-        if matched:
-            break
     if matched:
         name_en = matched.get("crop_name_en") or matched.get("common_name")
         name_rw = matched.get("crop_name_rw") or matched.get("common_name_kinyarwanda")
