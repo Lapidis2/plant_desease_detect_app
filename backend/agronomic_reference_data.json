@@ -1,6 +1,10 @@
 [
   {
     "crop_code": "TOMATO",
+    "common_name": "Tomato",
+    "common_name_kinyarwanda": "Inyanya",
+    "scientific_name": "Solanum lycopersicum",
+    "family": "Solanaceae",
     "crop_name_en": "Tomato",
     "crop_name_rw": "Inyanya",
     "diseases": [
