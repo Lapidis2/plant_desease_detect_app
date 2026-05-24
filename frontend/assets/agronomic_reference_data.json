@@ -1,13 +1,17 @@
 [
   {
     "crop_code": "TOMATO",
+    "common_name": "Tomato",
+    "common_name_kinyarwanda": "Inyanya",
+    "scientific_name": "Solanum lycopersicum",
+    "family": "Solanaceae",
     "crop_name_en": "Tomato",
     "crop_name_rw": "Inyanya",
     "diseases": [
       {
         "disease_code": "TOMATO_HEALTHY",
         "disease_name_en": "Healthy",
-        "disease_name_rw": "Nta ndwara",
+        "disease_name_rw": "Kizima",
         "severity": "low",
         "symptoms_en": [
           "Leaves have a vibrant, uniform green color and appear fully turgid.",
@@ -27,7 +31,7 @@
             "Continue routine monitoring for pests or diseases."
           ],
           "chemical_rw": [
-            "Nta muti wa chemicals ukenewe kuri iki gihingwa.",
+            "Nta muti wa simikiza ukenewe kuri iki gihingwa.",
             "Komeza gukurikirana isuku y'umurima."
           ],
           "organic_en": [
@@ -66,7 +70,7 @@
           "Imbuto zizaho amabara y'ikigina cyijimye kandi zikabora vuba."
         ],
         "cause_en": "The fungus-like oomycete Phytophthora infestans, favored by cool, wet weather.",
-        "cause_rw": "ikizinga (fungus) witwa Phytophthora infestans ukwirakwizwa n'ubuhehere bw'imvura n'imbeho.",
+        "cause_rw": "Umuhumye (fungus) witwa Phytophthora infestans ukwirakwizwa n'ubuhehere bw'imvura n'imbeho.",
         "treatment": {
           "chemical_en": [
             "Apply approved protective fungicides such as Mancozeb or systemic options like Metalaxyl.",
@@ -94,7 +98,7 @@
           "Gusiga umwanya uhagije hagati y'ibihingwa ngo umuyaga utambuke neza."
         ],
         "safety_warning_en": "Observe a pre-harvest interval (PHI) of 7-14 days and wear protective clothing during application.",
-        "safety_warning_rw": "Guma hanze y'umurima nibura amasaha 24 nyuma yo gutera umuti wa chemicals."
+        "safety_warning_rw": "Guma hanze y'umurima nibura amasaha 24 nyuma yo gutera umuti wa simikiza."
       },
       {
         "disease_code": "TOMATO_EARLY_BLIGHT",
@@ -109,10 +113,10 @@
         "symptoms_rw": [
           "Amabara y'ikigina afite imirongo y'uruziga nk'intego y'imyambi ku mababi ashaje.",
           "Amababi arayonga, agahinduka umuhondo hanyuma agapfa akayunguruka.",
-          "Itudomo by'umukara n'ikigina bishobora kugaragara no ku ruti hafi y'ubutaka."
+          "Ibibanza by'umukara n'ikigina bishobora kugaragara no ku ruti hafi y'ubutaka."
         ],
         "cause_en": "The fungus Alternaria solani, which survives in plant debris and soil.",
-        "cause_rw": "ikizinga witwa Alternaria solani uba mu butaka kandi agakunda ubushyuhe n'ubuhehere.",
+        "cause_rw": "Umuhumye witwa Alternaria solani uba mu butaka kandi agakunda ubushyuhe n'ubuhehere.",
         "treatment": {
           "chemical_en": [
             "Apply preventive fungicides containing Chlorothalonil or Mancozeb.",
@@ -127,7 +131,7 @@
             "Spray neem oil or baking soda solution mixed with horticultural soap."
           ],
           "organic_rw": [
-            "Gukura amababi yafashwe ukayatwika  kure y'umurima.",
+            "Gukura amababi yafashwe ukayatwika cyangwa ukayahfukira kure y'umurima.",
             "Gutera amazi avanze n'isabune ikozwe mu bimera (organic soap)."
           ]
         },
@@ -165,7 +169,7 @@
             "Copper-based compounds can help limit secondary infection of neighboring crops."
           ],
           "chemical_rw": [
-            "Nta muti wa chemicals uhari wo kuvura iyi ndwara iyo yamaze gufata igihingwa.",
+            "Nta muti wa simikiza uhari wo kuvura iyi ndwara iyo yamaze gufata igihingwa.",
             "Imiti irimo Copper compounds ishobora gufasha gukumira ikwirakwira ku bindi bihingwa bitarafatwa."
           ],
           "organic_en": [
@@ -198,7 +202,7 @@
       {
         "disease_code": "CHILI_HEALTHY",
         "disease_name_en": "Healthy",
-        "disease_name_rw": "Nta ndwara",
+        "disease_name_rw": "Kizima",
         "severity": "low",
         "symptoms_en": [
           "Leaves are glossy, uniformly green, and fully expanded.",
@@ -208,7 +212,7 @@
         "symptoms_rw": [
           "Amababi akeye kandi atoshye neza.",
           "Imbuto z'urusenda zirakomeye kandi zifite ibara risanzwe rishashagirana.",
-          "Nta bimera by'inyamujeri cyangwa fungus by'umukara byonona."
+          "Nta bimera by'inyamujeri cyangwa ibibanza by'umukara byonona."
         ],
         "cause_en": "Excellent cultural care, fertile soil, and optimal watering.",
         "cause_rw": "Kwita ku gihingwa neza n'ubutaka bukize ku ntungamubiri.",
@@ -239,7 +243,7 @@
           "Genzura ko amazi adahama mu mizi y'urusenda."
         ],
         "safety_warning_en": "No special synthetic safety warnings are necessary for healthy plants.",
-        "safety_warning_rw": "Nta kintu cy'ubumara gihari ku gihingwa Nta ndwara."
+        "safety_warning_rw": "Nta kintu cy'ubumara gihari ku gihingwa kizima."
       },
       {
         "disease_code": "CHILI_ANTHRACNOSE",
@@ -252,12 +256,12 @@
           "Premature fruit drop and rapid shriveling of ripening peppers."
         ],
         "symptoms_rw": [
-          "Ibizinga byirabura cyangwa byijimye bifite ishusho izengurutse bigaragara ku mbuto z’urusenda.",
+          "Ibibanza bifite isura nk'inyanja y'umukara cyangwa y'ikigina byibonera ku mbuto z'urusenda.",
           "Imbuto zitangira kunyagana, gukata no kubora vuba ku gihingwa.",
-          "Ibizinga bishobora kugaragara ku mababi no ku giti cy’igihingwa."
+          "Ibibanza ku mababi n'uruti bishobora kugaragara."
         ],
         "cause_en": "Colletotrichum fungi, heavily spreading in humid, warm climates.",
-        "cause_rw": "ikizinga wo mu bwoko bwa Colletotrichum wandira mu gihe cy'imvura n'ubushyuhe.",
+        "cause_rw": "Umuhumye wo mu bwoko bwa Colletotrichum wandira mu gihe cy'imvura n'ubushyuhe.",
         "treatment": {
           "chemical_en": [
             "Spray copper-based fungicides or Mancozeb.",
@@ -285,12 +289,12 @@
           "Kwirinda kuhira uminjira amazi ku mababi no ku mbuto."
         ],
         "safety_warning_en": "Respect the pre-harvest interval (PHI) and do not spray directly in windy weather.",
-        "safety_warning_rw": "Imiti yose igomba guterwa mu gihe hari umuyaga muke, kandi ukurikize igihe cyagenwe cyo gusarura."
+        "safety_warning_rw": "Imiti yose igomba guterwa hapingwa akayaga kandi ukurikize intera y'igihe cyo gusarura."
       },
       {
         "disease_code": "CHILI_POWDERY_MILDEW",
         "disease_name_en": "Powdery Mildew",
-        "disease_name_rw": "Uburwayi bw’ifu y’umweru ku mababi",
+        "disease_name_rw": "Ifu y'umweru ku mababi",
         "severity": "medium",
         "symptoms_en": [
           "White, powdery fungal spots scattered on leaf undersides.",
@@ -303,7 +307,7 @@
           "Ibihingwa bigwingira bikagabanya umusaruro cyane."
         ],
         "cause_en": "The fungus Leveillula taurica, thrive in dry climates with high relative humidity.",
-        "cause_rw": "Agahumyo/fungus kitwa Leveillula taurica gatera indwara kandi gakwirakwira mu gihe cy’ubushyuhe n’ubuhehere buke mu gihe cy’izuba.",
+        "cause_rw": "Umuhumye witwa Leveillula taurica wandira mu kirere cy'ubushyuhe n'ubuhehere buke mu gihe cy'izuba.",
         "treatment": {
           "chemical_en": [
             "Apply wettable sulphur fungicides or systemic products containing Triadimefon.",
@@ -343,7 +347,7 @@
       {
         "disease_code": "POTATO_HEALTHY",
         "disease_name_en": "Healthy",
-        "disease_name_rw": "Nta ndwara",
+        "disease_name_rw": "Kizima",
         "severity": "low",
         "symptoms_en": [
           "Dark green, sturdy leaves spread out properly.",
@@ -352,7 +356,7 @@
         ],
         "symptoms_rw": [
           "Amababi meza y'icyatsi kibisi agororotse neza.",
-          "Uruti rw’igihingwa rukomeye kandi rutagaragaza ibizinga byirabura cyangwa ibimenyetso by’indwara.",
+          "Uruti rukomeye kandi nta bibanza by'umukara cyangwa igikuku kirimo.",
           "Ibirayi biri munsi y'ubutaka bikura neza kandi bikomeye."
         ],
         "cause_en": "Use of certified seed tubers, good soil fertility, and clean cultivation.",
@@ -402,7 +406,7 @@
           "Ibirayi byo hasi birabora kandi bikagira impumuro mbi cyane."
         ],
         "cause_en": "Phytophthora infestans, a devastating oomycete pathogen highly active in high humidity.",
-        "cause_rw": "ikizinga Phytophthora infestans, indwara ikomeye cyane mu misozi miremire y'u Rwanda mu gihe cy'imvura.",
+        "cause_rw": "Umuhumye Phytophthora infestans, indwara ikomeye cyane mu misozi miremire y'u Rwanda mu gihe cy'imvura.",
         "treatment": {
           "chemical_en": [
             "Apply protective fungicides (Mancozeb) or curative systemic sprays (Metalaxyl).",
@@ -417,8 +421,8 @@
             "Destroy all infected vines and tubers immediately to restrict spore spread."
           ],
           "organic_rw": [
-            "Gukoresha imiti y’umwimerere irimo amazi y’ivu ry’inkwi n’isabune mu kugabanya ikwirakwira ry’agahumyo.",
-            "Kurandura no gutwika ibihingwa byafashwe kugirango bitangiza ibindi."
+            "Gukoresha umuti ukozwe mu buvangeri bw'isabune, amavuta, n'amazi y'ivu ry'amakara.",
+            "Kurandura no gutwika ibihingwa byafashwe."
           ]
         },
         "prevention_en": [
@@ -426,8 +430,8 @@
           "Implement high and wide hilling to physically block spores from reaching tubers."
         ],
         "prevention_rw": [
-          "Guhinga imbuto z'ibirayi zihanganira indwara ya blight..",
-          "Kubagara neza no gusongera ubutaka ku birayi (hilling) ngo indwara itagera ku birayi byo hasi."
+          "Gutera imbuto zihanganira ikibembe cy'ibirayi.",
+          "Kubagara neza no gusongera ubutaka ku birayi (hilling) ngo umuhumye utagera ku birayi byo hasi."
         ],
         "safety_warning_en": "Adhere to the safety intervals printed on pesticide containers. Wear a mask and boots.",
         "safety_warning_rw": "Wambare ibikoresho bikurinda byose igihe utera umuti, kandi wirinde gukoresha imiti yarengeje igihe."
@@ -455,17 +459,17 @@
             "Apply protective copper fungicides to surrounding crops to reduce infection risk."
           ],
           "chemical_rw": [
-            "Nta muti w'ubuvuzi wihariye (systemic) ushobora kuvura indwara ya bacterial wilt.",
+            "Nta muti wa simikiza wemewe ushobora kuvura kirabiranya.",
             "Gusa imiti irimo Copper compounds ishobora gukumira ibindi bihingwa bitarwara."
           ],
           "organic_en": [
             "Uproot and burn diseased plants. Do not dump them in compost.",
             "Apply agricultural lime to the planting holes to adjust soil pH."
           ],
-        "organic_rw": [
-  "Kurandura ibihingwa byafashwe n’indwara ukabitwika kure y’umurima, ntibishyirwe mu ifumbire.",
-  "Gukoresha lime y’ubuhinzi (agricultural lime) mu myobo yo gutera kugira ngo itunganye ubusharire bw’ubutaka."
-]
+          "organic_rw": [
+            "Rimbura vuba ukayatwika kure y'umurima ibirayi n'ibihingwa byose byafatanyije na byo.",
+            "Sukura neza ibikoresho byose ukoresha mu murima wogeye."
+          ]
         },
         "prevention_en": [
           "Utilize only disease-free seed tubers certified by local agricultural authorities (RAB).",
@@ -488,7 +492,7 @@
       {
         "disease_code": "AVOCADO_HEALTHY",
         "disease_name_en": "Healthy",
-        "disease_name_rw": "Nta ndwara",
+        "disease_name_rw": "Kizima",
         "severity": "low",
         "symptoms_en": [
           "Leaves are large, leathery, and dark green with distinct veins.",
@@ -498,7 +502,7 @@
         "symptoms_rw": [
           "Amababi manini y'icyatsi cyiza kandi ashinyitse neza.",
           "Imbuto za avoka zifite isura nziza kandi nta mabara cyangwa ububore.",
-          "Uruti n'amashami birakomeye kandi nta bikomere birimo."
+          "Uruti n'amashami bikomeye kandi nta bikomere birimo."
         ],
         "cause_en": "Well-drained aerated soil, correct watering, and regular tree pruning.",
         "cause_rw": "Ubutaka bufite amazi n'umuyaga bihagije kandi buyeze neza.",
@@ -547,15 +551,15 @@
           "Imizi itangira guhinduka umukara, ikabora kandi ikavunika vuba iyo uyigenzuye."
         ],
         "cause_en": "The soil oomycete Phytophthora cinnamomi, spreading rapidly in waterlogged soils.",
-       "cause_rw": "Agahumyo/fungus kitwa Phytophthora cinnamomi gatera indwara mu butaka bufite amazi menshi adatemba.",
+        "cause_rw": "Umuhumye witwa Phytophthora cinnamomi wandira mu butaka bufite amazi menshi adatemba.",
         "treatment": {
           "chemical_en": [
             "Inject or drench tree trunks with Phosphorous acid (fosetyl-Al).",
             "Consult a certified agronomist for appropriate injection equipment and dosage."
           ],
           "chemical_rw": [
-            "Umuti wemewe urwanya agahumyo/fungus urimo Phosphorous acid uterwa mu giti cyangwa mu mizi.",
-            "Baza umuntu wize ibijyanye n'agronome mbere yo gutera iyi miti ikomeye."
+            "Umuti wemewe urwanya imihumye urimo Phosphorous acid uterwa mu giti cyangwa mu mizi.",
+            "Baza umwubatsi w'agronome mbere yo gutera iyi miti ikomeye."
           ],
           "organic_en": [
             "Apply gypsum and organic mulch to raise soil calcium and discourage the pathogen.",
@@ -575,7 +579,8 @@
           "Guhinga avoka mu butaka buyungurura amazi neza budafunga amazi."
         ],
         "safety_warning_en": "Wear appropriate personal protective equipment (PPE) when handling and injecting fungicides into trunks.",
-"safety_warning_rw": "Imiti ikomeye igomba gukoreshwa hakurikijwe amabwiriza y'inzobere, kandi uwuyikoresha akambara ibikoresho byo kwirinda (PPE) kugira ngo atangiza ubuzima, ubutaka cyangwa ibimera."      },
+        "safety_warning_rw": "Imiti ya simikiza igomba gukoreshwa hagendewe ku mabwiriza y'inzobere ngo itangiza ubutaka cyangwa ibimera."
+      },
       {
         "disease_code": "AVOCADO_ANTHRACNOSE",
         "disease_name_en": "Anthracnose",
@@ -587,12 +592,13 @@
           "Leaves display dead brown margins and dry patches."
         ],
         "symptoms_rw": [
-          "Itudomo by'umukara bishobora kugaragara ku mababi, ku ndabyo no ku mbuto.",
+          "Ibibanza by'umukara bishobora kugaragara ku mababi, ku ndabyo no ku mbuto.",
           "Ku mbuto zikuze, haza amabara y'umukara afite isura y'uruziga rwinjiye imbere (sunken spots).",
-          "Umunyigo cyangwa umubore uza imbere muri avoka iyo uyitonoye."
+          "Umunyigo cyangwa umubore uza imbere muri avoka iyo uyishishuye."
         ],
         "cause_en": "The fungus Colletotrichum gloeosporioides, which infects developing fruit during rainy spells.",
-          "cause_rw": "Agahumyo/fungus kitwa Colletotrichum gloeosporioides gatera indwara yandura ku mbuto zikiri gukura, cyane cyane mu gihe cy'imvura n'ubushyuhe bwinshi.",        "treatment": {
+        "cause_rw": "Umuhumye Colletotrichum gloeosporioides wandira ku mbuto igihe cy'imvura n'ubuhehere bw'ikirere.",
+        "treatment": {
           "chemical_en": [
             "Apply copper-based fungicides (Copper hydroxide) at regular intervals during fruit-set.",
             "Keep a strict spraying schedule during continuous rainy periods."
@@ -602,22 +608,22 @@
             "Gutera imiti mu bihe by'indabyo n'imbuto zikiri ntoya."
           ],
           "organic_en": [
-            "Prune away dead  leaves within the canopy to lower humidity.",
+            "Prune away dead amashami and leaves within the canopy to lower humidity.",
             "Harvest avocados promptly once mature; do not let them overripen on the branch."
           ],
-        "organic_rw": [
-  "Kurandura cyangwa gukata amababi yapfuye cyangwa yangiritse mu giti kugira ngo ugabanye ubuhehere mu gihingwa.",
-  "Gusarura avoka igihe zeze neza, ntizisigare ku giti zimaze kurenza igihe cyazo."
-]
+          "organic_rw": [
+            "Gukata amashami arwaye ukayatwika ngo adakwirakwiza uburwayi.",
+            "Gutera amavuta ya neem cyangwa amata y'inshushyu avanze n'amazi."
+          ]
         },
         "prevention_en": [
           "Ensure maximum tree canopy aeration and sunlight access.",
           "Handle fruits gently post-harvest; skin injuries invite spores."
         ],
-      "prevention_rw": [
-  "Kugabanya amashami menshi ku giti kugira ngo umwuka n'urumuri byinjire neza mu gihingwa.",
-  "Kusarura imbuto ku gihe kandi ukazitwara neza zitomeretse kugira ngo wirinde kwandura indwara."
-],
+        "prevention_rw": [
+          "Gukorera igiti isuku no gukata amashami arwaye cyangwa ashaje.",
+          "Kusarura imbuto ku gihe kandi ukazitwara neza zitomeretse."
+        ],
         "safety_warning_en": "Wash all harvest equipment thoroughly. Avoid spraying copper chemicals close to direct harvest days.",
         "safety_warning_rw": "Karaba neza intoki n'ibikoresho nyuma yo gukorera igiti cyarwaye kugira ngo utanduza ibindi bitararwara."
       }
@@ -631,7 +637,7 @@
       {
         "disease_code": "EGGPLANT_HEALTHY",
         "disease_name_en": "Healthy",
-        "disease_name_rw": "Nta ndwara",
+        "disease_name_rw": "Kizima",
         "severity": "low",
         "symptoms_en": [
           "Broad, hairy leaves with rich green color and upright growth.",
@@ -672,7 +678,7 @@
           "Kwirinda kwangiza amashami igihe cy'isukura."
         ],
         "safety_warning_en": "No chemical warnings are applicable for naturally grown healthy eggplants.",
-        "safety_warning_rw": "Nta kibazo cy'umutekano ku gihingwa Nta ndwara."
+        "safety_warning_rw": "Nta kibazo cy'umutekano ku gihingwa kizima."
       },
       {
         "disease_code": "EGGPLANT_BACTERIAL_WILT",
@@ -705,8 +711,8 @@
             "Apply agricultural lime to raise soil pH, which suppresses the bacterium."
           ],
           "organic_rw": [
-            "Kurandura ibihingwa byarwaye ukabitwika vuba, ntibisigare mu murima.",
-            "Kuzamura PH y'ubutaka ukoresha ishwara/lime y'ubuhinzi."
+            "Kurandura no gutwika cyangwa gufukira kure cyane ibihingwa byarwaye.",
+            "Kuzamura PH y'ubutaka ukoresha ishwara y'ubuhinzi."
           ]
         },
         "prevention_en": [
@@ -730,11 +736,11 @@
           "Delicate spider-like webbing beneath leaves and around growing tips.",
           "Leaves dry out, turn brown, and drop off rapidly during hot dry spells."
         ],
-      "symptoms_rw": [
-  "Kugaragara utudomo duto tw’umuhondo ku mababi, hakaza guhinduka ibara ry’umuringa (bronzing).",
-  "Kugaragara insinga zisa n’urubuga rw’igitagangurirwa munsi y’amababi no ku mpera z’imishami ikiri gukura.",
-  "Amababi yumagara, agahinduka umukara cyangwa ikigina, hanyuma akagwa vuba cyane mu gihe cy’ubushyuhe n’amapfa."
-],
+        "symptoms_rw": [
+          "Utubara tw'umuhondo twiza twuzuye ku mababi hanyuma akagwingira.",
+          "Urubobi rw'igitagangurirwa rurabengerana ku mababi n'imbuto.",
+          "Amababi ahinduka umukara cyangwa ikigina hanyuma akayunguruka vuba."
+        ],
         "cause_en": "Tiny spider mites (Tetranychus urticae) sucking plant sap, favored by hot, dry weather.",
         "cause_rw": "Udukoko duto cyane tw'ibitagangurirwa (Tetranychus urticae) dukunda ubushyuhe n'amapfa.",
         "treatment": {
@@ -744,7 +750,7 @@
           ],
           "chemical_rw": [
             "Umuti wemewe wica ibitagangurirwa (Acaricide) urimo Abamectin.",
-            "Gutera umuti neza munsi y'amababi kuko ari ho udukoko twihisha."
+            "Gutera umuti neza munsi y'ababi kuko ari ho udukoko twihisha."
           ],
           "organic_en": [
             "Spray high-pressure water onto leaf undersides to dislodge mites physically.",
@@ -764,7 +770,7 @@
           "Kusukura umurima no gukuramo ibyatsi bibi."
         ],
         "safety_warning_en": "Acaricides are highly toxic; strictly wear gloves and a respirator when spraying.",
-        "safety_warning_rw": "Imiti yica ibitagangurirwa ni ubumara bukomeye; wambare ga n'agapfukamunwa igihe uyitera."
+        "safety_warning_rw": "Imiti yica ibitagangurirwa ni ubumara bukomeye; wambare utugurumanza n'agapfukamunwa igihe uyitera."
       }
     ]
   },
@@ -776,20 +782,20 @@
       {
         "disease_code": "FRENCH_BEAN_HEALTHY",
         "disease_name_en": "Healthy",
-        "disease_name_rw": "Nta ndwara",
+        "disease_name_rw": "Kizima",
         "severity": "low",
         "symptoms_en": [
           "Leaves are clean, trifoliate, and bright green.",
           "Stems are slender but strong, carrying pinkish-white flowers.",
           "Bean pods are crisp, succulent, and uniform green with no lesions."
         ],
-       "symptoms_rw": [
-  "Amababi y’ibishyimbo agaragara ari meza, y’icyatsi kibisi kandi akomeye.",
-  "Uruti rw’igihingwa rukomeye kandi rufite indabyo z’iroza zera (pinkish-white).",
-  "Imiganzo y’ibishyimbo irimo uburabyo, y’icyatsi kibisi kandi nta bibara cyangwa ibimenyetso by’indwara."
-],
+        "symptoms_rw": [
+          "Amababi meza akeye y'icyatsi kibisi.",
+          "Uruti rukomeye kandi rufite indabyo zera.",
+          "Imigunzu y'ibishyimbo iratoshye kandi nta mabara y'ikigina."
+        ],
         "cause_en": "Proper land preparation, rich organic matter, and dry canopy management.",
-        "cause_rw": "Imikorere myiza y'ubuhinzi n'ubutaka bufite ifumbire y'imborera n'imborera-chemicals.",
+        "cause_rw": "Imikorere myiza y'ubuhinzi n'ubutaka bufite ifumbire y'imborera n'imborera-simikiza.",
         "treatment": {
           "chemical_en": [
             "No chemical treatments necessary.",
@@ -835,14 +841,14 @@
           "Amababi ahinduka umuhondo, akagana hasi hanyuma agapfa vuba."
         ],
         "cause_en": "The fungus Uromyces appendiculatus, spreading rapidly in warm, damp weather.",
-        "cause_rw": "ikizinga witwa Uromyces appendiculatus wandira cyane mu bihe by'ubuhehere n'ubushyuhe bukabije.",
+        "cause_rw": "Umuhumye witwa Uromyces appendiculatus wandira cyane mu bihe by'ubuhehere n'ubushyuhe bukabije.",
         "treatment": {
           "chemical_en": [
             "Apply systemic fungicides containing Tebuconazole or protective Mancozeb.",
             "Begin spraying at the very first appearance of pustules on lower foliage."
           ],
           "chemical_rw": [
-            "Umuti wemewe urwanya fungus urimo Tebuconazole cyangwa Mancozeb.",
+            "Umuti wemewe urwanya imihumye urimo Tebuconazole cyangwa Mancozeb.",
             "Gutera ku mababi yose guhera igihe ubona utubanza twa mbere."
           ],
           "organic_en": [
@@ -863,7 +869,7 @@
           "Kukoresha imbuto zizewe zidafite indwara kandi zihanganira rust."
         ],
         "safety_warning_en": "Never spray chemicals onto wet leaves in rainy weather. Observe the pre-harvest interval.",
-        "safety_warning_rw": "Imiti ya chemicals igomba guterwa nyuma y'uko amazi y'ikime yavuye ku mababi, kandi wubahirize igihe cyo gusarura."
+        "safety_warning_rw": "Imiti ya simikiza igomba guterwa nyuma y'uko amazi y'ikime yakutse ku mababi, kandi wubahirize igihe cyo gusarura."
       },
       {
         "disease_code": "FRENCH_BEAN_ANTHRACNOSE",
@@ -876,12 +882,12 @@
           "Seedlings can develop black cankers on cotyledons and collapse."
         ],
         "symptoms_rw": [
-          "Itudomo by'umukara n'ikigina byinjira imbere (sunken spots) ku migunzu y'ibishyimbo.",
-          "Imirongo y'ibigina ku miyoboro y'amababi munsi y'amababi.",
-          "Ubusanzwe imbuto zo hasi zishobora no kugira utudomo bikazana ububore."
+          "Ibibanza by'umukara n'ikigina byinjira imbere (sunken spots) ku migunzu y'ibishyimbo.",
+          "Imirongo y'ibigina ku miyoboro y'amababi munsi y'ababi.",
+          "Ubusanzwe imbuto zo hasi zishobora no kugira ibibanza bikazana ububore."
         ],
         "cause_en": "The fungus Colletotrichum lindemuthianum, favored by cool, wet weather.",
-        "cause_rw": "Agahumyo/fungus Colletotrichum lindemuthianum ukunda ikirere cy'imvura n'imbeho.",
+        "cause_rw": "Umuhumye Colletotrichum lindemuthianum ukunda ikirere cy'imvura n'imbeho.",
         "treatment": {
           "chemical_en": [
             "Apply carbendazim or copper oxychloride fungicides.",
@@ -921,7 +927,7 @@
       {
         "disease_code": "CABBAGE_HEALTHY",
         "disease_name_en": "Healthy",
-        "disease_name_rw": "Nta ndwara",
+        "disease_name_rw": "Kizima",
         "severity": "low",
         "symptoms_en": [
           "Leaves are thick, waxy, and uniformly spread out.",
@@ -930,7 +936,7 @@
         ],
         "symptoms_rw": [
           "Amababi meza akeye agororotse neza.",
-          "umutwe w'ishu urimo gukura  neza kandi nta bimera by'umukara birimo.",
+          "Umutiriko w'ishu urimo kwipfuka neza kandi nta bimera by'umukara birimo.",
           "Nta myenge y'udukoko cyangwa uduheri turwaza igihingwa."
         ],
         "cause_en": "Consistent sanitation, optimal organic matter, and proper spacing.",
@@ -962,7 +968,7 @@
           "Gusimburanya ibihingwa."
         ],
         "safety_warning_en": "No synthetic chemical safety warnings are necessary for healthy cabbages.",
-        "safety_warning_rw": "Nta bwirinzi bukenewe kuko utagiye gutera imiti."
+        "safety_warning_rw": "Nta burira."
       },
       {
         "disease_code": "CABBAGE_BLACK_ROT",
@@ -974,11 +980,11 @@
           "Veins in affected areas turn distinctively black.",
           "Cabbage head undergoes a dry, dark, foul-smelling rot."
         ],
-     "symptoms_rw": [
-  "Kugaragara ibizinga by’umuhondo bifite ishusho y’inyuguti ya 'V' ku nkengero z’amababi, byerekeza imbere.",
-  "Imitsi y’amababi yanduye ihinduka umukara (black veins) igaragara neza.",
-  "Umutwe w’ishu urabora, ugahinduka umukara kandi ukagira impumuro mbi cyane."
-],
+        "symptoms_rw": [
+          "Amabara y'umuhondo afite isura nk'inyuguti ya 'V' ku nkengero z'amababi.",
+          "Imiyoboro y'amababi ihinduka umukara (black veins) igihe igihingwa kigenda gishya.",
+          "Umutiriko w'ishu urabora kandi ugatunguka amazi anuka nabi cyane."
+        ],
         "cause_en": "The bacterium Xanthomonas campestris pv. campestris, spread by splashing rain and contaminated tools.",
         "cause_rw": "Bagiteri Xanthomonas campestris pv. campestris, indwara ikwirakwizwa n'imvura n'imashini cyangwa ibikoresho bidapfuye.",
         "treatment": {
@@ -1013,18 +1019,18 @@
       {
         "disease_code": "CABBAGE_DIAMONDBACK_MOTH",
         "disease_name_en": "Diamondback Moth",
-        "disease_name_rw": "Udukoko twitwa Nyamujeri twangiza amashu",
+        "disease_name_rw": "Nyamujeri y'amashu",
         "severity": "high",
         "symptoms_en": [
           "Numerous small feeding holes on leaves, creating a 'windowpane' look.",
           "Tiny light-green caterpillars on leaf undersides that wriggle when disturbed.",
           "Damage to the developing cabbage head, ruining marketability."
         ],
-       "symptoms_rw": [
-  "Kugaragara imyenge myinshi ku mababi, bigatuma asa nk’ahacagaguye (windowpane effect).",
-  "Kugaragara utunyenzi duto tw’icyatsi kibisi munsi y’amababi, twihisha iyo dukozeho.",
-  "Kwangirika k’umutwe w’ishu bikagabanya ubwiza n’umusaruro ku isoko."
-],
+        "symptoms_rw": [
+          "Imyenge myinshi ku mababi bituma amababi amera nk'inzugi z'amadirishya (windowpane damage).",
+          "Uducurama duto cyane tw'icyatsi kibisi munsi y'ababi dushobora kwihunza iyo udukozeho.",
+          "Kwangirika k'umutiriko w'ishu bikagabanya cyane umusaruro."
+        ],
         "cause_en": "Diamondback moth caterpillars (Plutella xylostella) aggressively consuming brassica leaves.",
         "cause_rw": "Udukoko tw'inyamujeri (Plutella xylostella) turya amababi y'amashu yose.",
         "treatment": {
@@ -1040,10 +1046,10 @@
             "Spray neem oil extracts or insecticidal soaps.",
             "Apply Bacillus thuringiensis (Bt) microbial bio-insecticides."
           ],
-         "organic_rw": [
-  "Gutera umuti ukomoka ku mavuta ya Neem (Neem oil) cyangwa isabune yica udukoko.",
-  "Gukoresha umuti w’ibinyabuzima witwa Bacillus thuringiensis (Bt) urwanya utunyenzi twangiza amashu."
-]
+          "organic_rw": [
+            "Gutera umuti ukozwe mu mavuta ya Neem (Neem oil) wica uducurama.",
+            "Gutera umuti w'ikinyabuzima witwa Bacillus thuringiensis (Bt) urwanya utu dukoko ku buryo bwa kinyabuzima."
+          ]
         },
         "prevention_en": [
           "Plant mustard or radishes as trap crops on borders.",
@@ -1054,7 +1060,7 @@
           "Kubungabunga udukoko nka wasp (parasitoids) turya nyamujeri."
         ],
         "safety_warning_en": "Spray only in the late evening to protect honeybees and beneficial insect predators.",
-        "safety_warning_rw": "Imiti  igomba guterwa nyuma y'izuba kurenga kugira ngo idahungabanya inzuki na parasitoids z'inyamujeri."
+        "safety_warning_rw": "Imiti ya simikiza igomba guterwa nyuma y'izuba kurenga kugira ngo idahungabanya inzuki na parasitoids z'inyamujeri."
       }
     ]
   },
@@ -1066,7 +1072,7 @@
       {
         "disease_code": "ONION_HEALTHY",
         "disease_name_en": "Healthy",
-        "disease_name_rw": "Nta ndwara",
+        "disease_name_rw": "Kizima",
         "severity": "low",
         "symptoms_en": [
           "Erect, tubular leaves of a deep bluish-green color.",
@@ -1076,7 +1082,7 @@
         "symptoms_rw": [
           "Amababi atoroshye y'icyatsi kibisi n'ibitunguru birimo kwisunga neza hasi.",
           "Nta mabara y'ikirungurira cyangwa ifu ku mababi.",
-          "Umutiriko n'imizi bikura neza kandi nta tudomo."
+          "Umutiriko n'imizi bikura neza kandi nta bibanza."
         ],
         "cause_en": "Standard weed control, moderate watering, and clean well-drained soil.",
         "cause_rw": "Kubungabunga umurima no gukoresha ubutaka busukuye.",
@@ -1107,7 +1113,7 @@
           "Genzura ubuhehere bw'umurima."
         ],
         "safety_warning_en": "No chemical safety precautions are needed for untreated healthy onions.",
-        "safety_warning_rw": "Nta miti isabwa."
+        "safety_warning_rw": "Nta burira busabwa."
       },
       {
         "disease_code": "ONION_PURPLE_BLOTCH",
@@ -1120,12 +1126,12 @@
           "Bulbs rot starting at the neck, turning spongy and dark brown."
         ],
         "symptoms_rw": [
-          "Ibidomo bito by'amazi ku mababi hanyuma bikaguka bikazana isura y'umuhengeri cyangwa umukara.",
-          "Ibidomo bikomeza kuba binini bigahinduka umurezi cyangwa umukara ku nkengero z'ibitunguru.",
+          "Ibibanza bito by'amazi ku mababi hanyuma bikaguka bikazana isura y'umuhengeri cyangwa umukara.",
+          "Ibibanza bikomeza kuba binini bigahinduka umurezi cyangwa umukara ku nkengero z'ibitunguru.",
           "Amababi agenda avunika ahuye n'umuyaga hanyuma akuma vuba."
         ],
         "cause_en": "The fungus Alternaria porri, highly favored by warmth and wet foliage.",
-        "cause_rw": "Alternaria porri, indwara ikunda ubuhehere bwinshi n'ubushyuhe.",
+        "cause_rw": "Umuhumye Alternaria porri, indwara ikunda ubuhehere bwinshi n'ubushyuhe.",
         "treatment": {
           "chemical_en": [
             "Spray fungicides containing Difenoconazole or Mancozeb.",
@@ -1211,7 +1217,7 @@
       {
         "disease_code": "CUCUMBER_HEALTHY",
         "disease_name_en": "Healthy",
-        "disease_name_rw": "Nta ndwara",
+        "disease_name_rw": "Kizima",
         "severity": "low",
         "symptoms_en": [
           "Large, coarse leaves with deep green color.",
@@ -1270,14 +1276,14 @@
           "Amababi ahinduka umukara cyangwa ikigina vuba hanyuma akayunguruka."
         ],
         "cause_en": "Pseudoperonospora cubensis oomycete, thriving in high moisture and morning dews.",
-        "cause_rw": "ikizinga Pseudoperonospora cubensis ukunda cyane ubuhehere bwinshi n'ikime cy'igitondo.",
+        "cause_rw": "Umuhumye Pseudoperonospora cubensis ukunda cyane ubuhehere bwinshi n'ikime cy'igitondo.",
         "treatment": {
           "chemical_en": [
             "Apply protective fungicides containing Copper oxychloride or systemic Metalaxyl.",
             "Begin spray treatments preventively before rainy weather."
           ],
           "chemical_rw": [
-            "Umuti wemewe urwanya fungi urimo Metalaxyl cyangwa Copper oxychloride.",
+            "Umuti wemewe urwanya imihumye urimo Metalaxyl cyangwa Copper oxychloride.",
             "Gutangira gutera umuti igihe cy'imvura mbere y'uko ibimenyetso bikara."
           ],
           "organic_en": [
@@ -1316,14 +1322,14 @@
           "Imbuto zigwingira kandi zikagabanya uburyohe."
         ],
         "cause_en": "The fungus Podosphaera xanthii, spreading in dry, warm climates following rains.",
-        "cause_rw": "ikizinga Podosphaera xanthii wandira mu gihe cy'ubushyuhe bukabije bukurikira igihe cy'imvura.",
+        "cause_rw": "Umuhumye Podosphaera xanthii wandira mu gihe cy'ubushyuhe bukabije bukurikira igihe cy'imvura.",
         "treatment": {
           "chemical_en": [
             "Apply Sulphur-based fungicides or systemic options like Triadimefon.",
             "Spray during evening hours to avoid sulphur sun scorch."
           ],
           "chemical_rw": [
-            "Umuti wemewe urwanya fungi urimo Sulphur cyangwa Triadimefon.",
+            "Umuti wemewe urwanya imihumye urimo Sulphur cyangwa Triadimefon.",
             "Gutera nimugoroba izuba ryarenze kuko Sulphur ishobora kurandura amababi ku zuba."
           ],
           "organic_en": [
@@ -1356,7 +1362,7 @@
       {
         "disease_code": "CARROT_HEALTHY",
         "disease_name_en": "Healthy",
-        "disease_name_rw": "Nta ndwara",
+        "disease_name_rw": "Kizima",
         "severity": "low",
         "symptoms_en": [
           "Bright green, lush, and upright foliage.",
@@ -1365,7 +1371,7 @@
         ],
         "symptoms_rw": [
           "Amababi atoshye y'icyatsi kibisi kiboneye kandi agororotse neza.",
-          " Umuzi wa karoti uri hasi ukura neza nta mabara.",
+          "Umudugudu cyangwa umuzi wa karoti uri hasi ukura neza nta mabara.",
           "Nta mubore cyangwa kubora ku mizi cyangwa ku ruti rugufi."
         ],
         "cause_en": "Light, loose, well-aerated soil beds and clean tillage practices.",
@@ -1384,7 +1390,7 @@
             "Keep fields weeded regularly."
           ],
           "organic_rw": [
-            "Komeza kuhira mu buryo bushyize mu gaciro.",
+            "Komeza guhira mu buryo bushyize mu gaciro.",
             "Bungabunga ibidukikije ukura ibyatsi bibi."
           ]
         },
@@ -1397,7 +1403,7 @@
           "Gusimburanya ibihingwa."
         ],
         "safety_warning_en": "No chemical safety warnings apply to untreated healthy carrots.",
-        "safety_warning_rw": "Nta bwirinzi bukenewe mugihe nta miti iri guterwa."
+        "safety_warning_rw": "Nta burira rusange."
       },
       {
         "disease_code": "CARROT_LEAF_BLIGHT",
@@ -1415,14 +1421,14 @@
           "Kwangirika kw'amababi bikagabanya umusaruro w'imizi ya karoti hasi."
         ],
         "cause_en": "The fungus Alternaria dauci, heavily spreading in humid, warm periods.",
-        "cause_rw": "fungi Alternaria dauci yandura cyane mu bihe by'imvura n'ubuhehere bw'ubutaka.",
+        "cause_rw": "Umuhumye Alternaria dauci wandira cyane mu bihe by'imvura n'ubuhehere bw'ubutaka.",
         "treatment": {
           "chemical_en": [
             "Apply preventive fungicides (Chlorothalonil or Mancozeb).",
             "Spray at first sign of leaf blemish."
           ],
           "chemical_rw": [
-            "Umuti wemewe urwanya fungi urimo Chlorothalonil cyangwa Mancozeb.",
+            "Umuti wemewe urwanya imihumye urimo Chlorothalonil cyangwa Mancozeb.",
             "Gutera igihe ubona ibimenyetso bya mbere by'amabara ku mababi."
           ],
           "organic_en": [
@@ -1450,12 +1456,12 @@
   {
     "crop_code": "SPINACH",
     "crop_name_en": "Spinach",
-    "crop_name_rw": "i",
+    "crop_name_rw": "Epinari",
     "diseases": [
       {
         "disease_code": "SPINACH_HEALTHY",
         "disease_name_en": "Healthy",
-        "disease_name_rw": "Nta ndwara",
+        "disease_name_rw": "Kizima",
         "severity": "low",
         "symptoms_en": [
           "Crisp, smooth leaves of a dark, vibrant green color.",
@@ -1464,7 +1470,7 @@
         ],
         "symptoms_rw": [
           "Amababi y'icyatsi kibisi kiboneye, atoroshye kandi akeye.",
-          "Nta rubobi, imyenge cyangwa utudomo by'umukara ku mababi.",
+          "Nta rubobi, imyenge cyangwa ibibanza by'umukara ku mababi.",
           "Ikirabyo kimeze neza kandi nta bimera bitunganye."
         ],
         "cause_en": "Correct soil nitrogen levels, regular weeding, and proper watering.",
@@ -1484,7 +1490,7 @@
           ],
           "organic_rw": [
             "Komeza gushyiramo ifumbire y'imborera ishyitse mu mizi.",
-            "Kuhira amazi mu buryo buhoro kandi bushyize mu rugero."
+            "Kuhira amazi mu buryo buhoro kandi bushyize mu gaciro."
           ]
         },
         "prevention_en": [
@@ -1496,12 +1502,12 @@
           "Gusimburanya ibihingwa."
         ],
         "safety_warning_en": "No chemical safety warnings apply to untreated healthy spinach.",
-        "safety_warning_rw": "Nta bwirinzi rusange busabwa."
+        "safety_warning_rw": "Nta burira rusange busabwa."
       },
       {
         "disease_code": "SPINACH_DOWNY_MILDEW",
         "disease_name_en": "Downy Mildew",
-        "disease_name_rw": "Ifu y'epinari",
+        "disease_name_rw": "Ifu y'imvi y'epinari",
         "severity": "high",
         "symptoms_en": [
           "Yellow spots on leaf upper surfaces.",
@@ -1514,16 +1520,16 @@
           "Amababi agenda avunika ahuye n'umuyaga hanyuma akabora vuba."
         ],
         "cause_en": "Peronospora effusa fungus, favored by cool, extremely damp conditions.",
-        "cause_rw": "fungi Peronospora effusa ikunda ubuhehere bukabije n'imbeho.",
+        "cause_rw": "Umuhumye Peronospora effusa ukunda ubuhehere bukabije n'imbeho.",
         "treatment": {
           "chemical_en": [
             "Apply copper-based organic formulations or systemic Metalaxyl.",
             "Ensure chemical covers leaf undersides thoroughly."
           ],
-         "chemical_rw": [
-  "Koresha imiti yemewe irwanya indwara ziterwa n’agahumyo irimo Metalaxyl cyangwa imiti ishingiye ku muringa (copper-based fungicides).",
-  "Tera umuti ku mababi yose, harimo no munsi yayo, ukimara kubona ibimenyetso bya mbere by’indwara."
-],
+          "chemical_rw": [
+            "Umuti wemewe urwanya imihumye urimo Metalaxyl cyangwa Copper-based fungicides.",
+            "Gutera ku mababi yose guhera igihe ubona utubanza twa mbere."
+          ],
           "organic_en": [
             "Spray baking soda and neem oil solution.",
             "Destroy heavily diseased plants immediately."
@@ -1542,7 +1548,7 @@
           "Gusiga intera ihagije hagati y'ibihingwa ngo umuyaga utambuke neza."
         ],
         "safety_warning_en": "Spinach is consumed fresh. Avoid chemical treatments close to harvest days.",
-        "safety_warning_rw": "Epinari zikoreshwa nk'imboga zikiri nshya; wirinda gutera imiti ya chemicals igihe cyo gusarura kiri hafi."
+        "safety_warning_rw": "Epinari zikoreshwa nk'imboga zikiri nshya; wirinda gutera imiti ya simikiza igihe cyo gusarura kiri hafi."
       }
     ]
   },
@@ -1554,7 +1560,7 @@
       {
         "disease_code": "LETTUCE_HEALTHY",
         "disease_name_en": "Healthy",
-        "disease_name_rw": "Nta ndwara",
+        "disease_name_rw": "Kizima",
         "severity": "low",
         "symptoms_en": [
           "Crisp, green or reddish leaves forming a clean head.",
@@ -1563,8 +1569,8 @@
         ],
         "symptoms_rw": [
           "Amababi atoshye y'icyatsi kibisi cyangwa umutuku akeye.",
-          "Nta tudomo by'umukara cyangwa uduheri turwaza igihingwa.",
-          "Uruti n'imizi bikura neza kandi nta tudomo tuza twerekana indwara."
+          "Nta bibanza by'umukara cyangwa uduheri turwaza igihingwa.",
+          "Umutiriko n'imizi bikura neza kandi nta bibanza."
         ],
         "cause_en": "Optimal soil moisture, proper crop spacing, and drip watering.",
         "cause_rw": "Isuku y'umurima n'ubuhehere buhuye neza mu mizi.",
@@ -1595,12 +1601,12 @@
           "Gusimburanya ibihingwa."
         ],
         "safety_warning_en": "No synthetic chemical safety warnings are applicable for healthy lettuce.",
-        "safety_warning_rw": "Nta bwirinzi rusange bukenewe."
+        "safety_warning_rw": "Nta burira rusange."
       },
       {
         "disease_code": "LETTUCE_DOWNY_MILDEW",
         "disease_name_en": "Downy Mildew",
-        "disease_name_rw": "uburwayi bw'Ifu buza kuri salade",
+        "disease_name_rw": "Ifu y'imvi ya salade",
         "severity": "high",
         "symptoms_en": [
           "Angular yellow spots on upper leaf surfaces.",
@@ -1613,7 +1619,7 @@
           "Amababi ahinduka umukara cyangwa ikigina vuba hanyuma akayunguruka."
         ],
         "cause_en": "Bremia lactucae fungus, favored by cool moist mornings and dews.",
-        "cause_rw": "Agakoko ka Bremia lactucae gakunda cyane ubukonje bujyanye n’ubuhehere bwo mu gitondo n’ikime.",
+        "cause_rw": "Umuhumye Bremia lactucae ukunda cyane ubuhehere bwinshi n'ikime cy'igitondo.",
         "treatment": {
           "chemical_en": [
             "Apply copper oxychloride or systemic Metalaxyl sprays.",
@@ -1641,7 +1647,7 @@
           "Gusiga intera ihagije hagati y'ibihingwa ngo umuyaga n'umucyo bitambuke neza."
         ],
         "safety_warning_en": "Lettuce is consumed fresh. Avoid chemical treatments close to harvest days.",
-        "safety_warning_rw": "Salade ni imboga zikoreshwa nshya; wirinda gutera imiti ya chemicals igihe cyo gusarura kiri hafi."
+        "safety_warning_rw": "Salade ni imboga zikoreshwa nshya; wirinda gutera imiti ya simikiza igihe cyo gusarura kiri hafi."
       }
     ]
   },
@@ -1653,18 +1659,18 @@
       {
         "disease_code": "BROCCOLI_HEALTHY",
         "disease_name_en": "Healthy",
-        "disease_name_rw": "Nta ndwara",
+        "disease_name_rw": "Kizima",
         "severity": "low",
         "symptoms_en": [
           "Sturdy leaves, upright posture, clean waxy margins.",
           "Broccoli head firmed up well, deep green, no spots.",
           "No insect holes or rotting margins."
         ],
-      "symptoms_rw": [
-  "Amababi akomeye kandi ahagaze neza, afite impande zisukuye kandi zirabagirana.",
-  "Umutwe wa brokoli wuzuye neza, ufite icyatsi kijimye kandi nta bibara uriho.",
-  "Nta myenge y’udukoko cyangwa impande ziboze ziboneka."
-],
+        "symptoms_rw": [
+          "Amababi meza akeye agororotse neza.",
+          "Umutiriko wa brokoli urimo kwipfuka neza kandi nta bimera by'umukara birimo.",
+          "Nta myenge y'udukoko cyangwa uduheri turwaza igihingwa."
+        ],
         "cause_en": "Good soil nutrients, clean spacing, and base watering.",
         "cause_rw": "Isuku y'umurima n'ifumbire ihagije y'imborera ishyitse.",
         "treatment": {
@@ -1694,12 +1700,12 @@
           "Gusimburanya ibihingwa."
         ],
         "safety_warning_en": "No synthetic chemical safety warnings are necessary for healthy broccoli.",
-        "safety_warning_rw": "Nta bwirinzi bukenewe kuko utagiye gutera imiti."
+        "safety_warning_rw": "Nta burira."
       },
       {
         "disease_code": "BROCCOLI_DOWNY_MILDEW",
         "disease_name_en": "Downy Mildew",
-        "disease_name_rw": "uburwayi bw'Ifu buza kuri broccoli",
+        "disease_name_rw": "Ifu y'imvi ya brokoli",
         "severity": "medium",
         "symptoms_en": [
           "Yellow spots on leaf upper surfaces.",
@@ -1712,7 +1718,7 @@
           "Amababi agenda avunika ahuye n'umuyaga hanyuma akabora vuba."
         ],
         "cause_en": "Hyaloperonospora parasitica fungus, favored by cool temperatures and dampness.",
-        "cause_rw": "fungus Hyaloperonospora parasitica ikunda ubuhehere bukabije n'imbeho.",
+        "cause_rw": "Umuhumye Hyaloperonospora parasitica ukunda ubuhehere bukabije n'imbeho.",
         "treatment": {
           "chemical_en": [
             "Apply copper-based formulations or systemic Metalaxyl.",
@@ -1752,18 +1758,18 @@
       {
         "disease_code": "CAULIFLOWER_HEALTHY",
         "disease_name_en": "Healthy",
-        "disease_name_rw": "Nta ndwara",
+        "disease_name_rw": "Kizima",
         "severity": "low",
         "symptoms_en": [
           "Sturdy waxy leaves, upright posture.",
           "White clean curd head, tight and spot-free.",
           "No insect holes or rotting margins."
         ],
-      "symptoms_rw": [
-  "Amababi akomeye kandi arabagirana, ahagaze neza.",
-  "Umutwe wa shufleur wera kandi usukuye, wifashe neza kandi nta bibara uriho.",
-  "Nta myenge y’udukoko cyangwa impande ziboze ziboneka."
-],
+        "symptoms_rw": [
+          "Amababi meza akeye agororotse neza.",
+          "Umutiriko wa shufleur urimo kwipfuka neza kandi nta bimera by'umukara birimo.",
+          "Nta myenge y'udukoko cyangwa uduheri turwaza igihingwa."
+        ],
         "cause_en": "Good soil nutrients, clean spacing, and base watering.",
         "cause_rw": "Isuku y'umurima n'ifumbire ihagije y'imborera ishyitse.",
         "treatment": {
@@ -1793,7 +1799,7 @@
           "Gusimburanya ibihingwa."
         ],
         "safety_warning_en": "No synthetic chemical safety warnings are necessary for healthy cauliflower.",
-        "safety_warning_rw": "Nta burira bwihariye kuri avoka nzima."
+        "safety_warning_rw": "Nta burira."
       },
       {
         "disease_code": "CAULIFLOWER_DOWNY_MILDEW",
@@ -1805,13 +1811,13 @@
           "Greyish mold fuzz visible on leaf undersides.",
           "Leaves turn brittle, dry up, and drop."
         ],
-       "symptoms_rw": [
-  "Ibibara by’umuhondo bigaragara hejuru y’amababi.",
-  "Agahu k’imvi k’uruhumbu kagaragara munsi y’amababi.",
-  "Amababi arakomera akuma hanyuma agahunguka."
-],
+        "symptoms_rw": [
+          "Amabara y'umuhondo aza hejuru ku mababi.",
+          "Urubobi rw'imvi cyangwa rw'umuhengeri munsi y'ababi iyo hari ubuhehere.",
+          "Amababi agenda avunika ahuye n'umuyaga hanyuma akabora vuba."
+        ],
         "cause_en": "Hyaloperonospora parasitica fungus, favored by cool temperatures and dampness.",
-        "cause_rw": "fungi Hyaloperonospora parasitica ikunda ubuhehere bukabije n'imbeho.",
+        "cause_rw": "Umuhumye Hyaloperonospora parasitica ukunda ubuhehere bukabije n'imbeho.",
         "treatment": {
           "chemical_en": [
             "Apply copper-based formulations or systemic Metalaxyl.",
@@ -1851,7 +1857,7 @@
       {
         "disease_code": "GREEN_BEAN_HEALTHY",
         "disease_name_en": "Healthy",
-        "disease_name_rw": "Nta ndwara",
+        "disease_name_rw": "Kizima",
         "severity": "low",
         "symptoms_en": [
           "Leaves are clean, trifoliate, and bright green.",
@@ -1864,7 +1870,7 @@
           "Imigunzu y'ibishyimbo iratoshye kandi nta mabara y'ikigina."
         ],
         "cause_en": "Proper land preparation, rich organic matter, and dry canopy management.",
-        "cause_rw": "Imikorere myiza y'ubuhinzi n'ubutaka bufite ifumbire y'imborera n'imborera-chemicals.",
+        "cause_rw": "Imikorere myiza y'ubuhinzi n'ubutaka bufite ifumbire y'imborera n'imborera-simikiza.",
         "treatment": {
           "chemical_en": [
             "No chemical treatments necessary.",
@@ -1892,7 +1898,7 @@
           "Gusimburanya ibihingwa."
         ],
         "safety_warning_en": "No special synthetic safety warnings apply to untreated healthy bean pods.",
-        "safety_warning_rw": "Nta bwirinzi rusange bukenewe."
+        "safety_warning_rw": "Nta burira ku buryo busanzwe."
       },
       {
         "disease_code": "GREEN_BEAN_RUST",
@@ -1910,7 +1916,7 @@
           "Amababi ahinduka umuhondo, akagana hasi hanyuma agapfa vuba."
         ],
         "cause_en": "The fungus Uromyces appendiculatus, spreading rapidly in warm, damp weather.",
-        "cause_rw": "fungi yitwa Uromyces appendiculatus yandura cyane mu bihe by'ubuhehere n'ubushyuhe bukabije.",
+        "cause_rw": "Umuhumye witwa Uromyces appendiculatus wandira cyane mu bihe by'ubuhehere n'ubushyuhe bukabije.",
         "treatment": {
           "chemical_en": [
             "Apply systemic fungicides containing Tebuconazole or protective Mancozeb.",
@@ -1938,7 +1944,7 @@
           "Kukoresha imbuto zizewe imbalances n'ubudahangarwa."
         ],
         "safety_warning_en": "Never spray chemicals onto wet leaves in rainy weather.",
-        "safety_warning_rw": "Imiti ya chemicals igomba guterwa nyuma y'uko amazi y'ikime yakutse ku mababi."
+        "safety_warning_rw": "Imiti ya simikiza igomba guterwa nyuma y'uko amazi y'ikime yakutse ku mababi."
       }
     ]
   },
@@ -1950,7 +1956,7 @@
       {
         "disease_code": "SWEET_PEPPER_HEALTHY",
         "disease_name_en": "Healthy",
-        "disease_name_rw": "Nta ndwara",
+        "disease_name_rw": "Kizima",
         "severity": "low",
         "symptoms_en": [
           "Leaves are glossy, uniformly green, and fully expanded.",
@@ -1960,7 +1966,7 @@
         "symptoms_rw": [
           "Amababi akeye kandi atoshye neza.",
           "Imbuto za poivron zirakomeye kandi zifite ibara risanzwe rishashagirana.",
-          "Nta bimera by'inyamujeri cyangwa utudomo by'umukara byonona."
+          "Nta bimera by'inyamujeri cyangwa ibibanza by'umukara byonona."
         ],
         "cause_en": "Excellent cultural care, fertile soil, and optimal watering.",
         "cause_rw": "Kwita ku gihingwa neza n'ubutaka bukize ku ntungamubiri.",
@@ -1991,23 +1997,23 @@
           "Genzura ko amazi adahama mu mizi."
         ],
         "safety_warning_en": "No special synthetic safety warnings are necessary for healthy plants.",
-        "safety_warning_rw": "Nta kibazo cy'ubumara gihari ku gihingwa Nta ndwara."
+        "safety_warning_rw": "Nta kibazo cy'ubumara gihari ku gihingwa kizima."
       },
       {
         "disease_code": "SWEET_PEPPER_BACTERIAL_SPOT",
         "disease_name_en": "Bacterial Spot",
-        "disease_name_rw": "Itudomo bya bagiteri ku mababi",
+        "disease_name_rw": "Ibibanza bya bagiteri ku mababi",
         "severity": "medium",
         "symptoms_en": [
           "Small circular water-soaked lesions on leaves, turning dark-brown.",
           "Leaves shrivel, dry, and drop off rapidly.",
           "Fruits develop cracked, raised scabby spots, ruining quality."
         ],
-      "symptoms_rw": [
-  "Utubara duto tumeze nk’utwuzuyemo amazi tugaragara ku mababi, nyuma tugahinduka umukara wijimye.",
-  "Amababi aranyunyuka, akuma kandi agahunguka vuba.",
-  "Imbuto zigira uduheri twacikaguritse kandi tuzamuye hejuru, bikangiza ubwiza bwazo."
-],
+        "symptoms_rw": [
+          "Utubanza duto tw'amazi (water-soaked spots) ku mababi y'ikigina cyangwa umukara.",
+          "Amababi aruma, agakanyarara hanyuma akayunguruka vuba.",
+          "Imbuto zizaho uduheri cyangwa amabara y'umukara atuma zitabora neza."
+        ],
         "cause_en": "Xanthomonas campestris pv. vesicatoria bacteria, active in warm humid spells.",
         "cause_rw": "Bagiteri Xanthomonas campestris pv. vesicatoria ikunda ubuhehere bw'imvura n'ubushyuhe.",
         "treatment": {
@@ -2049,7 +2055,7 @@
       {
         "disease_code": "PUMPKIN_HEALTHY",
         "disease_name_en": "Healthy",
-        "disease_name_rw": "Nta ndwara",
+        "disease_name_rw": "Kizima",
         "severity": "low",
         "symptoms_en": [
           "Large, coarse leaves with deep green color.",
@@ -2090,32 +2096,32 @@
           "Gusimburanya ibihingwa."
         ],
         "safety_warning_en": "No synthetic chemical safety warnings are applicable for healthy pumpkins.",
-        "safety_warning_rw": "Nta burira ku buryo busanzwe."
+        "safety_warning_rw": "Nta burira rusange."
       },
       {
         "disease_code": "PUMPKIN_POWDERY_MILDEW",
         "disease_name_en": "Powdery Mildew",
-        "disease_name_rw": "Ifu y'umweru/uruhumbu kibihaza",
+        "disease_name_rw": "Ifu y'umweru y'ibihaza",
         "severity": "medium",
         "symptoms_en": [
           "White powdery spots spreading across leaf surfaces, stems, and fruits.",
           "Leaves turn yellow, become brittle, and drop off prematurely.",
           "Fruit size is reduced and quality degrades."
         ],
-       "symptoms_rw": [
-  "Agahu k’umweru kameze nk’ifu kagaragara ku mababi, ku ruti no ku mbuto.",
-  "Amababi ahinduka umuhondo, akuma kandi agahunguka mbere y’igihe.",
-  "Imbuto zigwingira kandi ubwiza bwazo bukangirika."
-],
+        "symptoms_rw": [
+          "Urubobi rw'umweru runyanyagiye ku mababi, ku ruti n'imbuto nka kime.",
+          "Amababi ahinduka umuhondo, agapfunyika hanyuma akayunguruka.",
+          "Imbuto zigwingira kandi zikagabanya uburyohe."
+        ],
         "cause_en": "The fungus Podosphaera xanthii, spreading in dry, warm climates following rains.",
-        "cause_rw": "fungus Podosphaera xanthii yandura mu gihe cy'ubushyuhe bukabije bukurikira igihe cy'imvura.",
+        "cause_rw": "Umuhumye Podosphaera xanthii wandira mu gihe cy'ubushyuhe bukabije bukurikira igihe cy'imvura.",
         "treatment": {
           "chemical_en": [
             "Apply Sulphur-based fungicides or systemic options like Triadimefon.",
             "Spray during evening hours to avoid sulphur sun scorch."
           ],
           "chemical_rw": [
-            "Umuti wemewe urwanya fungus urimo Sulphur cyangwa Triadimefon.",
+            "Umuti wemewe urwanya imihumye urimo Sulphur cyangwa Triadimefon.",
             "Gutera nimugoroba izuba ryarenze kuko Sulphur ishobora kurandura amababi ku zuba."
           ],
           "organic_en": [
@@ -2148,7 +2154,7 @@
       {
         "disease_code": "WATERMELON_HEALTHY",
         "disease_name_en": "Healthy",
-        "disease_name_rw": "Nta ndwara",
+        "disease_name_rw": "Kizima",
         "severity": "low",
         "symptoms_en": [
           "Large, coarse leaves with deep green color.",
@@ -2189,12 +2195,12 @@
           "Gusimburanya ibihingwa."
         ],
         "safety_warning_en": "No synthetic chemical safety warnings are applicable for healthy watermelons.",
-        "safety_warning_rw": "Nta bwirinzi rusange busabwa."
+        "safety_warning_rw": "Nta burira rusange."
       },
       {
         "disease_code": "WATERMELON_FUSARIUM_WILT",
         "disease_name_en": "Fusarium Wilt",
-        "disease_name_rw": "Kubabuka guterwa na Fusarium kuri pasiteke",
+        "disease_name_rw": "Fuzariyoze ya pasiteke",
         "severity": "high",
         "symptoms_en": [
           "Rapid wilting of leaves and stems during hot days without prior yellowing.",
@@ -2204,10 +2210,10 @@
         "symptoms_rw": [
           "Amababi yose atangira kuraba akabora nta muhondo ubanje kugaragara.",
           "Igihingwa cyose kiraraba bikabije mu minsi mike hanyuma kikuma bikabije.",
-          "Utwo uduce tw'imizi dukase, twerekana ibara ry'ikigina ryijimye n'amashyira y'umweru."
+          "Uwo uduce tw'imizi dukase, twerekana ibara ry'ikigina ryijimye n'amashyira y'umweru."
         ],
         "cause_en": "Fusarium oxysporum oomycete, thriving in high moisture and morning dews.",
-        "cause_rw": " Fusarium oxysporum f. sp. niveum, yandura mu butaka mu bikomere by'imizi.",
+        "cause_rw": "Umuhumye Fusarium oxysporum f. sp. niveum, wandira mu butaka mu bikomere by'imizi.",
         "treatment": {
           "chemical_en": [
             "There is no effective chemical cure for infected plants.",
@@ -2247,7 +2253,7 @@
       {
         "disease_code": "PINEAPPLE_HEALTHY",
         "disease_name_en": "Healthy",
-        "disease_name_rw": "Nta ndwara",
+        "disease_name_rw": "Kizima",
         "severity": "low",
         "symptoms_en": [
           "Long, clean, spikey leaves with blue-green coloring.",
@@ -2288,7 +2294,7 @@
           "Gusimburanya ibihingwa."
         ],
         "safety_warning_en": "No synthetic chemical safety warnings are applicable for healthy pineapples.",
-        "safety_warning_rw": "Nta bwirinzi bukenewe kuko utagiye gutera imiti."
+        "safety_warning_rw": "Nta burira rusange."
       },
       {
         "disease_code": "PINEAPPLE_HEART_ROT",
@@ -2306,7 +2312,7 @@
           "Inanasi n'imizi bifite impumuro mbi cyane."
         ],
         "cause_en": "Phytophthora cinnamomi oomycete, multiplying in heavy, waterlogged soils.",
-        "cause_rw": "ikizinga Phytophthora cinnamomi wandira mu butaka bufite amazi menshi adatemba.",
+        "cause_rw": "Umuhumye Phytophthora cinnamomi wandira mu butaka bufite amazi menshi adatemba.",
         "treatment": {
           "chemical_en": [
             "Apply preventive metalaxyl or phosphorous acid drenches.",
@@ -2320,10 +2326,10 @@
             "Drench soil bases with Trichoderma-enriched compost solutions.",
             "Improve block drainage systems immediately to stop waterlogging."
           ],
-        "organic_rw": [
-  "Sukaho ibisubizo by’ifumbire mvaruganda y’imborera ikungahaye kuri Trichoderma ku mizi y’ibihingwa.",
-  "Hita unoza uburyo bwo gukuraho amazi menshi mu murima kugira ngo ubutaka butongera kureka amazi."
-]
+          "organic_rw": [
+            "Gushyiraho ifumbire y'imborera nyinshi (mulch) ikize ku binyabuzima nka Trichoderma.",
+            "Kereza ubutaka bukuma mbere yo kuhira undi muzunguruko."
+          ]
         },
         "prevention_en": [
           "Select certified disease-free slips or suckers.",
@@ -2334,7 +2340,7 @@
           "Guhinga inanasi mu butaka buyungurura amazi neza budafunga amazi."
         ],
         "safety_warning_en": "Wear appropriate personal protective equipment (PPE) when handling chemical fungicides.",
-        "safety_warning_rw": "Imiti ya chemicals igomba gukoreshwa hagendewe ku mabwiriza y'inzobere ngo itangiza ubutaka cyangwa ibimera."
+        "safety_warning_rw": "Imiti ya simikiza igomba gukoreshwa hagendewe ku mabwiriza y'inzobere ngo itangiza ubutaka cyangwa ibimera."
       }
     ]
   },
@@ -2346,7 +2352,7 @@
       {
         "disease_code": "MANGO_HEALTHY",
         "disease_name_en": "Healthy",
-        "disease_name_rw": "Nta ndwara",
+        "disease_name_rw": "Kizima",
         "severity": "low",
         "symptoms_en": [
           "Broad, leathery, dark green leaves forming a dense clean canopy.",
@@ -2387,7 +2393,7 @@
           "Gusimburanya ibihingwa."
         ],
         "safety_warning_en": "No synthetic chemical safety warnings are applicable for healthy mango trees.",
-        "safety_warning_rw": "Nta bwirinzi bukenewe kuko utagiye gutera imiti."
+        "safety_warning_rw": "Nta burira rusange."
       },
       {
         "disease_code": "MANGO_ANTHRACNOSE",
@@ -2400,12 +2406,12 @@
           "Foliage spots dry up and drop out, creating 'shot-hole' defects."
         ],
         "symptoms_rw": [
-          "Utudomo tw'umukara dushobora kugaragara ku mababi, ku ndabyo no ku mbuto.",
+          "Ibibanza by'umukara bishobora kugaragara ku mababi, ku ndabyo no ku mbuto.",
           "Ku mbuto zikuze, haza amabara y'umukara afite isura y'uruziga rwinjiye imbere (sunken spots).",
           "Umunyigo cyangwa umubore uza imbere mu myembe."
         ],
         "cause_en": "Colletotrichum gloeosporioides fungus, easily activated by rainfall during flowering.",
-        "cause_rw": " Colletotrichum gloeosporioides yandura ku mbuto igihe cy'imvura n'ubuhehere bw'ikirere.",
+        "cause_rw": "Umuhumye Colletotrichum gloeosporioides wandira ku mbuto igihe cy'imvura n'ubuhehere bw'ikirere.",
         "treatment": {
           "chemical_en": [
             "Apply copper-based protective fungicides (Copper hydroxide) during flowering.",
@@ -2430,7 +2436,7 @@
         ],
         "prevention_rw": [
           "Gukorera igiti isuku no gukata amashami arwaye cyangwa ashaje.",
-          "Gusarura imbuto ku gihe kandi ukazitwara neza zidakomeretse."
+          "Kusarura imbuto ku gihe kandi ukazitwara neza zitomeretse."
         ],
         "safety_warning_en": "Thoroughly wash hands and harvesting implements after pruning infected canopies.",
         "safety_warning_rw": "Karaba neza intoki n'ibikoresho nyuma yo gukorera igiti cyarwaye kugira ngo utanduza ibindi bitararwara."
@@ -2445,7 +2451,7 @@
       {
         "disease_code": "BANANA_HEALTHY",
         "disease_name_en": "Healthy",
-        "disease_name_rw": "Nta ndwara",
+        "disease_name_rw": "Kizima",
         "severity": "low",
         "symptoms_en": [
           "Huge, broad leaves of a solid green color, standing tall.",
@@ -2486,7 +2492,7 @@
           "Gusimburanya ibihingwa."
         ],
         "safety_warning_en": "No special chemical safety warnings are applicable for healthy bananas.",
-        "safety_warning_rw": "Nta bwirinzi bukenewe kuko utagiye gutera imiti."
+        "safety_warning_rw": "Nta burira."
       },
       {
         "disease_code": "BANANA_XANTHOMONAS_WILT",
@@ -2529,7 +2535,7 @@
         ],
         "prevention_rw": [
           "Gukoresha imbuto zizewe kandi zasukuwe mu mazi ashyushye.",
-          "Gusimburanya ibihingwa mu murima nibura mu myaka 3."
+          "Kusimburanya ibihingwa mu murima nibura mu myaka 3."
         ],
         "safety_warning_en": "Bleach solutions used for disinfecting tools are corrosive; avoid direct contact with skin and eyes.",
         "safety_warning_rw": "Copper compounds ni ubumara bw'amazi; wirinda ko umuti ugwa mu masomo cyangwa mu masoko y'amazi."
@@ -2544,7 +2550,7 @@
       {
         "disease_code": "PASSION_FRUIT_HEALTHY",
         "disease_name_en": "Healthy",
-        "disease_name_rw": "Nta ndwara",
+        "disease_name_rw": "Kizima",
         "severity": "low",
         "symptoms_en": [
           "Leaves are large, clean, dark-green, and climb vigorously on trellises.",
@@ -2585,7 +2591,7 @@
           "Gusimburanya ibihingwa."
         ],
         "safety_warning_en": "No synthetic chemical safety warnings are applicable for healthy passion fruits.",
-        "safety_warning_rw": "Nta bwirinzi bukenewe mugihe nta miti iri guterwa."
+        "safety_warning_rw": "Nta burira rusange."
       },
       {
         "disease_code": "PASSION_FRUIT_WOODINESS",
@@ -2643,7 +2649,7 @@
       {
         "disease_code": "PAPAYA_HEALTHY",
         "disease_name_en": "Healthy",
-        "disease_name_rw": "Nta ndwara",
+        "disease_name_rw": "Kizima",
         "severity": "low",
         "symptoms_en": [
           "Broad, deeply lobed leaves radiating cleanly from the trunk top.",
@@ -2684,7 +2690,7 @@
           "Gusimburanya ibihingwa."
         ],
         "safety_warning_en": "No synthetic chemical safety warnings are applicable for healthy papayas.",
-        "safety_warning_rw": "Nta bwirinzi bukenewe mugihe nta miti iri guterwa."
+        "safety_warning_rw": "Nta burira rusange."
       },
       {
         "disease_code": "PAPAYA_RING_SPOT",
@@ -2742,7 +2748,7 @@
       {
         "disease_code": "STRAWBERRY_HEALTHY",
         "disease_name_en": "Healthy",
-        "disease_name_rw": "Nta ndwara",
+        "disease_name_rw": "Kizima",
         "severity": "low",
         "symptoms_en": [
           "Three-part bright green leaves with neatly serrated edges.",
@@ -2783,7 +2789,7 @@
           "Gusimburanya ibihingwa."
         ],
         "safety_warning_en": "No synthetic chemical safety warnings are applicable for healthy strawberries.",
-        "safety_warning_rw": "Nta bwirinzi rusange bukenewe."
+        "safety_warning_rw": "Nta burira rusange."
       },
       {
         "disease_code": "STRAWBERRY_GREY_MOULD",
@@ -2801,7 +2807,7 @@
           "Imbuto z'inkeri zirabora kandi ugatunguka amazi."
         ],
         "cause_en": "The fungus Botrytis cinerea, heavily multiplying in cool, highly humid climates.",
-        "cause_rw": " Botrytis cinerea ikunda cyane ubuhehere bwinshi n'ikime cy'igitondo.",
+        "cause_rw": "Umuhumye Botrytis cinerea ukunda cyane ubuhehere bwinshi n'ikime cy'igitondo.",
         "treatment": {
           "chemical_en": [
             "Apply protective fungicides containing Metalaxyl or Copper oxychloride.",
@@ -2829,7 +2835,7 @@
           "Gusiga intera ihagije hagati y'ibihingwa ngo umuyaga n'umucyo bitambuke neza."
         ],
         "safety_warning_en": "Avoid chemical fungicide applications near direct harvest dates to prevent residues.",
-        "safety_warning_rw": "Imiti ya chemicals igomba gukoreshwa hagendewe ku mabwiriza y'inzobere."
+        "safety_warning_rw": "Imiti ya simikiza igomba gukoreshwa hagendewe ku mabwiriza y'inzobere."
       }
     ]
   },
@@ -2841,7 +2847,7 @@
       {
         "disease_code": "ORANGE_HEALTHY",
         "disease_name_en": "Healthy",
-        "disease_name_rw": "Nta ndwara",
+        "disease_name_rw": "Kizima",
         "severity": "low",
         "symptoms_en": [
           "Large, clean, waxy green leaves with distinct citrus aroma.",
@@ -2882,7 +2888,7 @@
           "Gusimburanya ibihingwa."
         ],
         "safety_warning_en": "No synthetic chemical safety warnings are applicable for healthy oranges.",
-        "safety_warning_rw": "Nta bwirinzi rusange bukenewe."
+        "safety_warning_rw": "Nta burira rusange."
       },
       {
         "disease_code": "ORANGE_CITRUS_GREENING",
@@ -2940,7 +2946,7 @@
       {
         "disease_code": "LEMON_HEALTHY",
         "disease_name_en": "Healthy",
-        "disease_name_rw": "Nta ndwara",
+        "disease_name_rw": "Kizima",
         "severity": "low",
         "symptoms_en": [
           "Bright green, waxy leaves with distinct citrus aroma.",
@@ -2981,7 +2987,7 @@
           "Gusimburanya ibihingwa."
         ],
         "safety_warning_en": "No synthetic chemical safety warnings are applicable for healthy lemons.",
-        "safety_warning_rw": "Nta bwirinzi rusange."
+        "safety_warning_rw": "Nta burira rusange."
       },
       {
         "disease_code": "LEMON_CITRUS_CANKER",
@@ -3039,7 +3045,7 @@
       {
         "disease_code": "GARLIC_HEALTHY",
         "disease_name_en": "Healthy",
-        "disease_name_rw": "Nta ndwara",
+        "disease_name_rw": "Kizima",
         "severity": "low",
         "symptoms_en": [
           "Erect, solid leaves of a deep bluish-green color.",
@@ -3080,7 +3086,7 @@
           "Gusimburanya ibihingwa."
         ],
         "safety_warning_en": "No chemical safety precautions are needed for untreated healthy garlic.",
-        "safety_warning_rw": "Nta bwirinzi bukenewe."
+        "safety_warning_rw": "Nta burira."
       },
       {
         "disease_code": "GARLIC_RUST",
@@ -3098,7 +3104,7 @@
           "Amababi ahinduka umuhondo, akagana hasi hanyuma agapfa vuba."
         ],
         "cause_en": "The fungus Puccinia allii, active in cool, damp weather with high humidity.",
-        "cause_rw": "ikizinga Puccinia allii wandira cyane mu bihe by'ubuhehere n'ubushyuhe bukabije.",
+        "cause_rw": "Umuhumye Puccinia allii wandira cyane mu bihe by'ubuhehere n'ubushyuhe bukabije.",
         "treatment": {
           "chemical_en": [
             "Apply systemic fungicides containing Tebuconazole or protective Mancozeb.",
@@ -3126,7 +3132,7 @@
           "Kukoresha imbuto zizewe imbalances n'ubudahangarwa."
         ],
         "safety_warning_en": "Never spray chemicals onto wet leaves. Respect pre-harvest intervals strictly.",
-        "safety_warning_rw": "Imiti ya chemicals igomba guterwa nyuma y'uko amazi y'ikime yakutse ku mababi."
+        "safety_warning_rw": "Imiti ya simikiza igomba guterwa nyuma y'uko amazi y'ikime yakutse ku mababi."
       }
     ]
   },
@@ -3138,7 +3144,7 @@
       {
         "disease_code": "CELERY_HEALTHY",
         "disease_name_en": "Healthy",
-        "disease_name_rw": "Nta ndwara",
+        "disease_name_rw": "Kizima",
         "severity": "low",
         "symptoms_en": [
           "Lush, dark-green stalks and leaves, standing tall.",
@@ -3179,7 +3185,7 @@
           "Gusimburanya ibihingwa."
         ],
         "safety_warning_en": "No synthetic chemical safety warnings are applicable for healthy celery.",
-        "safety_warning_rw": "Nta bwirinzi."
+        "safety_warning_rw": "Nta burira."
       },
       {
         "disease_code": "CELERY_LATE_BLIGHT",
@@ -3197,7 +3203,7 @@
           "Amababi agenda avunika ahuye n'umuyaga hanyuma akabora vuba."
         ],
         "cause_en": "The fungus Septoria apiicola, highly active in wet, cool climates.",
-        "cause_rw": "ikizinga Septoria apiicola ukunda ubuhehere bukabije n'imbeho.",
+        "cause_rw": "Umuhumye Septoria apiicola ukunda ubuhehere bukabije n'imbeho.",
         "treatment": {
           "chemical_en": [
             "Apply protective copper-based formulations or systemic fungicides.",
@@ -3237,7 +3243,7 @@
       {
         "disease_code": "ZUCCHINI_HEALTHY",
         "disease_name_en": "Healthy",
-        "disease_name_rw": "Nta ndwara",
+        "disease_name_rw": "Kizima",
         "severity": "low",
         "symptoms_en": [
           "Large, lobed leaves of a solid green color, standing tall.",
@@ -3278,7 +3284,7 @@
           "Gusimburanya ibihingwa."
         ],
         "safety_warning_en": "No synthetic chemical safety warnings are applicable for healthy zucchinis.",
-        "safety_warning_rw": "Nta bwirinzi rusange."
+        "safety_warning_rw": "Nta burira rusange."
       },
       {
         "disease_code": "ZUCCHINI_POWDERY_MILDEW",
@@ -3296,7 +3302,7 @@
           "Imbuto zigwingira kandi zikagabanya uburyohe."
         ],
         "cause_en": "The fungus Podosphaera xanthii, spreading in dry, warm climates following rains.",
-        "cause_rw": "ikizinga Podosphaera xanthii wandira mu gihe cy'ubushyuhe bukabije bukurikira igihe cy'imvura.",
+        "cause_rw": "Umuhumye Podosphaera xanthii wandira mu gihe cy'ubushyuhe bukabije bukurikira igihe cy'imvura.",
         "treatment": {
           "chemical_en": [
             "Apply Sulphur-based fungicides or systemic options like Triadimefon.",

@@ -166,6 +166,71 @@ def fallback_plant():
         "confidence": 0.3
     }
 
+def normalize_name(name: str) -> str:
+    """Lowercase, strip, remove common suffixes/prefixes for better matching"""
+    if not name:
+        return ""
+    n = name.strip().lower()
+    # Common PlantNet variations
+    replacements = {
+        "solanum lycopersicum": "tomato",
+        "solanum tuberosum": "irish potato",
+        "capsicum annuum": "chili pepper",
+        "capsicum": "sweet pepper",
+        "persea americana": "avocado",
+        "musa": "banana",
+        "musa acuminata": "banana",
+        "carica papaya": "papaya",
+        "ananas comosus": "pineapple",
+        "mangifera indica": "mango",
+        "passiflora edulis": "passion fruit",
+        "citrus sinensis": "orange",
+        "citrus limon": "lemon",
+        "allium cepa": "onion",
+        "allium sativum": "garlic",
+        "daucus carota": "carrot",
+        "cucumis sativus": "cucumber",
+        "cucurbita": "pumpkin",
+        "citrullus lanatus": "watermelon",
+        "lactuca sativa": "lettuce",
+        "spinacia oleracea": "spinach",
+        "brassica oleracea": "cabbage",  # also catches broccoli/cauliflower variants
+    }
+    for sci, common in replacements.items():
+        if sci in n:
+            return common
+    # remove "common " or "garden " prefixes
+    n = n.replace("common ", "").replace("garden ", "").strip()
+    return n
+
+def find_static_crop(plant_info: dict):
+    """Robust lookup against the 29 supported crops using multiple fields + aliases"""
+    if not AGRONOMIC_DATA:
+        return None
+    candidates = [
+        plant_info.get("common_name", ""),
+        plant_info.get("scientific_name", ""),
+        plant_info.get("common_name_kinyarwanda", ""),
+    ]
+    for raw in candidates:
+        norm = normalize_name(raw)
+        if not norm:
+            continue
+        # exact or contains on several keys
+        for p in AGRONOMIC_DATA:
+            fields = [
+                p.get("common_name", ""),
+                p.get("crop_name_en", ""),
+                p.get("common_name_kinyarwanda", ""),
+                p.get("crop_name_rw", ""),
+                p.get("scientific_name", ""),
+            ]
+            for f in fields:
+                fn = normalize_name(f)
+                if norm == fn or norm in fn or fn in norm:
+                    return p
+    return None
+
 # =========================
 # GEMINI AI (VISION)
 # =========================
@@ -299,25 +364,37 @@ User question: {message}
 # =========================
 
 def fallback_result(plant):
+    """Return useful result even for plants outside the 29-crop static list"""
+    name = plant.get("common_name", "the plant")
+    sci = plant.get("scientific_name", "")
     return {
-        "plant": plant,
+        "plant": {
+            "common_name": name,
+            "common_name_kinyarwanda": name,  # will be overwritten by ensure_ if needed
+            "scientific_name": sci,
+            "family": plant.get("family", ""),
+            "description": f"Detected {name}. This crop is not in the core 29-crop reference set. Use general best practices.",
+            "description_kinyarwanda": f"Byabonye {name}. Iki gihingwa nticyari mu gihugu cy'ibanze 29. Koresha imyitozo myiza rusange.",
+            "care_tips": ["Water properly", "Ensure good airflow", "Monitor for pests"],
+            "care_tips_kinyarwanda": ["Giha amazi neza", "Genzura umuyaga utambuke", "Genzura udukoko"],
+        },
         "diseases": [],
         "recommendations": [
-    {
-        "title": "Monitor Plant",
-        "title_kinyarwanda": "Genzura igihingwa",
-        "description": "Check plant regularly and water properly",
-        "description_kinyarwanda": "Suzuma igihingwa buri gihe kandi ugihe amazi neza",
-        "priority": "medium",
-        "actions": ["Inspect leaves", "Water properly"],
-        "actions_kinyarwanda": ["Reba amababi", "Giha amazi neza"]
-    }
-     ],
-        "health_score": 70,
+            {
+                "title": "General Care",
+                "title_kinyarwanda": "Ukwita ku gihingwa",
+                "description": f"Continue normal care for {name}.",
+                "description_kinyarwanda": f"Komeza kwita ku {name} neza.",
+                "priority": "medium",
+                "actions": ["Regular inspection", "Proper watering", "Remove weeds"],
+                "actions_kinyarwanda": ["Genzura buri gihe", "Uha amazi neza", "Kura ibyatsi bibi"]
+            }
+        ],
+        "health_score": 75,
         "confidence_score": plant.get("confidence", 0.5),
         "bilingual": {
-            "en": "Basic monitoring required",
-            "rw": "Gukurikirana birasabwa"
+            "en": "Plant identified by PlantNet – general advice only",
+            "rw": "Igihingwa cyabonywe na PlantNet – inama rusange gusa"
         }
     }
 def ensure_kinyarwanda_fallback(plant):
@@ -339,25 +416,60 @@ async def analyze(image_b64: str):
     # Identify plant via ML / Gemini (returns dict with at least 'common_name')
     plant = await identify_plant(image_b64)
 
-    # Try to find static entry
-    static_entry = None
-    if AGRONOMIC_DATA:
-        static_entry = None
-        # First try match by common_name (case-insensitive, stripped)
-        common_name = plant.get("common_name", "").strip().lower()
-        if common_name:
-            static_entry = next((p for p in AGRONOMIC_DATA if p.get("common_name", "").strip().lower() == common_name), None)
-        # If not found, try matching Kinyarwanda common name
-        if not static_entry:
-            kin_name = plant.get("common_name_kinyarwanda", "").strip().lower()
-            if kin_name:
-                static_entry = next((p for p in AGRONOMIC_DATA if p.get("common_name_kinyarwanda", "").strip().lower() == kin_name), None)
+    # Robust static lookup using the new helper (greatly reduces fallbacks)
+    static_entry = find_static_crop(plant) if AGRONOMIC_DATA else None
 
     if static_entry:
-        # Build result dict matching the original schema
+        logger.info(f"✅ Static match found for {plant.get('common_name')} → using agronomic data (no fallback)")
+    else:
+        logger.info(f"⚠️ No static match for PlantNet result: {plant} → using generic fallback")
+
+    if static_entry:
+        # Map your static format -> expected UI/Gemini shape to prevent crashes + fallbacks
+        mapped_plant = {
+            "common_name": static_entry.get("common_name") or static_entry.get("crop_name_en"),
+            "common_name_kinyarwanda": static_entry.get("common_name_kinyarwanda") or static_entry.get("crop_name_rw"),
+            "scientific_name": static_entry.get("scientific_name", ""),
+            "family": static_entry.get("family", ""),
+            "description": static_entry.get("description", f"Healthy {static_entry.get('crop_name_en','crop')} crop."),
+            "description_kinyarwanda": static_entry.get("description_kinyarwanda", f"Igihingwa kizima cya {static_entry.get('crop_name_rw', static_entry.get('crop_name_en'))}."),
+            "care_tips": static_entry.get("care_tips", []),
+            "care_tips_kinyarwanda": static_entry.get("care_tips_kinyarwanda", []),
+        }
+        mapped_diseases = []
+        for d in static_entry.get("diseases", []):
+            # Skip the "healthy" state entry – it is not a disease
+            if "healthy" in (d.get("disease_code", "") + d.get("disease_name_en", "") + d.get("disease_name_rw", "")).lower():
+                continue
+            # Map old disease shape to expected Disease shape
+            chem = d.get("treatment", {}).get("chemical_rw", []) or d.get("treatment", {}).get("chemical_en", [])
+            org = d.get("treatment", {}).get("organic_rw", []) or d.get("treatment", {}).get("organic_en", [])
+            mapped_diseases.append({
+                "id": d.get("disease_code", ""),
+                "name": d.get("disease_name_en", ""),
+                "name_kinyarwanda": d.get("disease_name_rw", ""),
+                "description": d.get("cause_en", d.get("cause_rw", "")),
+                "description_kinyarwanda": d.get("cause_rw", ""),
+                "causes": [d.get("cause_en", "")] if d.get("cause_en") else [],
+                "causes_kinyarwanda": [d.get("cause_rw", "")] if d.get("cause_rw") else [],
+                "symptoms": d.get("symptoms_en", []),
+                "symptoms_kinyarwanda": d.get("symptoms_rw", []),
+                "treatments": chem + org,
+                "treatments_kinyarwanda": chem + org,
+                "prevention": d.get("prevention_en", []),
+                "prevention_kinyarwanda": d.get("prevention_rw", []),
+                "dosage": (chem[0] if chem else "") + (" | " + org[0] if org else ""),
+                "dosage_kinyarwanda": (chem[0] if chem else "") + (" | " + org[0] if org else ""),
+                "severity": d.get("severity", "medium"),
+                "progression": "Monitor and treat early",
+                "progression_kinyarwanda": "Genzura kandi uvuze hakiri kare",
+                "recovery_time": "7-21 days with treatment",
+                "recovery_time_kinyarwanda": "Iminsi 7-21 niba wavuze neza",
+                "confidence_score": 0.85
+            })
         result = {
-            "plant": static_entry,
-            "diseases": static_entry.get("diseases", []),
+            "plant": mapped_plant,
+            "diseases": mapped_diseases,
             "recommendations": static_entry.get("recommendations", []),
             "health_score": static_entry.get("health_score", 70),
             "confidence_score": static_entry.get("confidence_score", plant.get("confidence", 0.5)),
@@ -515,17 +627,25 @@ async def chat_route(req: ChatRequest):
                         break
             if lang == "rw":
                 break
-    # Try to find a matching plant entry
+    # Try to find a matching plant entry using the robust normalizer + contains
     matched = None
-    for plant in AGRONOMIC_DATA:
-        if plant.get("common_name", "").lower() in message.lower() or plant.get("common_name_kinyarwanda", "").lower() in message.lower():
-            matched = plant
+    msg_l = message.lower()
+    for p in AGRONOMIC_DATA:
+        for key in ["common_name", "crop_name_en", "common_name_kinyarwanda", "crop_name_rw", "scientific_name"]:
+            val = normalize_name(p.get(key, ""))
+            if val and (val in msg_l or msg_l in val):
+                matched = p
+                break
+        if matched:
             break
     if matched:
+        name = matched.get("common_name_kinyarwanda") or matched.get("crop_name_rw") or matched.get("common_name")
+        desc = matched.get("description") or f"Reference data available for {matched.get('crop_name_en', name)} (see scan for diseases & safe treatments)."
+        desc_rw = matched.get("description_kinyarwanda") or f"Amakuru ya {name} araboneka (suzuma isuzuma ryawe)."
         if lang == "rw":
-            reply = f"**{matched.get('common_name_kinyarwanda', matched.get('common_name'))}**\n\n{matched.get('description_kinyarwanda','')}\n\n({matched.get('description','')})"
+            reply = f"**{name}**\n\n{desc_rw}"
         else:
-            reply = f"**{matched.get('common_name')}**\n\n{matched.get('description', '')}"
+            reply = f"**{matched.get('common_name') or matched.get('crop_name_en')}**\n\n{desc}"
         return {"reply": reply}
     # Fallback to Gemini chat
     response = await ask_gemini_chat(message)
