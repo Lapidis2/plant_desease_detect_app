@@ -496,15 +496,9 @@ async def chat_route(req: ChatRequest):
 
     if matched:
         if lang == "rw":
-            reply = {
-                "common_name": matched.get("common_name_kinyarwanda", matched.get("common_name")),
-                "description": f"{matched.get('description_kinyarwanda','')} ({matched.get('description','')})"
-            }
+            reply = f"**{matched.get('common_name_kinyarwanda', matched.get('common_name'))}**\n\n{matched.get('description_kinyarwanda','')}\n\n({matched.get('description','')})"
         else:
-            reply = {
-                "common_name": matched.get("common_name"),
-                "description": matched.get("description", "")
-            }
+            reply = f"**{matched.get('common_name')}**\n\n{matched.get('description', '')}"
         return {"reply": reply}
     # Fallback to Gemini chat
     response = await ask_gemini_chat(message)
