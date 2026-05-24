@@ -144,13 +144,24 @@ async def identify_plant(image_b64: str):
             return fallback_plant()
 
         best = data["results"][0]
+        score = float(best.get("score", 0.0))
+        
+        # IMPORTANT: Reject low-confidence or non-plant results (prevents "human -> chili pepper")
+        if score < 0.35:
+            return {
+                "common_name": "Not a supported crop",
+                "scientific_name": "N/A",
+                "family": "N/A",
+                "confidence": score
+            }
+
         species = best["species"]
 
         return {
             "common_name": species.get("commonNames", ["Unknown"])[0],
             "scientific_name": species.get("scientificName", "Unknown"),
             "family": species.get("family", {}).get("scientificName", "Unknown"),
-            "confidence": float(best.get("score", 0.6))
+            "confidence": score
         }
 
     except Exception as e:
@@ -416,6 +427,10 @@ async def analyze(image_b64: str):
     # Identify plant via ML / Gemini (returns dict with at least 'common_name')
     plant = await identify_plant(image_b64)
 
+    # Guard against garbage / non-plant / very low confidence from PlantNet (fixes "human -> chili pepper")
+    if plant.get("common_name") == "Not a supported crop" or plant.get("confidence", 0) < 0.35:
+        return fallback_result(plant)   # will show as unknown/low-confidence instead of forcing a crop
+
     # Robust static lookup using the new helper (greatly reduces fallbacks)
     static_entry = find_static_crop(plant) if AGRONOMIC_DATA else None
 
@@ -639,13 +654,59 @@ async def chat_route(req: ChatRequest):
         if matched:
             break
     if matched:
-        name = matched.get("common_name_kinyarwanda") or matched.get("crop_name_rw") or matched.get("common_name")
-        desc = matched.get("description") or f"Reference data available for {matched.get('crop_name_en', name)} (see scan for diseases & safe treatments)."
-        desc_rw = matched.get("description_kinyarwanda") or f"Amakuru ya {name} araboneka (suzuma isuzuma ryawe)."
+        name_en = matched.get("crop_name_en") or matched.get("common_name")
+        name_rw = matched.get("crop_name_rw") or matched.get("common_name_kinyarwanda")
+        diseases = matched.get("diseases", [])
+
+        # Build a useful reply by extracting real data from the static reference
         if lang == "rw":
-            reply = f"**{name}**\n\n{desc_rw}"
+            reply_lines = [f"**{name_rw}**"]
+            # Try to find relevant diseases based on keywords in the question
+            question_lower = message.lower()
+            relevant = []
+            for d in diseases:
+                dname = (d.get("disease_name_rw") or d.get("disease_name_en") or "").lower()
+                if any(kw in question_lower for kw in ["indwara", "ibibazo", "umuti", dname[:8] if len(dname) > 5 else dname]):
+                    relevant.append(d)
+            if not relevant:
+                relevant = [d for d in diseases if "healthy" not in (d.get("disease_code","") + d.get("disease_name_en","")).lower()][:3]
+
+            for d in relevant[:3]:
+                reply_lines.append(f"\n• {d.get('disease_name_rw', d.get('disease_name_en'))}")
+                if d.get("symptoms_rw"):
+                    reply_lines.append("  Ibimenyetso: " + "; ".join(d["symptoms_rw"][:2]))
+                chem = d.get("treatment", {}).get("chemical_rw", [])
+                org = d.get("treatment", {}).get("organic_rw", [])
+                if chem:
+                    reply_lines.append("  Umuti wemewe: " + chem[0])
+                if org:
+                    reply_lines.append("  Uburyo bwa organic: " + org[0])
+            reply_lines.append("\nKomeza gusuzuma igihingwa cyangwa ufate isuzuma rya foto.")
+            reply = "\n".join(reply_lines)
         else:
-            reply = f"**{matched.get('common_name') or matched.get('crop_name_en')}**\n\n{desc}"
+            reply_lines = [f"**{name_en}**"]
+            question_lower = message.lower()
+            relevant = []
+            for d in diseases:
+                dname = (d.get("disease_name_en") or "").lower()
+                if any(kw in question_lower for kw in ["disease", "problem", "treat", "cure", dname[:6] if len(dname) > 4 else dname]):
+                    relevant.append(d)
+            if not relevant:
+                relevant = [d for d in diseases if "healthy" not in (d.get("disease_code","") + d.get("disease_name_en","")).lower()][:3]
+
+            for d in relevant[:3]:
+                reply_lines.append(f"\n• {d.get('disease_name_en')}")
+                if d.get("symptoms_en"):
+                    reply_lines.append("  Symptoms: " + "; ".join(d["symptoms_en"][:2]))
+                chem = d.get("treatment", {}).get("chemical_rw", []) or d.get("treatment", {}).get("chemical_en", [])
+                org = d.get("treatment", {}).get("organic_rw", []) or d.get("treatment", {}).get("organic_en", [])
+                if chem:
+                    reply_lines.append("  Approved treatment: " + chem[0])
+                if org:
+                    reply_lines.append("  Organic/low-cost: " + org[0])
+            reply_lines.append("\nFor more details, scan a leaf photo or ask about a specific disease.")
+            reply = "\n".join(reply_lines)
+
         return {"reply": reply}
     # Fallback to Gemini chat
     response = await ask_gemini_chat(message)
