@@ -70,7 +70,7 @@
           "Imbuto zizaho amabara y'ikigina cyijimye kandi zikabora vuba."
         ],
         "cause_en": "The fungus-like oomycete Phytophthora infestans, favored by cool, wet weather.",
-        "cause_rw": "Umuhumye (fungus) witwa Phytophthora infestans ukwirakwizwa n'ubuhehere bw'imvura n'imbeho.",
+        "cause_rw": "umuhumyo (fungus) witwa Phytophthora infestans ukwirakwizwa n'ubuhehere bw'imvura n'imbeho.",
         "treatment": {
           "chemical_en": [
             "Apply approved protective fungicides such as Mancozeb or systemic options like Metalaxyl.",
@@ -116,7 +116,7 @@
           "Ibibanza by'umukara n'ikigina bishobora kugaragara no ku ruti hafi y'ubutaka."
         ],
         "cause_en": "The fungus Alternaria solani, which survives in plant debris and soil.",
-        "cause_rw": "Umuhumye witwa Alternaria solani uba mu butaka kandi agakunda ubushyuhe n'ubuhehere.",
+        "cause_rw": "umuhumyo witwa Alternaria solani uba mu butaka kandi agakunda ubushyuhe n'ubuhehere.",
         "treatment": {
           "chemical_en": [
             "Apply preventive fungicides containing Chlorothalonil or Mancozeb.",
@@ -261,7 +261,7 @@
           "Ibibanza ku mababi n'uruti bishobora kugaragara."
         ],
         "cause_en": "Colletotrichum fungi, heavily spreading in humid, warm climates.",
-        "cause_rw": "Umuhumye wo mu bwoko bwa Colletotrichum wandira mu gihe cy'imvura n'ubushyuhe.",
+        "cause_rw": "umuhumyo wo mu bwoko bwa Colletotrichum wandira mu gihe cy'imvura n'ubushyuhe.",
         "treatment": {
           "chemical_en": [
             "Spray copper-based fungicides or Mancozeb.",
@@ -307,7 +307,7 @@
           "Ibihingwa bigwingira bikagabanya umusaruro cyane."
         ],
         "cause_en": "The fungus Leveillula taurica, thrive in dry climates with high relative humidity.",
-        "cause_rw": "Umuhumye witwa Leveillula taurica wandira mu kirere cy'ubushyuhe n'ubuhehere buke mu gihe cy'izuba.",
+        "cause_rw": "umuhumyo witwa Leveillula taurica wandira mu kirere cy'ubushyuhe n'ubuhehere buke mu gihe cy'izuba.",
         "treatment": {
           "chemical_en": [
             "Apply wettable sulphur fungicides or systemic products containing Triadimefon.",
@@ -406,7 +406,7 @@
           "Ibirayi byo hasi birabora kandi bikagira impumuro mbi cyane."
         ],
         "cause_en": "Phytophthora infestans, a devastating oomycete pathogen highly active in high humidity.",
-        "cause_rw": "Umuhumye Phytophthora infestans, indwara ikomeye cyane mu misozi miremire y'u Rwanda mu gihe cy'imvura.",
+        "cause_rw": "umuhumyo Phytophthora infestans, indwara ikomeye cyane mu misozi miremire y'u Rwanda mu gihe cy'imvura.",
         "treatment": {
           "chemical_en": [
             "Apply protective fungicides (Mancozeb) or curative systemic sprays (Metalaxyl).",
@@ -431,7 +431,7 @@
         ],
         "prevention_rw": [
           "Gutera imbuto zihanganira ikibembe cy'ibirayi.",
-          "Kubagara neza no gusongera ubutaka ku birayi (hilling) ngo umuhumye utagera ku birayi byo hasi."
+          "Kubagara neza no gusongera ubutaka ku birayi (hilling) ngo umuhumyo utagera ku birayi byo hasi."
         ],
         "safety_warning_en": "Adhere to the safety intervals printed on pesticide containers. Wear a mask and boots.",
         "safety_warning_rw": "Wambare ibikoresho bikurinda byose igihe utera umuti, kandi wirinde gukoresha imiti yarengeje igihe."
@@ -551,7 +551,7 @@
           "Imizi itangira guhinduka umukara, ikabora kandi ikavunika vuba iyo uyigenzuye."
         ],
         "cause_en": "The soil oomycete Phytophthora cinnamomi, spreading rapidly in waterlogged soils.",
-        "cause_rw": "Umuhumye witwa Phytophthora cinnamomi wandira mu butaka bufite amazi menshi adatemba.",
+        "cause_rw": "umuhumyo witwa Phytophthora cinnamomi wandira mu butaka bufite amazi menshi adatemba.",
         "treatment": {
           "chemical_en": [
             "Inject or drench tree trunks with Phosphorous acid (fosetyl-Al).",
@@ -841,7 +841,7 @@
           "Amababi ahinduka umuhondo, akagana hasi hanyuma agapfa vuba."
         ],
         "cause_en": "The fungus Uromyces appendiculatus, spreading rapidly in warm, damp weather.",
-        "cause_rw": "Umuhumye witwa Uromyces appendiculatus wandira cyane mu bihe by'ubuhehere n'ubushyuhe bukabije.",
+        "cause_rw": "umuhumyo witwa Uromyces appendiculatus wandira cyane mu bihe by'ubuhehere n'ubushyuhe bukabije.",
         "treatment": {
           "chemical_en": [
             "Apply systemic fungicides containing Tebuconazole or protective Mancozeb.",
@@ -887,7 +887,7 @@
           "Ubusanzwe imbuto zo hasi zishobora no kugira ibibanza bikazana ububore."
         ],
         "cause_en": "The fungus Colletotrichum lindemuthianum, favored by cool, wet weather.",
-        "cause_rw": "Umuhumye Colletotrichum lindemuthianum ukunda ikirere cy'imvura n'imbeho.",
+        "cause_rw": "umuhumyo Colletotrichum lindemuthianum ukunda ikirere cy'imvura n'imbeho.",
         "treatment": {
           "chemical_en": [
             "Apply carbendazim or copper oxychloride fungicides.",
@@ -1131,7 +1131,7 @@
           "Amababi agenda avunika ahuye n'umuyaga hanyuma akuma vuba."
         ],
         "cause_en": "The fungus Alternaria porri, highly favored by warmth and wet foliage.",
-        "cause_rw": "Umuhumye Alternaria porri, indwara ikunda ubuhehere bwinshi n'ubushyuhe.",
+        "cause_rw": "umuhumyo Alternaria porri, indwara ikunda ubuhehere bwinshi n'ubushyuhe.",
         "treatment": {
           "chemical_en": [
             "Spray fungicides containing Difenoconazole or Mancozeb.",
@@ -1276,7 +1276,7 @@
           "Amababi ahinduka umukara cyangwa ikigina vuba hanyuma akayunguruka."
         ],
         "cause_en": "Pseudoperonospora cubensis oomycete, thriving in high moisture and morning dews.",
-        "cause_rw": "Umuhumye Pseudoperonospora cubensis ukunda cyane ubuhehere bwinshi n'ikime cy'igitondo.",
+        "cause_rw": "umuhumyo Pseudoperonospora cubensis ukunda cyane ubuhehere bwinshi n'ikime cy'igitondo.",
         "treatment": {
           "chemical_en": [
             "Apply protective fungicides containing Copper oxychloride or systemic Metalaxyl.",
@@ -1322,7 +1322,7 @@
           "Imbuto zigwingira kandi zikagabanya uburyohe."
         ],
         "cause_en": "The fungus Podosphaera xanthii, spreading in dry, warm climates following rains.",
-        "cause_rw": "Umuhumye Podosphaera xanthii wandira mu gihe cy'ubushyuhe bukabije bukurikira igihe cy'imvura.",
+        "cause_rw": "umuhumyo Podosphaera xanthii wandira mu gihe cy'ubushyuhe bukabije bukurikira igihe cy'imvura.",
         "treatment": {
           "chemical_en": [
             "Apply Sulphur-based fungicides or systemic options like Triadimefon.",
@@ -1421,7 +1421,7 @@
           "Kwangirika kw'amababi bikagabanya umusaruro w'imizi ya karoti hasi."
         ],
         "cause_en": "The fungus Alternaria dauci, heavily spreading in humid, warm periods.",
-        "cause_rw": "Umuhumye Alternaria dauci wandira cyane mu bihe by'imvura n'ubuhehere bw'ubutaka.",
+        "cause_rw": "umuhumyo Alternaria dauci wandira cyane mu bihe by'imvura n'ubuhehere bw'ubutaka.",
         "treatment": {
           "chemical_en": [
             "Apply preventive fungicides (Chlorothalonil or Mancozeb).",
@@ -1520,7 +1520,7 @@
           "Amababi agenda avunika ahuye n'umuyaga hanyuma akabora vuba."
         ],
         "cause_en": "Peronospora effusa fungus, favored by cool, extremely damp conditions.",
-        "cause_rw": "Umuhumye Peronospora effusa ukunda ubuhehere bukabije n'imbeho.",
+        "cause_rw": "umuhumyo Peronospora effusa ukunda ubuhehere bukabije n'imbeho.",
         "treatment": {
           "chemical_en": [
             "Apply copper-based organic formulations or systemic Metalaxyl.",
@@ -1619,7 +1619,7 @@
           "Amababi ahinduka umukara cyangwa ikigina vuba hanyuma akayunguruka."
         ],
         "cause_en": "Bremia lactucae fungus, favored by cool moist mornings and dews.",
-        "cause_rw": "Umuhumye Bremia lactucae ukunda cyane ubuhehere bwinshi n'ikime cy'igitondo.",
+        "cause_rw": "umuhumyo Bremia lactucae ukunda cyane ubuhehere bwinshi n'ikime cy'igitondo.",
         "treatment": {
           "chemical_en": [
             "Apply copper oxychloride or systemic Metalaxyl sprays.",
@@ -1718,7 +1718,7 @@
           "Amababi agenda avunika ahuye n'umuyaga hanyuma akabora vuba."
         ],
         "cause_en": "Hyaloperonospora parasitica fungus, favored by cool temperatures and dampness.",
-        "cause_rw": "Umuhumye Hyaloperonospora parasitica ukunda ubuhehere bukabije n'imbeho.",
+        "cause_rw": "umuhumyo Hyaloperonospora parasitica ukunda ubuhehere bukabije n'imbeho.",
         "treatment": {
           "chemical_en": [
             "Apply copper-based formulations or systemic Metalaxyl.",
@@ -1817,7 +1817,7 @@
           "Amababi agenda avunika ahuye n'umuyaga hanyuma akabora vuba."
         ],
         "cause_en": "Hyaloperonospora parasitica fungus, favored by cool temperatures and dampness.",
-        "cause_rw": "Umuhumye Hyaloperonospora parasitica ukunda ubuhehere bukabije n'imbeho.",
+        "cause_rw": "umuhumyo Hyaloperonospora parasitica ukunda ubuhehere bukabije n'imbeho.",
         "treatment": {
           "chemical_en": [
             "Apply copper-based formulations or systemic Metalaxyl.",
@@ -1916,7 +1916,7 @@
           "Amababi ahinduka umuhondo, akagana hasi hanyuma agapfa vuba."
         ],
         "cause_en": "The fungus Uromyces appendiculatus, spreading rapidly in warm, damp weather.",
-        "cause_rw": "Umuhumye witwa Uromyces appendiculatus wandira cyane mu bihe by'ubuhehere n'ubushyuhe bukabije.",
+        "cause_rw": "umuhumyo witwa Uromyces appendiculatus wandira cyane mu bihe by'ubuhehere n'ubushyuhe bukabije.",
         "treatment": {
           "chemical_en": [
             "Apply systemic fungicides containing Tebuconazole or protective Mancozeb.",
@@ -2114,7 +2114,7 @@
           "Imbuto zigwingira kandi zikagabanya uburyohe."
         ],
         "cause_en": "The fungus Podosphaera xanthii, spreading in dry, warm climates following rains.",
-        "cause_rw": "Umuhumye Podosphaera xanthii wandira mu gihe cy'ubushyuhe bukabije bukurikira igihe cy'imvura.",
+        "cause_rw": "umuhumyo Podosphaera xanthii wandira mu gihe cy'ubushyuhe bukabije bukurikira igihe cy'imvura.",
         "treatment": {
           "chemical_en": [
             "Apply Sulphur-based fungicides or systemic options like Triadimefon.",
@@ -2213,7 +2213,7 @@
           "Uwo uduce tw'imizi dukase, twerekana ibara ry'ikigina ryijimye n'amashyira y'umweru."
         ],
         "cause_en": "Fusarium oxysporum oomycete, thriving in high moisture and morning dews.",
-        "cause_rw": "Umuhumye Fusarium oxysporum f. sp. niveum, wandira mu butaka mu bikomere by'imizi.",
+        "cause_rw": "umuhumyo Fusarium oxysporum f. sp. niveum, wandira mu butaka mu bikomere by'imizi.",
         "treatment": {
           "chemical_en": [
             "There is no effective chemical cure for infected plants.",
@@ -2312,7 +2312,7 @@
           "Inanasi n'imizi bifite impumuro mbi cyane."
         ],
         "cause_en": "Phytophthora cinnamomi oomycete, multiplying in heavy, waterlogged soils.",
-        "cause_rw": "Umuhumye Phytophthora cinnamomi wandira mu butaka bufite amazi menshi adatemba.",
+        "cause_rw": "umuhumyo Phytophthora cinnamomi wandira mu butaka bufite amazi menshi adatemba.",
         "treatment": {
           "chemical_en": [
             "Apply preventive metalaxyl or phosphorous acid drenches.",
@@ -2411,7 +2411,7 @@
           "Umunyigo cyangwa umubore uza imbere mu myembe."
         ],
         "cause_en": "Colletotrichum gloeosporioides fungus, easily activated by rainfall during flowering.",
-        "cause_rw": "Umuhumye Colletotrichum gloeosporioides wandira ku mbuto igihe cy'imvura n'ubuhehere bw'ikirere.",
+        "cause_rw": "umuhumyo Colletotrichum gloeosporioides wandira ku mbuto igihe cy'imvura n'ubuhehere bw'ikirere.",
         "treatment": {
           "chemical_en": [
             "Apply copper-based protective fungicides (Copper hydroxide) during flowering.",
@@ -2807,7 +2807,7 @@
           "Imbuto z'inkeri zirabora kandi ugatunguka amazi."
         ],
         "cause_en": "The fungus Botrytis cinerea, heavily multiplying in cool, highly humid climates.",
-        "cause_rw": "Umuhumye Botrytis cinerea ukunda cyane ubuhehere bwinshi n'ikime cy'igitondo.",
+        "cause_rw": "umuhumyo Botrytis cinerea ukunda cyane ubuhehere bwinshi n'ikime cy'igitondo.",
         "treatment": {
           "chemical_en": [
             "Apply protective fungicides containing Metalaxyl or Copper oxychloride.",
@@ -3104,7 +3104,7 @@
           "Amababi ahinduka umuhondo, akagana hasi hanyuma agapfa vuba."
         ],
         "cause_en": "The fungus Puccinia allii, active in cool, damp weather with high humidity.",
-        "cause_rw": "Umuhumye Puccinia allii wandira cyane mu bihe by'ubuhehere n'ubushyuhe bukabije.",
+        "cause_rw": "umuhumyo Puccinia allii wandira cyane mu bihe by'ubuhehere n'ubushyuhe bukabije.",
         "treatment": {
           "chemical_en": [
             "Apply systemic fungicides containing Tebuconazole or protective Mancozeb.",
@@ -3203,7 +3203,7 @@
           "Amababi agenda avunika ahuye n'umuyaga hanyuma akabora vuba."
         ],
         "cause_en": "The fungus Septoria apiicola, highly active in wet, cool climates.",
-        "cause_rw": "Umuhumye Septoria apiicola ukunda ubuhehere bukabije n'imbeho.",
+        "cause_rw": "umuhumyo Septoria apiicola ukunda ubuhehere bukabije n'imbeho.",
         "treatment": {
           "chemical_en": [
             "Apply protective copper-based formulations or systemic fungicides.",
@@ -3302,7 +3302,7 @@
           "Imbuto zigwingira kandi zikagabanya uburyohe."
         ],
         "cause_en": "The fungus Podosphaera xanthii, spreading in dry, warm climates following rains.",
-        "cause_rw": "Umuhumye Podosphaera xanthii wandira mu gihe cy'ubushyuhe bukabije bukurikira igihe cy'imvura.",
+        "cause_rw": "umuhumyo Podosphaera xanthii wandira mu gihe cy'ubushyuhe bukabije bukurikira igihe cy'imvura.",
         "treatment": {
           "chemical_en": [
             "Apply Sulphur-based fungicides or systemic options like Triadimefon.",
