@@ -6,12 +6,14 @@ import {
   ScrollView,
   TouchableOpacity,
   RefreshControl,
+  Linking
   
 } from 'react-native';
 import { useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import * as Location from 'expo-location';
+
 import { useTheme } from '../../src/components/ThemeContext';
 import { Typography, Spacing, BorderRadius } from '../../src/constants/theme';
 import { BilingualText } from '../../src/components/BilingualText';
@@ -100,19 +102,19 @@ export default function HomeScreen() {
         );
         setWeather(weatherData);
         setLocationError(null);
-      } else {
-        setLocationError('Location permission denied. Open app settings to allow access.');
-        await Location.openAppSettingsAsync();
-      }
-    } catch (error: any) {
-      console.error('Location error:', error);
-      const msg = error?.message || 'Unable to get location. Please enable location services in device settings.';
-      setLocationError(msg);
-      try {
-        await Location.openAppSettingsAsync();
-      } catch {}
-    }
-  }, []);
+        } else {
+         setLocationError('Location permission denied. Open app settings to allow access.');
+         await Linking.openSettings();
+       }
+     } catch (error: any) {
+       console.error('Location error:', error);
+       const msg = error?.message || 'Unable to get location. Please enable location services in device settings.';
+       setLocationError(msg);
+       try {
+         await Linking.openSettings();
+       } catch {}
+     }
+   }, []);
 
   useEffect(() => {
     loadData();

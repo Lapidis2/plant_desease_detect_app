@@ -393,7 +393,7 @@ def fallback_result(plant):
             "scientific_name": sci,
             "family": plant.get("family", ""),
             "description": f"Detected {name}. This crop is not in the core 29-crop reference set. Use general best practices.",
-            "description_kinyarwanda": f"Byabonye {name}. Iki gihingwa nticyari mu gihugu cy'ibanze 29. Koresha imyitozo myiza rusange.",
+            "description_kinyarwanda": f"Byabonye {name}. Iki gihingwa nticyari mu bihingwa by'ibanze 29.",
             "care_tips": ["Water properly", "Ensure good airflow", "Monitor for pests"],
             "care_tips_kinyarwanda": ["Giha amazi neza", "Genzura umuyaga utambuke", "Genzura udukoko"],
         },
@@ -756,7 +756,8 @@ async def analyze_route(req: AnalyzeRequest, background_tasks: BackgroundTasks):
         result["plant"]["image_base64"] = req.image_base64
 
     if req.latitude and req.longitude:
-        result["weather_data"] = None
+        # Fetch weather data when coordinates provided
+        result["weather_data"] = await get_weather_data(req.latitude, req.longitude)
 
     # 4. SAVE IN BACKGROUND (IMPORTANT FIX)
     background_tasks.add_task(save_scan, result, req.image_base64)

@@ -2,8 +2,8 @@
 export const translations = {
   // App
   appName: {
-    en: 'AgroReba',
-    kin: 'AgroReba',
+    en: 'SOROMA TECH LTD',
+    kin: 'SOROMA TECH LTD',
   },
   
   // Navigation
@@ -34,8 +34,8 @@ export const translations = {
   
   // Home Screen
   welcome: {
-    en: 'Welcome to AgroReba',
-    kin: 'Murakaza neza kuri AgroReba',
+    en: 'Welcome to SOROMA TECH LTD',
+    kin: 'Murakaza neza kuri SOROMA TECH LTD',
   },
   scanPlant: {
     en: 'Scan Your Plant',

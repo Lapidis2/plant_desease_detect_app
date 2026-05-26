@@ -103,7 +103,7 @@ export default function LoadingScreen() {
         </Animated.View>
 
         {/* App Name */}
-        <Text style={[styles.title, { color: colors.white }]}>AgroReba</Text>
+        <Text style={[styles.title, { color: colors.white }]}>SOROMA TECH LTD</Text>
         <Text style={[styles.subtitle, { color: colors.white + 'CC' }]}>
           Setting up your farm tools
         </Text>

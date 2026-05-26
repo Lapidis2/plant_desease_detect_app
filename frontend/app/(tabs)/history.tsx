@@ -34,7 +34,7 @@ export default function HistoryScreen() {
   const loadHistory = useCallback(async () => {
     try {
       console.log('🔍 Fetching scan history...');
-      const scans = await getScanHistory(50, false);
+      const scans = await getScanHistory(50, true);
       console.log('📊 Raw response from API:', scans);
       // Accept all items that have at least a top-level id (backend always returns this)
       const safeScans = Array.isArray(scans) 

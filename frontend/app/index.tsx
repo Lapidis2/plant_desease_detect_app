@@ -67,10 +67,10 @@ export default function SplashScreen() {
           <Ionicons name="leaf" size={80} color={colors.white} />
         </View>
         <Text style={[styles.title, { color: colors.white }]}>
-          AgroReba
+          SOROMA TECH LTD
         </Text>
         <Text style={[styles.subtitle, { color: colors.white + 'CC' }]}>
-          AgroReba
+          SOROMA TECH LTD
         </Text>
         <Text style={[styles.tagline, { color: colors.white + '99' }]}>
           Helping farmers grow healthier crops

@@ -21,7 +21,23 @@ export default function SettingsScreen() {
   const { colors, theme, toggleTheme } = useTheme();
   const insets = useSafeAreaInsets();
 
-  let settingsGroups = [
+  type SettingType = 'toggle' | 'link' | 'info';
+  type SettingItem = {
+    icon: string;
+    title: string;
+    titleKin?: string;
+    subtitle?: string;
+    type: SettingType;
+    value?: boolean;
+    onToggle?: () => void;
+    onPress?: () => void;
+  };
+  type SettingGroup = {
+    title: string;
+    items: SettingItem[];
+  };
+
+  const settingsGroups: SettingGroup[] = [
     {
       title: 'Appearance / Isura',
       items: [
@@ -50,7 +66,7 @@ export default function SettingsScreen() {
           icon: 'information-circle',
           title: translations.about.en,
           titleKin: translations.about.kin,
-          subtitle: 'AgroReba v1.0.0',
+          subtitle: 'SOROMA TECH LTD v1.0.0',
           type: 'info',
         },
       ],
@@ -87,7 +103,7 @@ export default function SettingsScreen() {
                 title: 'Reset Onboarding',
                 titleKin: 'Subirisha Onboarding',
                 subtitle: 'Clear first-launch flag (for testing)',
-                type: 'link',
+                type: 'link' as SettingType,
                 onPress: async () => {
                   try {
                     await AsyncStorage.removeItem('@agro_reba_onboarding');
@@ -96,6 +112,8 @@ export default function SettingsScreen() {
                       'The app will now show the full onboarding + loading flow on next cold start.\n\nPlease fully close and reopen the app (or use "Reload" from dev menu).',
                       [{ text: 'OK' }]
                     );
+                    // noop for typings
+                    return;
                   } catch (e) {
                     Alert.alert('Error', 'Failed to reset onboarding');
                   }
@@ -130,9 +148,9 @@ export default function SettingsScreen() {
           <View style={styles.appIconContainer}>
             <Ionicons name="leaf" size={40} color={colors.white} />
           </View>
-          <Text style={[styles.appName, { color: colors.white }]}>AgroReba</Text>
+          <Text style={[styles.appName, { color: colors.white }]}>SOROMA TECH LTD</Text>
           <Text style={[styles.appTagline, { color: colors.white + 'CC' }]}>
-            AgroReba
+            SOROMA TECH LTD
           </Text>
           <Text style={[styles.appDescription, { color: colors.white + '99' }]}>
             Helping farmers grow healthier crops
@@ -163,17 +181,18 @@ export default function SettingsScreen() {
                     <Ionicons name={item.icon as any} size={20} color={colors.primary} />
                   </View>
                   <View style={styles.itemContent}>
-                    <BilingualText
-                      english={item.title}
-                      kinyarwanda={item.titleKin}
-                      primaryColor={colors.text}
-                      secondaryColor={colors.textSecondary}
-                      englishStyle={styles.itemTitle}
-                      inline={false}
-                    />
-                    <Text style={[styles.itemSubtitle, { color: colors.textTertiary }]}>
-                      {item.subtitle}
-                    </Text>
+                      <BilingualText
+                        english={item.title}
+                        kinyarwanda={item.titleKin || ''}
+                        primaryColor={colors.text}
+                        secondaryColor={colors.textSecondary}
+                        englishStyle={styles.itemTitle}
+                        inline={false}
+                      />
+                      <Text style={[styles.itemSubtitle, { color: colors.textTertiary }]}> 
+                        {item.subtitle || ''}
+                      </Text>
+
                   </View>
                   {item.type === 'toggle' && (
                     <Switch
