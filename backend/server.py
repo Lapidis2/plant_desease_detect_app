@@ -356,13 +356,68 @@ IMPORTANT:
         logger.error(f"Gemini error: {e}")
         return None
 
-async def ask_gemini_chat(message: str) -> str:
+async def ask_gemini_chat(message: str, crop_context: dict = None) -> str:
     try:
         url = "https://generativelanguage.googleapis.com/v1/models/gemini-2.5-flash-lite:generateContent?key=" + GEMINI_API_KEY
+        
+        crop_data_str = ""
+        if crop_context:
+            crop_data_str = f"\n[OFFICIAL LOCAL AGRONOMIC REFERENCE DATA FOR THE DETECTED CROP]:\n{json.dumps(crop_context, default=str)}\n"
+
         prompt = f"""
-You are an expert agricultural AI assistant. You answer questions about plant health, diseases, farming, and general agriculture.
-Be practical, helpful, and concise. Only answer questions related to agriculture and plants.
-User question: {message}
+You are "AI Botanist", a highly knowledgeable, friendly, and professional plant-care assistant.
+Your primary mission is to help users identify plants, diagnose plant problems, recommend treatments, and provide practical plant-care advice in a clear, accurate, and culturally appropriate way.
+
+────────────────────────────────────
+LANGUAGE BEHAVIOR (CRITICAL)
+────────────────────────────────────
+• Detect the language of the user’s message automatically.
+• If the user writes in Kinyarwanda → respond fully in Kinyarwanda.
+• If the user writes in English → respond fully in English.
+• If the user mixes languages → respond in the dominant language.
+• NEVER force a language. Follow the user.
+• Use a natural, polite, friendly tone — like a professional agricultural expert, not a robot.
+
+────────────────────────────────────
+CORE CAPABILITIES
+────────────────────────────────────
+1. Recommend plants (indoor, outdoor, easy-care, decorative, crops).
+2. Explain plant care (watering, sunlight, soil, temperature, fertilization).
+3. Diagnose plant problems (diseases, pests, nutrient deficiencies, environmental stress).
+4. Suggest treatments:
+   - Organic methods (highly favored, affordable, accessible).
+   - Chemical treatments (when appropriate, always mention proper usage and safety precautions like protective gear and dosage).
+5. Support beginners and professionals equally.
+6. Ask clarifying questions ONLY when necessary.
+
+────────────────────────────────────
+ANSWER STYLE
+────────────────────────────────────
+• Be clear, structured, and practical.
+• Avoid unnecessary scientific jargon.
+• Format answers beautifully with:
+  - short paragraphs
+  - bullet points
+  - numbered steps
+• Be encouraging and supportive.
+
+────────────────────────────────────
+LOCAL CONTEXT AWARENESS (RWANDA & EAST AFRICA)
+────────────────────────────────────
+• Assume many users are smallholder farmers or home gardeners.
+• Favor affordable, locally accessible solutions (e.g. ashes, neem leaves, manual removal, local compost) when possible.
+• Respect small-scale farming realities.
+• Avoid recommending expensive or unavailable imported products unless specifically asked.
+
+────────────────────────────────────
+CROP REFERENCE CONTEXT
+────────────────────────────────────{crop_data_str}
+If the official local agronomic reference data is provided above, you MUST prioritize and align with it. Use these specific Kinyarwanda and English names, disease codes, causes, symptoms, and treatments/dosages to ensure maximum consistency with the app's static scans! Respond deeply, clearly, and naturally using this reference.
+
+────────────────────────────────────
+USER QUERY:
+────────────────────────────────────
+{message}
 """
         payload = {
             "contents": [{"parts": [{"text": prompt}]}]
@@ -632,34 +687,24 @@ async def save_scan(data, image_b64=None):
 @api.post("/chat")
 async def chat_route(req: ChatRequest):
     """
-    Respond in the language of the user's query using static agronomic data when possible.
-    Falls back to Gemini chat if no matching static entry is found.
-    Guarantees a non-None reply.
+    Respond as 'AI Botanist', an expert agricultural AI assistant.
+    Attempts to match with static agronomic data for 29 crops to supply high-quality local reference context.
+    Responds in the user's detected query language.
     """
     message = req.message.strip()
-    # Simple language detection: presence of non-ASCII characters => Kinyarwanda
-    lang = "en"
-    if any(ord(ch) > 127 for ch in message):
-        lang = "rw"
-    else:
-        # Fallback to checking known Kinyarwanda terms in static data
-        for plant in AGRONOMIC_DATA:
-            for key, val in plant.items():
-                if isinstance(val, str) and key.endswith("_kinyarwanda"):
-                    if val.lower() in message.lower():
-                        lang = "rw"
-                        break
-            if lang == "rw":
-                break
-
     msg_l = message.lower().strip()
 
-    # Friendly greeting for short / hello messages (prevents Chili Pepper on "hi")
+    # Friendly greeting for short / hello messages
     if len(msg_l) < 4 or msg_l in ["hi", "hey", "hello", "test", "yo", "salut", "bonjour"]:
-        greeting = "Muraho! Ndi umwungu w'ubuhinzi. Baza iby'ibihingwa, indwara, cyangwa imiti y'umurima." if lang == "rw" else "Hello! I'm your agricultural assistant. Ask me about crops, diseases, or treatments."
+        lang = "rw" if any(ord(ch) > 127 for ch in message) or any(kw in msg_l for kw in ["muraho", "bite", "amashyo"]) else "en"
+        greeting = (
+            "Muraho! Ndi **AI Botanist**, umwungeri w'ubuhinzi n'ubworozi. Baza iby'ibihingwa, indwara, cyangwa imiti y'umurima."
+            if lang == "rw"
+            else "Hello! I'm **AI Botanist**, your friendly plant-care assistant. Ask me about crops, diseases, or farm treatments!"
+        )
         return {"reply": greeting}
 
-    # Try to find a matching plant entry — STRICT matching only
+    # Try to find a matching crop entry from static data for context injection
     matched = None
     if len(msg_l) >= 4:
         for p in AGRONOMIC_DATA:
@@ -667,76 +712,24 @@ async def chat_route(req: ChatRequest):
                 val = normalize_name(p.get(key, ""))
                 if not val or len(val) < 4:
                     continue
-                # Require the crop name to appear substantially (whole word or long substring)
+                # Require the crop name to appear substantially
                 if val == msg_l or val in msg_l.split() or msg_l in val.split():
                     matched = p
                     break
-                # Allow only if the user typed a reasonably long part of the crop name
                 if len(msg_l) >= 5 and (msg_l in val or val in msg_l):
                     matched = p
                     break
             if matched:
                 break
-    if matched:
-        name_en = matched.get("crop_name_en") or matched.get("common_name")
-        name_rw = matched.get("crop_name_rw") or matched.get("common_name_kinyarwanda")
-        diseases = matched.get("diseases", [])
 
-        # Build a useful reply by extracting real data from the static reference
-        if lang == "rw":
-            reply_lines = [f"**{name_rw}**"]
-            # Try to find relevant diseases based on keywords in the question
-            question_lower = message.lower()
-            relevant = []
-            for d in diseases:
-                dname = (d.get("disease_name_rw") or d.get("disease_name_en") or "").lower()
-                if any(kw in question_lower for kw in ["indwara", "ibibazo", "umuti", dname[:8] if len(dname) > 5 else dname]):
-                    relevant.append(d)
-            if not relevant:
-                relevant = [d for d in diseases if "healthy" not in (d.get("disease_code","") + d.get("disease_name_en","")).lower()][:3]
-
-            for d in relevant[:3]:
-                reply_lines.append(f"\n• {d.get('disease_name_rw', d.get('disease_name_en'))}")
-                if d.get("symptoms_rw"):
-                    reply_lines.append("  Ibimenyetso: " + "; ".join(d["symptoms_rw"][:2]))
-                chem = d.get("treatment", {}).get("chemical_rw", [])
-                org = d.get("treatment", {}).get("organic_rw", [])
-                if chem:
-                    reply_lines.append("  Umuti wemewe: " + chem[0])
-                if org:
-                    reply_lines.append("  Uburyo bwa organic: " + org[0])
-            reply_lines.append("\nKomeza gusuzuma igihingwa cyangwa ufate isuzuma rya foto.")
-            reply = "\n".join(reply_lines)
-        else:
-            reply_lines = [f"**{name_en}**"]
-            question_lower = message.lower()
-            relevant = []
-            for d in diseases:
-                dname = (d.get("disease_name_en") or "").lower()
-                if any(kw in question_lower for kw in ["disease", "problem", "treat", "cure", dname[:6] if len(dname) > 4 else dname]):
-                    relevant.append(d)
-            if not relevant:
-                relevant = [d for d in diseases if "healthy" not in (d.get("disease_code","") + d.get("disease_name_en","")).lower()][:3]
-
-            for d in relevant[:3]:
-                reply_lines.append(f"\n• {d.get('disease_name_en')}")
-                if d.get("symptoms_en"):
-                    reply_lines.append("  Symptoms: " + "; ".join(d["symptoms_en"][:2]))
-                chem = d.get("treatment", {}).get("chemical_rw", []) or d.get("treatment", {}).get("chemical_en", [])
-                org = d.get("treatment", {}).get("organic_rw", []) or d.get("treatment", {}).get("organic_en", [])
-                if chem:
-                    reply_lines.append("  Approved treatment: " + chem[0])
-                if org:
-                    reply_lines.append("  Organic/low-cost: " + org[0])
-            reply_lines.append("\nFor more details, scan a leaf photo or ask about a specific disease.")
-            reply = "\n".join(reply_lines)
-
-        return {"reply": reply}
-    # Fallback to Gemini chat
-    response = await ask_gemini_chat(message)
-    # Ensure a string reply
+    # Call Gemini with matched crop context if found
+    response = await ask_gemini_chat(message, crop_context=matched)
     if not response:
-        response = "I'm sorry, I couldn't process your request at the moment."
+        response = (
+            "Ntabwo nshoboye gucyemura iki kibazo ubu, gerageza mukanya."
+            if any(ord(ch) > 127 for ch in message)
+            else "I'm sorry, I couldn't process your request at the moment. Please try again."
+        )
     return {"reply": response}
 
 @api.post("/analyze", response_model=ScanResult)
