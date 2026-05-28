@@ -7,7 +7,7 @@ const getBaseUrl = (): string => {
   let backendUrl =
     Constants.expoConfig?.extra?.EXPO_PUBLIC_BACKEND_URL ||
     process.env.EXPO_PUBLIC_BACKEND_URL ||
-    'https://agri-ai-backend-iflu.onrender.com';  
+    'http://localhost:10000/api';  
 
   if (!backendUrl.startsWith('http')) {
     backendUrl = `http://${backendUrl}`;
