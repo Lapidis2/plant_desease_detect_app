@@ -786,24 +786,29 @@ async def history(limit: int = 10, include_images: bool = False):
             scan_result = s.get("scan_result", {})
             image_base64 = s.get("image_base64")
 
-            # Build complete scan history object
+            # Create a copy to avoid modifying the original
+            scan_result_copy = dict(scan_result) if scan_result else {}
+            
+            # Only add image to scan_result if requested AND image exists
             if include_images and image_base64:
-                # Include image in scan_result
-                if scan_result:
-                    scan_result["image_base64"] = image_base64
-                    if "plant" in scan_result:
-                        scan_result["plant"]["image_base64"] = image_base64
+                scan_result_copy["image_base64"] = image_base64
+                # Add image to plant if plant exists
+                if "plant" in scan_result_copy and isinstance(scan_result_copy["plant"], dict):
+                    plant_copy = dict(scan_result_copy["plant"])
+                    plant_copy["image_base64"] = image_base64
+                    scan_result_copy["plant"] = plant_copy
             else:
-                # Don't include image
-                if scan_result and "image_base64" in scan_result:
-                    scan_result["image_base64"] = None
-                if scan_result and "plant" in scan_result and "image_base64" in scan_result["plant"]:
-                    scan_result["plant"]["image_base64"] = None
+                # Remove/set image to None if not including images
+                if "image_base64" in scan_result_copy:
+                    scan_result_copy.pop("image_base64", None)
+                if "plant" in scan_result_copy and isinstance(scan_result_copy["plant"], dict):
+                    plant_copy = dict(scan_result_copy["plant"])
+                    plant_copy.pop("image_base64", None)
+                    scan_result_copy["plant"] = plant_copy
 
             res_list.append({
                 "id": scan_id,
-                "scan_result": scan_result,
-                "image_base64": image_base64 if include_images else None,
+                "scan_result": scan_result_copy,
                 "created_at": created_at.isoformat() if isinstance(created_at, datetime) else created_at
             })
 
@@ -811,6 +816,8 @@ async def history(limit: int = 10, include_images: bool = False):
         return res_list
     except Exception as e:
         logger.error(f"❌ Error fetching history: {str(e)}")
+        import traceback
+        logger.error(f"❌ Traceback: {traceback.format_exc()}")
         raise HTTPException(status_code=500, detail=f"Failed to fetch history: {str(e)}")
 
 

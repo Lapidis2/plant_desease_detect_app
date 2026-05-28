@@ -33,8 +33,10 @@ export default function HistoryScreen() {
 
    const loadHistory = useCallback(async () => {
      try {
-       console.log('🔍 Fetching scan history with images...');
-       const scans = await getScanHistory(50, true);
+       console.log('🔍 Fetching scan history...');
+       // Don't request images in list view - too much data
+       // Images will be fetched when user taps on a specific scan
+       const scans = await getScanHistory(50, false);
        console.log('📊 Raw response from API:', scans);
        
        // Filter and validate scans - they should have scan_result with full data
