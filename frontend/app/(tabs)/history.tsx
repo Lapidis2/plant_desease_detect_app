@@ -33,13 +33,15 @@ export default function HistoryScreen() {
 
    const loadHistory = useCallback(async () => {
      try {
-       console.log('🔍 Fetching scan history...');
-       const scans = await getScanHistory(10, false);
+       console.log('🔍 Fetching scan history with images...');
+       const scans = await getScanHistory(50, true);
        console.log('📊 Raw response from API:', scans);
-       // Accept all items that have at least a top-level id (backend always returns this)
+       
+       // Filter and validate scans - they should have scan_result with full data
        const safeScans = Array.isArray(scans) 
-         ? scans.filter((item: any) => item && item.id)
+         ? scans.filter((item: any) => item && item.id && item.scan_result)
          : [];
+       
        console.log('✅ Filtered scans:', safeScans);
        console.log('📈 Total scans found:', safeScans.length);
        setHistory(safeScans);
@@ -154,55 +156,16 @@ export default function HistoryScreen() {
             <CardSkeleton baseColor={colors.surfaceSecondary} highlightColor={colors.surface} />
           </>
         ) : history.length > 0 ? (
-          history.map((scan) => (
-            <View key={scan.id} style={styles.scanItem}>
+          history.map((scanHistoryItem) => (
+            <View key={scanHistoryItem.id} style={styles.scanItem}>
               <ScanCard
-                scan={{
-                  id: scan.id,
-                  plant: {
-                    common_name: scan.plant_name,
-                    common_name_kinyarwanda: scan.plant_name_kinyarwanda,
-                    scientific_name: scan.scientific_name,
-                    family: "",
-                    description: "",
-                    description_kinyarwanda: "",
-                    care_tips: [],
-                    care_tips_kinyarwanda: [],
-                    image_base64: ""
-                  },
-                  diseases: scan.disease_name ? [{
-                    name: scan.disease_name,
-                    name_kinyarwanda: scan.disease_name_kinyarwanda,
-                    description: "",
-                    description_kinyarwanda: "",
-                    causes: [],
-                    causes_kinyarwanda: [],
-                    symptoms: [],
-                    symptoms_kinyarwanda: [],
-                    treatments: [],
-                    treatments_kinyarwanda: [],
-                    prevention: [],
-                    prevention_kinyarwanda: [],
-                    severity: "mild" as const,
-                    progression: "",
-                    progression_kinyarwanda: "",
-                    recovery_time: "",
-                    recovery_time_kinyarwanda: "",
-                    confidence_score: scan.confidence
-                  }] : [],
-                  recommendations: [],
-                  health_score: scan.health_score,
-                  scan_date: scan.createdAt,
-                  image_base64: "",
-                  weather_data: undefined
-                }}
-                onPress={() => navigateToResult(scan.id)}
+                scan={scanHistoryItem.scan_result}
+                onPress={() => navigateToResult(scanHistoryItem.id)}
                 colors={colors}
-                imageUrl={scan.imageUrl}
               />
               <TouchableOpacity
                 style={[styles.deleteButton, { backgroundColor: colors.error + '15' }]}
-                onPress={() => handleDeleteScan(scan)}
+                onPress={() => handleDeleteScan(scanHistoryItem)}
               >
                 <Ionicons name="trash-outline" size={18} color={colors.error} />
               </TouchableOpacity>

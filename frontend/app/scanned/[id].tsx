@@ -26,19 +26,14 @@ export default function ScanDetailScreen() {
       try {
         setLoading(true);
         const res = await getScanById(id as string);
-        setScanRaw(res as ScanHistory);
-
-        const normalized = (res.scan_result ? res.scan_result : res) as ScanResult;
-        if ((res as ScanHistory).image_base64) {
-          normalized.image_base64 = (res as ScanHistory).image_base64 as string;
-        }
-        if ((res as ScanHistory).image_base64 && normalized.plant) {
-          normalized.plant.image_base64 = (res as ScanHistory).image_base64 as string;
-        }
-
+        console.log('📊 Fetched scan:', res);
+        
+        // The backend returns the scan_result directly with image_base64 included
+        const normalized = res as ScanResult;
         setScan(normalized);
+        setScanRaw(res);
       } catch (err) {
-        console.log(err);
+        console.error('Error fetching scan:', err);
         setError('Failed to load scan');
       } finally {
         setLoading(false);

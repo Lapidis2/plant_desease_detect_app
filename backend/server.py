@@ -786,40 +786,25 @@ async def history(limit: int = 10, include_images: bool = False):
             scan_result = s.get("scan_result", {})
             image_base64 = s.get("image_base64")
 
-            # Extract plant info
-            plant = scan_result.get("plant", {})
-            plant_name = plant.get("common_name", "")
-            plant_name_kinyarwanda = plant.get("common_name_kinyarwanda", "")
-            scientific_name = plant.get("scientific_name", "")
-
-            # Extract diseases info
-            diseases = scan_result.get("diseases", [])
-            disease_name = ""
-            disease_name_kinyarwanda = ""
-            if diseases and len(diseases) > 0:
-                first_disease = diseases[0]
-                disease_name = first_disease.get("name", "")
-                disease_name_kinyarwanda = first_disease.get("name_kinyarwanda", "")
-
-            confidence = scan_result.get("confidence_score", 0.0)
-            health_score = scan_result.get("health_score", 0)
-
-            # Determine imageUrl
-            imageUrl = None
+            # Build complete scan history object
             if include_images and image_base64:
-                imageUrl = f"/history/{scan_id}/image"
+                # Include image in scan_result
+                if scan_result:
+                    scan_result["image_base64"] = image_base64
+                    if "plant" in scan_result:
+                        scan_result["plant"]["image_base64"] = image_base64
+            else:
+                # Don't include image
+                if scan_result and "image_base64" in scan_result:
+                    scan_result["image_base64"] = None
+                if scan_result and "plant" in scan_result and "image_base64" in scan_result["plant"]:
+                    scan_result["plant"]["image_base64"] = None
 
             res_list.append({
                 "id": scan_id,
-                "plant_name": plant_name,
-                "plant_name_kinyarwanda": plant_name_kinyarwanda,
-                "scientific_name": scientific_name,
-                "disease_name": disease_name,
-                "disease_name_kinyarwanda": disease_name_kinyarwanda,
-                "confidence": confidence,
-                "health_score": health_score,
-                "createdAt": created_at.isoformat() if isinstance(created_at, datetime) else created_at,
-                "imageUrl": imageUrl
+                "scan_result": scan_result,
+                "image_base64": image_base64 if include_images else None,
+                "created_at": created_at.isoformat() if isinstance(created_at, datetime) else created_at
             })
 
         logger.info(f"✅ Returning {len(res_list)} formatted scans")

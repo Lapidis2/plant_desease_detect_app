@@ -34,7 +34,8 @@ export const getScanHistory = async (limit: number = 10, includeImages: boolean 
        params: { limit, include_images: includeImages },
      });
      console.log('✅ History API Response:', response.data);
-     return response.data;
+     // Ensure we return array of scan histories with proper structure
+     return Array.isArray(response.data) ? response.data : [];
    } catch (error) {
      console.error('❌ History API Error:', error);
      throw error;

@@ -73,15 +73,9 @@ export interface ScanResult {
 
 export interface ScanHistory {
     id: string;
-    plant_name: string;
-    plant_name_kinyarwanda: string;
-    scientific_name: string;
-    disease_name: string;
-    disease_name_kinyarwanda: string;
-    confidence: number;
-    health_score: number;
-    createdAt: string;
-    imageUrl: string | null;
+    scan_result: ScanResult;
+    image_base64?: string;
+    created_at: string;
 }
 
 export interface GardenPlant {

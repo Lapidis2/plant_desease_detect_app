@@ -19,10 +19,11 @@ export const ScanCard: React.FC<ScanCardProps> = ({
   onPress,
   colors,
   compact = false,
+  imageUrl,
 }) => {
   const healthColor = getHealthColor(scan?.health_score ?? 0, colors);
   const hasDisease = scan?.diseases && (scan.diseases.length || 0) > 0;
-const cleanImage = scan?.image_base64?.replace(/\s/g, "");
+  const cleanImage = scan?.image_base64?.replace(/\s/g, "");
   return (
     <TouchableOpacity
       style={[
@@ -36,36 +37,36 @@ const cleanImage = scan?.image_base64?.replace(/\s/g, "");
       onPress={onPress}
       activeOpacity={0.7}
     >
-       <View style={styles.imageContainer}>
-         {props.imageUrl ? (
-           <Image
-             source={{ uri: props.imageUrl }}
-             style={styles.image}
-             resizeMode="cover"
-           />
-         ) : (scan?.image_base64 ? (
-           
-           <Image
-   source={{
-     uri: `data:image/jpeg;base64,${cleanImage}`,
-   }}
-   style={styles.image}
-   resizeMode="cover"
- />
-         ) : (
-           <View style={[styles.imagePlaceholder, { backgroundColor: colors.surfaceSecondary }]}>
-             <Ionicons name="leaf" size={32} color={colors.primary} />
-           </View>
-         ))}
-         <View
-           style={[
-             styles.healthBadge,
-             { backgroundColor: healthColor },
-           ]}
-         >
-           <Text style={styles.healthText}>{scan?.health_score}%</Text>
-         </View>
-       </View>
+      <View style={styles.imageContainer}>
+        {imageUrl ? (
+          <Image
+            source={{ uri: imageUrl }}
+            style={styles.image}
+            resizeMode="cover"
+          />
+        ) : (scan?.image_base64 ? (
+          
+          <Image
+    source={{
+      uri: `data:image/jpeg;base64,${cleanImage}`,
+    }}
+    style={styles.image}
+    resizeMode="cover"
+  />
+        ) : (
+          <View style={[styles.imagePlaceholder, { backgroundColor: colors.surfaceSecondary }]}>
+            <Ionicons name="leaf" size={32} color={colors.primary} />
+          </View>
+        ))}
+        <View
+          style={[
+            styles.healthBadge,
+            { backgroundColor: healthColor },
+          ]}
+        >
+          <Text style={styles.healthText}>{scan?.health_score}%</Text>
+        </View>
+      </View>
 
       <View style={styles.content}>
         {scan?.plant && (
