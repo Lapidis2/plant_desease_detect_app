@@ -31,45 +31,45 @@ export default function HistoryScreen() {
   const [refreshing, setRefreshing] = useState(false);
   const [history, setHistory] = useState<ScanHistory[]>([]);
 
-  const loadHistory = useCallback(async () => {
-    try {
-      console.log('🔍 Fetching scan history...');
-      const scans = await getScanHistory(50, true);
-      console.log('📊 Raw response from API:', scans);
-      // Accept all items that have at least a top-level id (backend always returns this)
-      const safeScans = Array.isArray(scans) 
-        ? scans.filter((item: any) => item && item.id)
-        : [];
-      console.log('✅ Filtered scans:', safeScans);
-      console.log('📈 Total scans found:', safeScans.length);
-      setHistory(safeScans);
-    } catch (error) {
-      console.error('❌ Error loading history:', error);
-      if (error instanceof Error) {
-        console.error('   Error message:', error.message);
-        console.error('   Error details:', error);
-        
-        // If it's a network error, run diagnostics
-        if (error.message.includes('Network') || error.message.includes('ECONNREFUSED')) {
-          console.log('\n🔧 Running network diagnostics...');
-          const diagnostics = await testBackendConnection(BACKEND_CANDIDATES[0]);
-          printNetworkDiagnostics(diagnostics);
-          
-          if (!diagnostics.isReachable) {
-            Alert.alert(
-              'Connection Error',
-              `Cannot reach backend at ${diagnostics.backendUrl}\n\nMake sure:\n1. Backend server is running\n2. Your device is on the same network\n3. Firewall allows port 10000`,
-              [{ text: 'OK' }]
-            );
-          }
-        }
-      }
-      // Set empty array on error so empty state is shown
-      setHistory([]);
-    } finally {
-      setLoading(false);
-    }
-  }, []);
+   const loadHistory = useCallback(async () => {
+     try {
+       console.log('🔍 Fetching scan history...');
+       const scans = await getScanHistory(10, false);
+       console.log('📊 Raw response from API:', scans);
+       // Accept all items that have at least a top-level id (backend always returns this)
+       const safeScans = Array.isArray(scans) 
+         ? scans.filter((item: any) => item && item.id)
+         : [];
+       console.log('✅ Filtered scans:', safeScans);
+       console.log('📈 Total scans found:', safeScans.length);
+       setHistory(safeScans);
+     } catch (error) {
+       console.error('❌ Error loading history:', error);
+       if (error instanceof Error) {
+         console.error('   Error message:', error.message);
+         console.error('   Error details:', error);
+         
+         // If it's a network error, run diagnostics
+         if (error.message.includes('Network') || error.message.includes('ECONNREFUSED')) {
+           console.log('\n🔧 Running network diagnostics...');
+           const diagnostics = await testBackendConnection(BACKEND_CANDIDATES[0]);
+           printNetworkDiagnostics(diagnostics);
+           
+           if (!diagnostics.isReachable) {
+             Alert.alert(
+               'Connection Error',
+               `Cannot reach backend at ${diagnostics.backendUrl}\n\nMake sure:\n1. Backend server is running\n2. Your device is on the same network\n3. Firewall allows port 10000`,
+               [{ text: 'OK' }]
+             );
+           }
+         }
+       }
+       // Set empty array on error so empty state is shown
+       setHistory([]);
+     } finally {
+       setLoading(false);
+     }
+   }, []);
 
   useEffect(() => {
     loadHistory();
@@ -112,10 +112,10 @@ export default function HistoryScreen() {
     );
   };
 
- const navigateToResult = (scanResult?: ScanResult) => {
-  if (!scanResult?.id) return;
-  router.push(`/scanned/${scanResult.id}`);
-};
+  const navigateToResult = (scanId?: string) => {
+    if (!scanId) return;
+    router.push(`/scanned/${scanId}`);
+  };
 
   return (
     <View style={[styles.container, { backgroundColor: colors.background }]}>
@@ -156,14 +156,50 @@ export default function HistoryScreen() {
         ) : history.length > 0 ? (
           history.map((scan) => (
             <View key={scan.id} style={styles.scanItem}>
-            <ScanCard
-  scan={{
-    ...scan.scan_result,
-    image_base64: scan.image_base64   
-  }}
-  onPress={() => navigateToResult(scan.scan_result)}
-  colors={colors}
-/>
+              <ScanCard
+                scan={{
+                  id: scan.id,
+                  plant: {
+                    common_name: scan.plant_name,
+                    common_name_kinyarwanda: scan.plant_name_kinyarwanda,
+                    scientific_name: scan.scientific_name,
+                    family: "",
+                    description: "",
+                    description_kinyarwanda: "",
+                    care_tips: [],
+                    care_tips_kinyarwanda: [],
+                    image_base64: ""
+                  },
+                  diseases: scan.disease_name ? [{
+                    name: scan.disease_name,
+                    name_kinyarwanda: scan.disease_name_kinyarwanda,
+                    description: "",
+                    description_kinyarwanda: "",
+                    causes: [],
+                    causes_kinyarwanda: [],
+                    symptoms: [],
+                    symptoms_kinyarwanda: [],
+                    treatments: [],
+                    treatments_kinyarwanda: [],
+                    prevention: [],
+                    prevention_kinyarwanda: [],
+                    severity: "mild" as const,
+                    progression: "",
+                    progression_kinyarwanda: "",
+                    recovery_time: "",
+                    recovery_time_kinyarwanda: "",
+                    confidence_score: scan.confidence
+                  }] : [],
+                  recommendations: [],
+                  health_score: scan.health_score,
+                  scan_date: scan.createdAt,
+                  image_base64: "",
+                  weather_data: undefined
+                }}
+                onPress={() => navigateToResult(scan.id)}
+                colors={colors}
+                imageUrl={scan.imageUrl}
+              />
               <TouchableOpacity
                 style={[styles.deleteButton, { backgroundColor: colors.error + '15' }]}
                 onPress={() => handleDeleteScan(scan)}

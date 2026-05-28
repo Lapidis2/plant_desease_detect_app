@@ -72,11 +72,16 @@ export interface ScanResult {
 }
 
 export interface ScanHistory {
-  image_base64: string | undefined;
-  id: string;
-  user_id: string;
-  scan_result: ScanResult;
-  created_at: string;
+    id: string;
+    plant_name: string;
+    plant_name_kinyarwanda: string;
+    scientific_name: string;
+    disease_name: string;
+    disease_name_kinyarwanda: string;
+    confidence: number;
+    health_score: number;
+    createdAt: string;
+    imageUrl: string | null;
 }
 
 export interface GardenPlant {

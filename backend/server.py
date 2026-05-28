@@ -1,5 +1,5 @@
 import certifi
-from fastapi import BackgroundTasks, FastAPI, APIRouter, HTTPException
+from fastapi import BackgroundTasks, FastAPI, APIRouter, HTTPException, Response
 from fastapi.middleware.cors import CORSMiddleware
 from motor.motor_asyncio import AsyncIOMotorClient
 from pydantic import BaseModel, Field
@@ -773,7 +773,7 @@ async def get_weather(latitude: float, longitude: float):
         return weather
     raise HTTPException(status_code=503, detail="Weather service unavailable")
 @api.get("/history")
-async def history(limit: int = 20, include_images: bool = False):
+async def history(limit: int = 10, include_images: bool = False):
     try:
         logger.info(f"📋 Fetching scan history with limit={limit}, include_images={include_images}")
         scans = await db.scans.find().sort("created_at", -1).limit(limit).to_list(limit)
@@ -781,27 +781,47 @@ async def history(limit: int = 20, include_images: bool = False):
 
         res_list = []
         for s in scans:
-            res = s.get("scan_result", {})
-            if include_images:
-                if res:
-                    res["image_base64"] = s.get("image_base64")
-                    if "plant" in res:
-                        res["plant"]["image_base64"] = s.get("image_base64")
-                item_image = s.get("image_base64")
-            else:
-                if res and "image_base64" in res:
-                    res["image_base64"] = None
-                if res and "plant" in res and "image_base64" in res["plant"]:
-                    res["plant"]["image_base64"] = None
-                item_image = None
+            scan_id = s["id"]
+            created_at = s.get("created_at")
+            scan_result = s.get("scan_result", {})
+            image_base64 = s.get("image_base64")
+
+            # Extract plant info
+            plant = scan_result.get("plant", {})
+            plant_name = plant.get("common_name", "")
+            plant_name_kinyarwanda = plant.get("common_name_kinyarwanda", "")
+            scientific_name = plant.get("scientific_name", "")
+
+            # Extract diseases info
+            diseases = scan_result.get("diseases", [])
+            disease_name = ""
+            disease_name_kinyarwanda = ""
+            if diseases and len(diseases) > 0:
+                first_disease = diseases[0]
+                disease_name = first_disease.get("name", "")
+                disease_name_kinyarwanda = first_disease.get("name_kinyarwanda", "")
+
+            confidence = scan_result.get("confidence_score", 0.0)
+            health_score = scan_result.get("health_score", 0)
+
+            # Determine imageUrl
+            imageUrl = None
+            if include_images and image_base64:
+                imageUrl = f"/history/{scan_id}/image"
 
             res_list.append({
-                "id": s["id"],
-                "scan_result": res,
-                "image_base64": item_image,
-                "created_at": s.get("created_at")
+                "id": scan_id,
+                "plant_name": plant_name,
+                "plant_name_kinyarwanda": plant_name_kinyarwanda,
+                "scientific_name": scientific_name,
+                "disease_name": disease_name,
+                "disease_name_kinyarwanda": disease_name_kinyarwanda,
+                "confidence": confidence,
+                "health_score": health_score,
+                "createdAt": created_at.isoformat() if isinstance(created_at, datetime) else created_at,
+                "imageUrl": imageUrl
             })
-        
+
         logger.info(f"✅ Returning {len(res_list)} formatted scans")
         return res_list
     except Exception as e:
@@ -812,7 +832,6 @@ async def history(limit: int = 20, include_images: bool = False):
 @api.get("/history/{scan_id}")
 async def get_scan(scan_id: str):
     scan = await db.scans.find_one({"id": scan_id})
-
     if not scan:
         raise HTTPException(status_code=404, detail="Not found")
 
@@ -822,6 +841,19 @@ async def get_scan(scan_id: str):
         if "plant" in res:
             res["plant"]["image_base64"] = scan.get("image_base64")
     return res
+
+
+@api.get("/history/{scan_id}/image")
+async def get_scan_image(scan_id: str):
+    scan = await db.scans.find_one({"id": scan_id})
+    if not scan:
+        raise HTTPException(status_code=404, detail="Not found")
+    image_base64 = scan.get("image_base64")
+    if not image_base64:
+        raise HTTPException(status_code=404, detail="Image not found")
+    # Return the image as a JPEG
+    return Response(content=base64.b64decode(image_base64), media_type="image/jpeg")
+
 
 @api.delete("/history/{scan_id}")
 async def delete_scan(scan_id: str):

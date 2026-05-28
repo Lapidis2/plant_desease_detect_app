@@ -11,6 +11,7 @@ interface ScanCardProps {
   onPress: () => void;
   colors: ThemeColors;
   compact?: boolean;
+  imageUrl?: string;
 }
 
 export const ScanCard: React.FC<ScanCardProps> = ({
@@ -35,30 +36,36 @@ const cleanImage = scan?.image_base64?.replace(/\s/g, "");
       onPress={onPress}
       activeOpacity={0.7}
     >
-      <View style={styles.imageContainer}>
-        {scan?.image_base64 ? (
-          
-        <Image
-  source={{
-    uri: `data:image/jpeg;base64,${cleanImage}`,
-  }}
-  style={styles.image}
-  resizeMode="cover"
-/>
-        ) : (
-          <View style={[styles.imagePlaceholder, { backgroundColor: colors.surfaceSecondary }]}>
-            <Ionicons name="leaf" size={32} color={colors.primary} />
-          </View>
-        )}
-        <View
-          style={[
-            styles.healthBadge,
-            { backgroundColor: healthColor },
-          ]}
-        >
-          <Text style={styles.healthText}>{scan?.health_score}%</Text>
-        </View>
-      </View>
+       <View style={styles.imageContainer}>
+         {props.imageUrl ? (
+           <Image
+             source={{ uri: props.imageUrl }}
+             style={styles.image}
+             resizeMode="cover"
+           />
+         ) : (scan?.image_base64 ? (
+           
+           <Image
+   source={{
+     uri: `data:image/jpeg;base64,${cleanImage}`,
+   }}
+   style={styles.image}
+   resizeMode="cover"
+ />
+         ) : (
+           <View style={[styles.imagePlaceholder, { backgroundColor: colors.surfaceSecondary }]}>
+             <Ionicons name="leaf" size={32} color={colors.primary} />
+           </View>
+         ))}
+         <View
+           style={[
+             styles.healthBadge,
+             { backgroundColor: healthColor },
+           ]}
+         >
+           <Text style={styles.healthText}>{scan?.health_score}%</Text>
+         </View>
+       </View>
 
       <View style={styles.content}>
         {scan?.plant && (

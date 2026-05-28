@@ -27,18 +27,18 @@ export const getWeather = async (
 };
 
 // Get scan history
-export const getScanHistory = async (limit: number = 50, includeImages: boolean = false): Promise<ScanHistory[]> => {
-  try {
-    console.log(`🌐 API Call: GET /history?limit=${limit}&include_images=${includeImages}`);
-    const response = await apiClient.get('/history', {
-      params: { limit, include_images: includeImages },
-    });
-    console.log('✅ History API Response:', response.data);
-    return response.data;
-  } catch (error) {
-    console.error('❌ History API Error:', error);
-    throw error;
-  }
+export const getScanHistory = async (limit: number = 10, includeImages: boolean = false): Promise<ScanHistory[]> => {
+   try {
+     console.log(`🌐 API Call: GET /history?limit=${limit}&include_images=${includeImages}`);
+     const response = await apiClient.get('/history', {
+       params: { limit, include_images: includeImages },
+     });
+     console.log('✅ History API Response:', response.data);
+     return response.data;
+   } catch (error) {
+     console.error('❌ History API Error:', error);
+     throw error;
+   }
 };
 
 // Get scan by ID
