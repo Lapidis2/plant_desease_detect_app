@@ -27,11 +27,11 @@ export const getWeather = async (
 };
 
 // Get scan history
-export const getScanHistory = async (limit: number = 10, includeImages: boolean = false): Promise<ScanHistory[]> => {
+export const getScanHistory = async (limit: number = 10, includeImages: boolean = false, skip: number = 0): Promise<ScanHistory[]> => {
    try {
-     console.log(`🌐 API Call: GET /history?limit=${limit}&include_images=${includeImages}`);
+     console.log(`🌐 API Call: GET /history?limit=${limit}&include_images=${includeImages}&skip=${skip}`);
      const response = await apiClient.get('/history', {
-       params: { limit, include_images: includeImages },
+       params: { limit, include_images: includeImages, skip },
      });
      console.log('✅ History API Response:', response.data);
      // Ensure we return array of scan histories with proper structure
@@ -40,6 +40,19 @@ export const getScanHistory = async (limit: number = 10, includeImages: boolean 
      console.error('❌ History API Error:', error);
      throw error;
    }
+};
+
+// Get scan history count
+export const getScanHistoryCount = async (): Promise<number> => {
+  try {
+    console.log('🌐 API Call: GET /history/count');
+    const response = await apiClient.get('/history/count');
+    console.log('✅ History Count API Response:', response.data);
+    return typeof response.data?.count === 'number' ? response.data.count : 0;
+  } catch (error) {
+    console.error('❌ History Count API Error:', error);
+    return 0;
+  }
 };
 
 // Get scan by ID

@@ -773,10 +773,10 @@ async def get_weather(latitude: float, longitude: float):
         return weather
     raise HTTPException(status_code=503, detail="Weather service unavailable")
 @api.get("/history")
-async def history(limit: int = 10, include_images: bool = False):
+async def history(limit: int = 10, skip: int = 0, include_images: bool = False):
     try:
-        logger.info(f"📋 Fetching scan history with limit={limit}, include_images={include_images}")
-        scans = await db.scans.find().sort("created_at", -1).limit(limit).to_list(limit)
+        logger.info(f"📋 Fetching scan history with limit={limit}, skip={skip}, include_images={include_images}")
+        scans = await db.scans.find().sort("created_at", -1).skip(skip).limit(limit).to_list(limit)
         logger.info(f"📊 Found {len(scans)} scans in database")
 
         res_list = []
@@ -819,6 +819,18 @@ async def history(limit: int = 10, include_images: bool = False):
         import traceback
         logger.error(f"❌ Traceback: {traceback.format_exc()}")
         raise HTTPException(status_code=500, detail=f"Failed to fetch history: {str(e)}")
+
+
+@api.get("/history/count")
+async def get_history_count():
+    """Get the total count of scans in database"""
+    try:
+        count = await db.scans.count_documents({})
+        logger.info(f"📊 Total scans count requested: {count}")
+        return {"count": count}
+    except Exception as e:
+        logger.error(f"❌ Error counting history documents: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Failed to count history items: {str(e)}")
 
 
 @api.get("/history/{scan_id}")

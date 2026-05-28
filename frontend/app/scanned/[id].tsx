@@ -2,39 +2,51 @@ import React, { useEffect, useState } from 'react';
 import {
   View,
   Text,
-  ActivityIndicator,
-  ScrollView,
   StyleSheet,
+  ScrollView,
   Image,
+  TouchableOpacity,
+  Alert,
+  ActivityIndicator,
 } from 'react-native';
-import { Stack, useLocalSearchParams, useRouter } from 'expo-router';
-import { getScanById } from '../../src/services/plantService';
+import { useRouter, useLocalSearchParams } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
-import { Disease, Recommendation, ScanHistory, ScanResult } from '../../src/store/appSlice';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { useTheme } from '../../src/components/ThemeContext';
+import { Typography, Spacing, BorderRadius } from '../../src/constants/theme';
+import { BilingualText } from '../../src/components/BilingualText';
+import { DiseaseCard } from '../../src/components/DiseaseCard';
+import { WeatherCard } from '../../src/components/WeatherCard';
+import { Button } from '../../src/components/Button';
+import { translations } from '../../src/constants/translations';
+import { getHealthColor } from '../../src/utils/helpers';
+import { ScanResult, Recommendation, Disease } from '../../src/store/appSlice';
+import { getScanById, addPlantToGarden } from '../../src/services/plantService';
 
 export default function ScanDetailScreen() {
   const { id } = useLocalSearchParams();
   const router = useRouter();
+  const { colors } = useTheme();
+  const insets = useSafeAreaInsets();
 
-  const [scan, setScan] = useState<ScanResult | null>(null);
-  const [scanRaw, setScanRaw] = useState<ScanHistory | null>(null);
+  const [scanResult, setScanResult] = useState<ScanResult | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [addingToGarden, setAddingToGarden] = useState(false);
 
   useEffect(() => {
     const fetchScan = async () => {
       try {
         setLoading(true);
+        console.log(`🔍 Fetching scan details for ID: ${id}`);
         const res = await getScanById(id as string);
         console.log('📊 Fetched scan:', res);
         
-        // The backend returns the scan_result directly with image_base64 included
-        const normalized = res as ScanResult;
-        setScan(normalized);
-        setScanRaw(res);
+        // res is the ScanResult directly
+        setScanResult(res as unknown as ScanResult);
       } catch (err) {
         console.error('Error fetching scan:', err);
-        setError('Failed to load scan');
+        setError('Failed to load scan / Ntibashoboye gukura amakuru y\'isuzuma');
       } finally {
         setLoading(false);
       }
@@ -43,123 +55,565 @@ export default function ScanDetailScreen() {
     if (id) fetchScan();
   }, [id]);
 
+  const handleAddToGarden = async () => {
+    if (!scanResult?.plant) return;
+
+    setAddingToGarden(true);
+    try {
+      await addPlantToGarden(scanResult.plant);
+      Alert.alert(
+        'Added to Garden / Yongewe mu Busitani',
+        'Plant has been saved to your garden.',
+        [{ text: 'OK' }]
+      );
+    } catch (error) {
+      console.error('Error adding to garden:', error);
+      Alert.alert('Error', 'Failed to add plant to garden.');
+    } finally {
+      setAddingToGarden(false);
+    }
+  };
+
+  const navigateToDiseaseDetail = (diseaseIndex: number) => {
+    if (!scanResult) return;
+    router.push({
+      pathname: '/disease-detail',
+      params: {
+        disease: JSON.stringify(scanResult.diseases[diseaseIndex]),
+      },
+    });
+  };
+
   if (loading) {
     return (
-      <View style={styles.center}>
-        <ActivityIndicator size="large" color="#2E7D32" />
-        <Text style={styles.loadingText}>Loading scan...</Text>
+      <View style={[styles.center, { backgroundColor: colors.background }]}>
+        <ActivityIndicator size="large" color={colors.primary} />
+        <Text style={[styles.loadingText, { color: colors.textSecondary }]}>
+          Loading scan details... / Mutegereze amakuru...
+        </Text>
       </View>
     );
   }
 
-  if (error || !scan) {
+  if (error || !scanResult) {
     return (
-      <View style={styles.center}>
-        <Ionicons name="alert-circle-outline" size={50} color="red" />
-        <Text style={styles.errorText}>{error || 'Scan not found'}</Text>
+      <View style={[styles.center, { backgroundColor: colors.background }]}>
+        <Ionicons name="alert-circle-outline" size={50} color={colors.error} />
+        <Text style={[styles.errorText, { color: colors.error }]}>
+          {error || 'Scan not found / Isuzuma ntiryaboneka'}
+        </Text>
+        <TouchableOpacity
+          style={[styles.retryButton, { backgroundColor: colors.primary }]}
+          onPress={() => router.back()}
+        >
+          <Text style={styles.retryButtonText}>Go Back / Subira Inyuma</Text>
+        </TouchableOpacity>
       </View>
     );
   }
 
-  const plant = scan ? scan.plant : scanRaw?.scan_result?.plant;
-  const health = scan?.health_score ?? scanRaw?.scan_result?.health_score ?? 0;
+  const healthColor = getHealthColor(scanResult.health_score, colors);
+  const hasDisease = scanResult.diseases && (scanResult.diseases?.length || 0) > 0;
+  const imageUri: string | undefined =
+    scanResult.image_base64?.startsWith('data:')
+      ? scanResult.image_base64
+      : scanResult.image_base64
+      ? `data:image/jpeg;base64,${scanResult.image_base64}`
+      : undefined;
 
   return (
-    <>
-      <Stack.Screen
-        options={{
-          title: 'Scan Details',
-          headerBackVisible: true,
-          headerBackTitle: 'Back',
-        }}
-      />
-
-      <ScrollView style={{ flex: 1, padding: 16 }} contentContainerStyle={{ paddingBottom: 40 }}>
-        <Ionicons
-          style={{ color: '#2E7D32', marginBottom: 10 }}
-          name="arrow-back"
-          size={32}
-          onPress={() => router.back()}
+    <View style={[styles.container, { backgroundColor: colors.background }]}>
+      {/* Header */}
+      <View style={[styles.header, { paddingTop: insets.top + Spacing.sm, backgroundColor: colors.primary }]}>
+        <TouchableOpacity onPress={() => router.back()} style={styles.backButton}>
+          <Ionicons name="arrow-back" size={24} color={colors.white} />
+        </TouchableOpacity>
+        <BilingualText
+          english="Scan Details"
+          kinyarwanda="Ibisobanuro by'Isuzuma"
+          primaryColor={colors.white}
+          secondaryColor={colors.white + 'CC'}
+          englishStyle={styles.headerTitle}
         />
+        <View style={styles.backButton} />
+      </View>
 
-        {scan?.image_base64 ? (
-          <Image
-            source={{ uri: scan.image_base64.startsWith('data:') ? scan.image_base64 : `data:image/jpeg;base64,${scan.image_base64.replace(/\s/g, '')}` }}
-            style={{ width: '100%', height: 220, borderRadius: 12, marginBottom: 16 }}
-            resizeMode="cover"
-          />
-        ) : plant?.image_base64 ? (
-          <Image
-            source={{ uri: plant.image_base64!.startsWith('data:') ? plant.image_base64 : `data:image/jpeg;base64,${plant.image_base64!.replace(/\s/g, '')}` }}
-            style={{ width: '100%', height: 220, borderRadius: 12, marginBottom: 16 }}
-            resizeMode="cover"
-          />
-        ) : null}
-
-        <Text style={{ fontSize: 22, fontWeight: 'bold', marginBottom: 8 }}>🌿 Health: {health}%</Text>
-
-        <Text style={{ fontSize: 16, marginBottom: 4 }}>Plant: {plant?.common_name ?? 'Unknown'}</Text>
-        <Text style={{ fontSize: 14, fontStyle: 'italic', marginBottom: 8 }}>Scientific: {plant?.scientific_name ?? 'Unknown'}</Text>
-
-        {plant?.description && <Text style={{ marginBottom: 12 }}>{plant.description}</Text>}
-
-        {scan?.recommendations && scan.recommendations.length > 0 && (
-          <View style={{ marginBottom: 12 }}>
-            <Text style={{ fontSize: 16, fontWeight: '600' }}>Top Recommendations</Text>
-            {scan.recommendations.slice(0, 3).map((r: Recommendation, i: number) => (
-              <View key={i} style={{ padding: 8, backgroundColor: '#f2f2f2', borderRadius: 8, marginTop: 6 }}>
-                <Text style={{ fontWeight: '600' }}>{r.title}</Text>
-                <Text>{r.description}</Text>
-              </View>
-            ))}
-          </View>
-        )}
-
-        <View style={{ marginTop: 10 }}>
-          <Text style={{ fontSize: 16, fontWeight: '600' }}>Diseases ({scan?.diseases?.length ?? 0})</Text>
-
-          {scan?.diseases?.length === 0 ? (
-            <Text> No diseases detected</Text>
+      <ScrollView
+        style={styles.scrollView}
+        contentContainerStyle={styles.content}
+        showsVerticalScrollIndicator={false}
+      >
+        {/* Plant Image & Health Score */}
+        <View style={[styles.imageCard, { backgroundColor: colors.card, borderColor: colors.border }]}>
+          {imageUri ? (
+            <Image
+              source={{ uri: imageUri }}
+              style={styles.plantImage}
+              resizeMode="cover"
+            />
           ) : (
-            scan.diseases.map((d: Disease, i: number) => (
-              <View key={i} style={{ marginTop: 8 }}>
-                <Text style={{ fontWeight: '600' }}>• {d.name}</Text>
-                {d.symptoms?.length > 0 && <Text> Symptoms: {d.symptoms.slice(0, 3).join('; ')}</Text>}
-              </View>
-            ))
+            <View style={[styles.imagePlaceholder, { backgroundColor: colors.surfaceSecondary }]}>
+              <Ionicons name="leaf" size={60} color={colors.primary} />
+            </View>
           )}
+
+          {/* Health Score Badge */}
+          <View style={[styles.healthBadge, { backgroundColor: healthColor }]}>
+            <Text style={styles.healthScore}>{scanResult.health_score}%</Text>
+            <Text style={styles.healthLabel}>Health</Text>
+          </View>
         </View>
 
-        {scan?.recommendations && scan.recommendations.length > 0 && (
-          <View style={{ marginTop: 18 }}>
-            <Text style={{ fontSize: 16, fontWeight: '600' }}>All Recommendations</Text>
-            {scan.recommendations.map((r: Recommendation, i: number) => (
-              <View key={i} style={{ padding: 10, marginTop: 8, backgroundColor: '#f2f2f2', borderRadius: 8 }}>
-                <Text style={{ fontWeight: '600' }}>{r.title}</Text>
-                <Text>{r.description}</Text>
+        {/* Plant Info */}
+        {scanResult.plant && (
+          <View style={[styles.section, { backgroundColor: colors.card, borderColor: colors.border }]}>
+            <View style={styles.sectionHeader}>
+              <Ionicons name="leaf" size={24} color={colors.primary} />
+              <BilingualText
+                english={translations.plantIdentified.en}
+                kinyarwanda={translations.plantIdentified.kin}
+                primaryColor={colors.text}
+                secondaryColor={colors.textSecondary}
+                englishStyle={styles.sectionTitle}
+              />
+            </View>
+
+            <BilingualText
+              english={scanResult.plant.common_name}
+              kinyarwanda={scanResult.plant.common_name_kinyarwanda}
+              primaryColor={colors.text}
+              secondaryColor={colors.textSecondary}
+              inline={false}
+              englishStyle={styles.plantName}
+            />
+
+            <Text style={[styles.scientificName, { color: colors.textTertiary }]}>
+              {scanResult.plant.scientific_name}
+            </Text>
+
+            <Text style={[styles.familyText, { color: colors.textSecondary }]}>
+              Family: {scanResult.plant.family}
+            </Text>
+
+            <BilingualText
+              english={scanResult.plant.description}
+              kinyarwanda={scanResult.plant.description_kinyarwanda}
+              primaryColor={colors.text}
+              secondaryColor={colors.textSecondary}
+              inline={false}
+              style={styles.description}
+            />
+
+            {/* Care Tips */}
+            {scanResult.plant.care_tips?.length > 0 && (
+              <View style={styles.careTips}>
+                <Text style={[styles.careTipsTitle, { color: colors.text }]}>
+                  Care Tips / Inama zo Kwita
+                </Text>
+                {scanResult.plant.care_tips.map((tip, index) => (
+                  <View key={index} style={styles.tipItem}>
+                    <Ionicons name="checkmark-circle" size={16} color={colors.success} />
+                    <BilingualText
+                      english={tip}
+                      kinyarwanda={scanResult.plant?.care_tips_kinyarwanda?.[index] || tip}
+                      primaryColor={colors.text}
+                      secondaryColor={colors.textSecondary}
+                      inline={false}
+                      style={styles.tipText}
+                    />
+                  </View>
+                ))}
+              </View>
+            )}
+          </View>
+        )}
+
+        {/* Status Section */}
+        <View style={[styles.statusSection, { backgroundColor: hasDisease ? colors.error + '10' : colors.success + '10' }]}>
+          <Ionicons
+            name={hasDisease ? 'alert-circle' : 'checkmark-circle'}
+            size={32}
+            color={hasDisease ? colors.error : colors.success}
+          />
+          <View style={styles.statusContent}>
+            <BilingualText
+              english={hasDisease ? translations.diseaseDetected.en : translations.noDisease.en}
+              kinyarwanda={hasDisease ? translations.diseaseDetected.kin : translations.noDisease.kin}
+              primaryColor={hasDisease ? colors.error : colors.success}
+              secondaryColor={hasDisease ? colors.error + 'CC' : colors.success + 'CC'}
+              englishStyle={styles.statusTitle}
+            />
+            {hasDisease && (
+              <Text style={[styles.statusSubtitle, { color: colors.textSecondary }]}>
+                {scanResult.diseases?.length} issue{scanResult.diseases?.length > 1 ? 's' : ''} found
+              </Text>
+            )}
+          </View>
+        </View>
+
+        {/* Diseases */}
+        {hasDisease && (
+          <View style={styles.diseasesSection}>
+            <BilingualText
+              english="Detected Issues"
+              kinyarwanda="Ibibazo Byabonye"
+              primaryColor={colors.text}
+              secondaryColor={colors.textSecondary}
+              englishStyle={styles.sectionTitle}
+              style={styles.sectionLabel}
+            />
+            {scanResult.diseases.map((disease, index) => (
+              <TouchableOpacity
+                key={disease.id ?? index}
+                onPress={() => navigateToDiseaseDetail(index)}
+                activeOpacity={0.8}
+              >
+                <DiseaseCard disease={disease} colors={colors} />
+              </TouchableOpacity>
+            ))}
+          </View>
+        )}
+
+        {/* Recommendations */}
+        {scanResult.recommendations && scanResult.recommendations?.length > 0 && (
+          <View style={styles.recommendationsSection}>
+            <BilingualText
+              english={translations.recommendations.en}
+              kinyarwanda={translations.recommendations.kin}
+              primaryColor={colors.text}
+              secondaryColor={colors.textSecondary}
+              englishStyle={styles.sectionTitle}
+              style={styles.sectionLabel}
+            />
+            {scanResult.recommendations.map((rec, index) => (
+              <View
+                key={rec.id ?? index}
+                style={[
+                  styles.recommendationCard,
+                  { backgroundColor: colors.card, borderColor: colors.border }
+                ]}
+              >
+                <View
+                  style={[
+                    styles.priorityBadge,
+                    {
+                      backgroundColor:
+                        rec.priority === 'high'
+                          ? colors.error + '20'
+                          : rec.priority === 'medium'
+                          ? colors.warning + '20'
+                          : colors.info + '20'
+                    }
+                  ]}
+                >
+                  <Text
+                    style={[
+                      styles.priorityText,
+                      {
+                        color:
+                          rec.priority === 'high'
+                            ? colors.error
+                            : rec.priority === 'medium'
+                            ? colors.warning
+                            : colors.info
+                      }
+                    ]}
+                  >
+                    {(rec.priority ?? 'low').toUpperCase()}
+                  </Text>
+                </View>
+
+                <BilingualText
+                  english={rec.title ?? ''}
+                  kinyarwanda={rec.title_kinyarwanda ?? ''}
+                  primaryColor={colors.text}
+                  secondaryColor={colors.textSecondary}
+                  inline={false}
+                  englishStyle={styles.recTitle}
+                />
+
+                <BilingualText
+                  english={rec.description ?? ''}
+                  kinyarwanda={rec.description_kinyarwanda ?? ''}
+                  primaryColor={colors.text}
+                  secondaryColor={colors.textSecondary}
+                  inline={false}
+                  style={styles.recDescription}
+                />
+
+                {(rec.actions ?? []).length > 0 && (
+                  <View style={styles.actionsList}>
+                    {(rec.actions ?? []).map((action, i) => (
+                      <View key={i} style={styles.actionItem}>
+                        <Ionicons name="arrow-forward" size={14} color={colors.primary} />
+                        <BilingualText
+                          english={action}
+                          kinyarwanda={(rec.actions_kinyarwanda ?? [])[i] || action}
+                          primaryColor={colors.text}
+                          secondaryColor={colors.textSecondary}
+                          inline={false}
+                          style={styles.actionText}
+                        />
+                      </View>
+                    ))}
+                  </View>
+                )}
               </View>
             ))}
           </View>
         )}
+
+        {/* Weather */}
+        {scanResult.weather_data && (
+          <View style={styles.weatherSection}>
+            <BilingualText
+              english={translations.farmingAdvice.en}
+              kinyarwanda={translations.farmingAdvice.kin}
+              primaryColor={colors.text}
+              secondaryColor={colors.textSecondary}
+              englishStyle={styles.sectionTitle}
+              style={styles.sectionLabel}
+            />
+            <WeatherCard weather={scanResult.weather_data} colors={colors} />
+          </View>
+        )}
+
+        {/* Actions */}
+        <View style={styles.actions}>
+          <Button
+            title={`${translations.addToGarden.en} / ${translations.addToGarden.kin}`}
+            onPress={handleAddToGarden}
+            colors={colors}
+            loading={addingToGarden}
+            icon={<Ionicons name="add-circle" size={20} color={colors.white} />}
+            style={styles.actionButton}
+          />
+          <Button
+            title="New Scan / Isuzuma Rishya"
+            onPress={() => router.push('/scan')}
+            variant="outline"
+            colors={colors}
+            icon={<Ionicons name="camera" size={20} color={colors.primary} />}
+            style={styles.actionButton}
+          />
+        </View>
       </ScrollView>
-    </>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+  header: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingHorizontal: Spacing.lg,
+    paddingBottom: Spacing.lg,
+  },
+  backButton: {
+    width: 44,
+    height: 44,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  headerTitle: {
+    fontSize: Typography.sizes.lg,
+    fontWeight: Typography.weights.bold,
+  },
+  scrollView: {
+    flex: 1,
+  },
+  content: {
+    padding: Spacing.lg,
+    paddingBottom: Spacing.huge,
+  },
   center: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#fff',
+    padding: Spacing.xl,
   },
   loadingText: {
-    marginTop: 10,
-    color: '#555',
+    marginTop: Spacing.md,
+    fontSize: Typography.sizes.md,
+    textAlign: 'center',
   },
   errorText: {
-    marginTop: 10,
-    color: 'red',
-    fontSize: 16,
+    marginTop: Spacing.md,
+    fontSize: Typography.sizes.md,
+    textAlign: 'center',
+    marginBottom: Spacing.lg,
+  },
+  retryButton: {
+    paddingVertical: Spacing.sm,
+    paddingHorizontal: Spacing.lg,
+    borderRadius: BorderRadius.md,
+  },
+  retryButtonText: {
+    color: '#FFF',
+    fontSize: Typography.sizes.md,
+    fontWeight: Typography.weights.semibold,
+  },
+  imageCard: {
+    borderRadius: BorderRadius.lg,
+    borderWidth: 1,
+    overflow: 'hidden',
+    marginBottom: Spacing.lg,
+    position: 'relative',
+  },
+  plantImage: {
+    width: '100%',
+    height: 220,
+  },
+  imagePlaceholder: {
+    width: '100%',
+    height: 220,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  healthBadge: {
+    position: 'absolute',
+    bottom: Spacing.md,
+    right: Spacing.md,
+    paddingHorizontal: Spacing.md,
+    paddingVertical: Spacing.sm,
+    borderRadius: BorderRadius.md,
+    alignItems: 'center',
+  },
+  healthScore: {
+    color: '#FFF',
+    fontSize: Typography.sizes.xxl,
+    fontWeight: Typography.weights.bold,
+  },
+  healthLabel: {
+    color: '#FFF',
+    fontSize: Typography.sizes.xs,
+    fontWeight: Typography.weights.medium,
+  },
+  section: {
+    padding: Spacing.lg,
+    borderRadius: BorderRadius.lg,
+    borderWidth: 1,
+    marginBottom: Spacing.lg,
+  },
+  sectionHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: Spacing.sm,
+    marginBottom: Spacing.md,
+  },
+  sectionTitle: {
+    fontSize: Typography.sizes.lg,
+    fontWeight: Typography.weights.semibold,
+  },
+  plantName: {
+    fontSize: Typography.sizes.xxl,
+    fontWeight: Typography.weights.bold,
+  },
+  scientificName: {
+    fontSize: Typography.sizes.md,
+    fontStyle: 'italic',
+    marginTop: Spacing.xs,
+  },
+  familyText: {
+    fontSize: Typography.sizes.sm,
+    marginTop: Spacing.xs,
+    marginBottom: Spacing.md,
+  },
+  description: {
+    marginBottom: Spacing.md,
+  },
+  careTips: {
+    marginTop: Spacing.md,
+  },
+  careTipsTitle: {
+    fontSize: Typography.sizes.md,
+    fontWeight: Typography.weights.semibold,
+    marginBottom: Spacing.sm,
+  },
+  tipItem: {
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    gap: Spacing.sm,
+    marginBottom: Spacing.xs,
+  },
+  tipText: {
+    flex: 1,
+  },
+  statusSection: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: Spacing.lg,
+    borderRadius: BorderRadius.lg,
+    marginBottom: Spacing.lg,
+    gap: Spacing.md,
+  },
+  statusContent: {
+    flex: 1,
+  },
+  statusTitle: {
+    fontSize: Typography.sizes.lg,
+    fontWeight: Typography.weights.bold,
+  },
+  statusSubtitle: {
+    fontSize: Typography.sizes.sm,
+    marginTop: Spacing.xs,
+  },
+  diseasesSection: {
+    marginBottom: Spacing.lg,
+  },
+  sectionLabel: {
+    marginBottom: Spacing.md,
+  },
+  recommendationsSection: {
+    marginBottom: Spacing.lg,
+  },
+  recommendationCard: {
+    padding: Spacing.lg,
+    borderRadius: BorderRadius.lg,
+    borderWidth: 1,
+    marginBottom: Spacing.md,
+  },
+  priorityBadge: {
+    alignSelf: 'flex-start',
+    paddingHorizontal: Spacing.sm,
+    paddingVertical: 2,
+    borderRadius: BorderRadius.full,
+    marginBottom: Spacing.sm,
+  },
+  priorityText: {
+    fontSize: Typography.sizes.xs,
+    fontWeight: Typography.weights.bold,
+  },
+  recTitle: {
+    fontSize: Typography.sizes.md,
+    fontWeight: Typography.weights.semibold,
+  },
+  recDescription: {
+    marginTop: Spacing.sm,
+  },
+  actionsList: {
+    marginTop: Spacing.md,
+  },
+  actionItem: {
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    gap: Spacing.sm,
+    marginBottom: Spacing.xs,
+  },
+  actionText: {
+    flex: 1,
+  },
+  weatherSection: {
+    marginBottom: Spacing.lg,
+  },
+  actions: {
+    gap: Spacing.md,
+  },
+  actionButton: {
+    width: '100%',
   },
 });
