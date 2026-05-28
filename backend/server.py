@@ -774,35 +774,39 @@ async def get_weather(latitude: float, longitude: float):
     raise HTTPException(status_code=503, detail="Weather service unavailable")
 @api.get("/history")
 async def history(limit: int = 20, include_images: bool = False):
-    logger.info(f"📋 Fetching scan history with limit={limit}, include_images={include_images}")
-    scans = await db.scans.find().sort("created_at", -1).limit(limit).to_list(limit)
-    logger.info(f"📊 Found {len(scans)} scans in database")
+    try:
+        logger.info(f"📋 Fetching scan history with limit={limit}, include_images={include_images}")
+        scans = await db.scans.find().sort("created_at", -1).limit(limit).to_list(limit)
+        logger.info(f"📊 Found {len(scans)} scans in database")
 
-    res_list = []
-    for s in scans:
-        res = s.get("scan_result", {})
-        if include_images:
-            if res:
-                res["image_base64"] = s.get("image_base64")
-                if "plant" in res:
-                    res["plant"]["image_base64"] = s.get("image_base64")
-            item_image = s.get("image_base64")
-        else:
-            if res and "image_base64" in res:
-                res["image_base64"] = None
-            if res and "plant" in res and "image_base64" in res["plant"]:
-                res["plant"]["image_base64"] = None
-            item_image = None
+        res_list = []
+        for s in scans:
+            res = s.get("scan_result", {})
+            if include_images:
+                if res:
+                    res["image_base64"] = s.get("image_base64")
+                    if "plant" in res:
+                        res["plant"]["image_base64"] = s.get("image_base64")
+                item_image = s.get("image_base64")
+            else:
+                if res and "image_base64" in res:
+                    res["image_base64"] = None
+                if res and "plant" in res and "image_base64" in res["plant"]:
+                    res["plant"]["image_base64"] = None
+                item_image = None
 
-        res_list.append({
-            "id": s["id"],
-            "scan_result": res,
-            "image_base64": item_image,
-            "created_at": s.get("created_at")
-        })
-    
-    logger.info(f"✅ Returning {len(res_list)} formatted scans")
-    return res_list
+            res_list.append({
+                "id": s["id"],
+                "scan_result": res,
+                "image_base64": item_image,
+                "created_at": s.get("created_at")
+            })
+        
+        logger.info(f"✅ Returning {len(res_list)} formatted scans")
+        return res_list
+    except Exception as e:
+        logger.error(f"❌ Error fetching history: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Failed to fetch history: {str(e)}")
 
 
 @api.get("/history/{scan_id}")
@@ -822,12 +826,17 @@ async def get_scan(scan_id: str):
 @api.delete("/history/{scan_id}")
 async def delete_scan(scan_id: str):
     """Delete a scan from history"""
-    result = await db.scans.delete_one({"id": scan_id})
-    print(await db.scan_history.find_one())
-    print(await db.scans.find_one())
-    if result.deleted_count == 0:
-        raise HTTPException(status_code=404, detail="Scan not found")
-    return {"message": "Scan deleted successfully"}
+    try:
+        result = await db.scans.delete_one({"id": scan_id})
+        if result.deleted_count == 0:
+            raise HTTPException(status_code=404, detail="Scan not found")
+        logger.info(f"✅ Scan {scan_id} deleted successfully")
+        return {"message": "Scan deleted successfully"}
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"❌ Error deleting scan {scan_id}: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Failed to delete scan: {str(e)}")
 @api.get("/health")
 async def health():
     try:
