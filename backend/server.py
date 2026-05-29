@@ -209,6 +209,9 @@ def normalize_name(name: str) -> str:
         "lactuca sativa": "lettuce",
         "spinacia oleracea": "spinach",
         "brassica oleracea": "cabbage",  # also catches broccoli/cauliflower variants
+        "phaseolus vulgaris": "bean",
+        "phaseolus": "bean",
+        "zea mays": "maize",
     }
     for sci, common in replacements.items():
         if sci in n:
@@ -246,7 +249,7 @@ def find_static_crop(plant_info: dict):
                 if norm == fn:
                     return p
                 # Only allow contains if both sides are reasonably long
-                if len(norm) >= 5 and len(fn) >= 5 and (norm in fn or fn in norm):
+                if len(norm) >= 4 and len(fn) >= 4 and (norm in fn or fn in norm):
                     return p
     return None
 
