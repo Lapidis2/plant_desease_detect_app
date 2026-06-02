@@ -147,10 +147,28 @@ async def identify_plant(image_b64: str):
         best = data["results"][0]
         score = float(best.get("score", 0.0))
         species = best.get("species", {})
-        logger.info(f"PlantNet top result → common: {species.get('commonNames', ['?'])[0]}, sci: {species.get('scientificName', '?')}, score: {score}")
+        common_name = species.get("commonNames", ["Unknown"])[0] if species.get("commonNames") else "Unknown"
+        scientific_name = species.get("scientificName", "Unknown")
+        logger.info(f"PlantNet top result → common: {common_name}, sci: {scientific_name}, score: {score}")
         
-        # Stricter threshold: PlantNet often gives false "chili pepper" on non-plants/humans with low-medium scores
-        if score < 0.50:
+        # Check if this is a known crop from our agronomic data
+        is_known_crop = False
+        temp_plant = {
+            "common_name": common_name,
+            "scientific_name": scientific_name,
+            "family": species.get("family", {}).get("scientificName", "Unknown") if species.get("family") else "Unknown",
+            "confidence": score
+        }
+        
+        # Try to find it in our static crop database
+        if AGRONOMIC_DATA:
+            is_known_crop = find_static_crop(temp_plant) is not None
+        
+        # Dynamic threshold: known crops (like tomato) get lower threshold (0.30), unknown plants need higher (0.50)
+        min_threshold = 0.30 if is_known_crop else 0.50
+        
+        if score < min_threshold:
+            logger.info(f"Score {score} below threshold {min_threshold} (known_crop={is_known_crop})")
             return {
                 "common_name": "Unknown or not a supported crop",
                 "scientific_name": "N/A",
@@ -496,13 +514,21 @@ async def analyze(image_b64: str):
     # Identify plant via ML / Gemini (returns dict with at least 'common_name')
     plant = await identify_plant(image_b64)
 
+    # Check if this is a known crop before applying confidence threshold
+    static_entry = find_static_crop(plant) if AGRONOMIC_DATA else None
+    is_known_crop = static_entry is not None
+    
     # Guard against garbage / non-plant / very low confidence from PlantNet (fixes "human -> chili pepper")
-    if "Unknown" in plant.get("common_name", "") or plant.get("confidence", 0) < 0.50:
-        logger.info(f"Low confidence or unknown from PlantNet: {plant}")
+    # Dynamic threshold: known crops (tomato, etc.) get 0.30, unknowns get 0.50
+    min_confidence = 0.30 if is_known_crop else 0.50
+    
+    if "Unknown" in plant.get("common_name", "") or plant.get("confidence", 0) < min_confidence:
+        logger.info(f"Low confidence (threshold={min_confidence}) or unknown from PlantNet: {plant}")
         return fallback_result(plant)   # will show as unknown/low-confidence instead of forcing a crop
 
     # Robust static lookup using the new helper (greatly reduces fallbacks)
-    static_entry = find_static_crop(plant) if AGRONOMIC_DATA else None
+    if not static_entry:
+        static_entry = find_static_crop(plant) if AGRONOMIC_DATA else None
 
     if static_entry:
         logger.info(f"✅ Static match found for {plant.get('common_name')} → using agronomic data (no fallback)")
