@@ -1,5 +1,5 @@
-<img width="332" height="763" alt="image" src="https://github.com/user-attachments/assets/90528c14-b369-4e2b-9a56-0811c39d9fa7" />
-![Uploading image.png…]()
+<img width="332" height="763" alt="image" src="https://github.com/user-attachments/assets/90528c14-b369-4e2b-9a56-0811c39d9fa7" /> <img width="333" height="762" alt="image" src="https://github.com/user-attachments/assets/6e9fbf8c-5de1-441f-a9cd-97a341cacf51" />
+
 
 # 🌿 Plant Diagnosis App
 
