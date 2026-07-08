@@ -1,3 +1,6 @@
+<img width="332" height="763" alt="image" src="https://github.com/user-attachments/assets/90528c14-b369-4e2b-9a56-0811c39d9fa7" />
+![Uploading image.png…]()
+
 # 🌿 Plant Diagnosis App
 
 A modern **AI-powered plant disease diagnosis mobile application** built with **React Native (Expo)** and a **Python backend**.  
